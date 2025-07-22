@@ -18,6 +18,20 @@ export const getRandomMemeTemplate = query({
   },
 });
 
+export const getMemeTemplate = (templateName: string) => {
+  const template = templatesJson.find(
+    (t) => t.name === templateName
+  );
+  if (!template) {
+    throw new Error(`Template ${templateName} not found`);
+  }
+  return {
+    name: template.name,
+    imgUrl: template.imgUrl,
+    text: template.text,
+  };
+}
+
 export const saveMeme = mutation({
   args: {
     gameId: v.string(),
@@ -40,10 +54,10 @@ export const saveMeme = mutation({
     // Check if player already has a meme for this round
     const existingMeme = await ctx.db
       .query("memes")
-      .withIndex("by_game_player_round", (q) => 
+      .withIndex("by_game_player_round", (q) =>
         q.eq("gameId", args.gameId)
-         .eq("playerId", args.playerId)
-         .eq("round", game.currentRound)
+          .eq("playerId", args.playerId)
+          .eq("round", game.currentRound)
       )
       .first();
 
@@ -93,10 +107,10 @@ export const getPlayerMeme = query({
   handler: async (ctx, args) => {
     return await ctx.db
       .query("memes")
-      .withIndex("by_game_player_round", (q) => 
+      .withIndex("by_game_player_round", (q) =>
         q.eq("gameId", args.gameId)
-         .eq("playerId", args.playerId)
-         .eq("round", args.round)
+          .eq("playerId", args.playerId)
+          .eq("round", args.round)
       )
       .first();
   },
@@ -107,28 +121,24 @@ export const getRoundMemes = query({
     gameId: v.string(),
     round: v.number(),
   },
-  returns: v.array(
-    v.object({
-      _id: v.id("memes"),
-      _creationTime: v.number(),
-      gameId: v.string(),
-      playerId: v.string(),
-      round: v.number(),
-      templateName: v.string(),
-      texts: v.array(v.string()),
-      score: v.number(),
-      createdAt: v.number(),
-    })
-  ),
   handler: async (ctx, args) => {
     const memes = await ctx.db
       .query("memes")
-      .withIndex("by_game_and_round", (q) => 
+      .withIndex("by_game_and_round", (q) =>
         q.eq("gameId", args.gameId).eq("round", args.round)
       )
       .collect();
 
+    // enrich memes with template data
+    const enrichedMemes = memes.map((meme) => {
+      const template = getMemeTemplate(meme.templateName);
+      return {
+        ...meme,
+        template: template,
+      };
+    });
+
     // Shuffle memes for voting
-    return memes.sort(() => Math.random() - 0.5);
+    return enrichedMemes.sort(() => Math.random() - 0.5);
   },
 });
