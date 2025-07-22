@@ -1,7 +1,62 @@
 import { useEffect, useRef } from "react";
 
+// {
+//     "name": "Ancient Aliens Guy",
+//     "imgUrl": "templates/aag.jpg",
+//     "source": "http://knowyourmeme.com/memes/ancient-aliens",
+//     "text": [
+//       {
+//         "style": "upper",
+//         "color": "white",
+//         "font": "thick",
+//         "anchor_x": 0,
+//         "anchor_y": 0,
+//         "angle": 0,
+//         "scale_x": 1,
+//         "scale_y": 0.2,
+//         "align": "center",
+//         "start": 0,
+//         "stop": 1
+//       },
+//       {
+//         "style": "upper",
+//         "color": "white",
+//         "font": "thick",
+//         "anchor_x": 0,
+//         "anchor_y": 0.8,
+//         "angle": 0,
+//         "scale_x": 1,
+//         "scale_y": 0.2,
+//         "align": "center",
+//         "start": 0,
+//         "stop": 1
+//       }
+//     ],
+//     "example": [
+//       "",
+//       "aliens"
+//     ]
+//   },
+
 interface MemeCanvasProps {
-  template: any; // TODO: 
+  template: {
+    name: string;
+    imgUrl: string;
+    text: {
+      style: string;
+      color: string;
+      font: string;
+      anchor_x: number;
+      anchor_y: number;
+      angle: number;
+      scale_x: number;
+      scale_y: number;
+      align: string;
+      start: number;
+      stop: number;
+    }[];
+  };
+
   texts: string[];
 }
 
@@ -21,32 +76,64 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
     // Load and draw the meme template
     const img = new Image();
     img.crossOrigin = "anonymous";
-    
+
     img.src = `/${template.imgUrl}`;
-    
+
     img.onload = () => {
-      // Draw the image
-      canvas.width = 400;
-      canvas.height = 400;
-      ctx.drawImage(img, 0, 0, 400, 400);
+      // Calculate aspect ratio and set canvas dimensions
+      const maxWidth = 400;
+      const maxHeight = 400;
+      const aspectRatio = img.width / img.height;
+      
+      let canvasWidth, canvasHeight;
+      
+      if (aspectRatio > 1) {
+        // Image is wider than it is tall
+        canvasWidth = Math.min(maxWidth, img.width);
+        canvasHeight = canvasWidth / aspectRatio;
+      } else {
+        // Image is taller than it is wide or square
+        canvasHeight = Math.min(maxHeight, img.height);
+        canvasWidth = canvasHeight * aspectRatio;
+      }
+      
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
 
-      // Set up text styling
-      ctx.fillStyle = "white";
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 2;
-      ctx.font = "bold 24px Impact, Arial";
-      ctx.textAlign = "center";
-
-      // Draw text overlays
-      texts.forEach((text, index) => {
-        if (text.trim()) {
-          const y = index === 0 ? 50 : 350; // Top and bottom positioning
-          const lines = wrapText(ctx, text.toUpperCase(), 380);
+      // Draw text overlays using template configuration
+      template.text.forEach((textConfig, index) => {
+        const text = texts[index];
+        if (text && text.trim()) {
+          // Set up text styling based on template config
+          ctx.fillStyle = textConfig.color;
+          ctx.strokeStyle = "black";
+          ctx.lineWidth = 2;
           
+          // Set font based on template config
+          const fontSize = Math.round(24 * textConfig.scale_y * 5); // Scale font size
+          const fontWeight = textConfig.font === "thick" ? "bold" : "normal";
+          ctx.font = `${fontWeight} ${fontSize}px Impact, Arial`;
+          
+          // Set text alignment
+          ctx.textAlign = textConfig.align as CanvasTextAlign;
+
+          // Calculate position based on anchor points and actual canvas size
+          const x = textConfig.anchor_x * canvasWidth + (canvasWidth * textConfig.scale_x / 2);
+          const y = textConfig.anchor_y * canvasHeight + (fontSize / 2);
+
+          // Apply text transformation
+          const processedText = textConfig.style === "upper" ? text.toUpperCase() : text;
+          
+          // Calculate max width based on scale_x and actual canvas width
+          const maxWidth = canvasWidth * textConfig.scale_x * 0.95; // 95% to leave some margin
+          const lines = wrapText(ctx, processedText, maxWidth);
+
+          // Draw each line
           lines.forEach((line, lineIndex) => {
-            const lineY = y + (lineIndex * 30);
-            ctx.strokeText(line, 200, lineY);
-            ctx.fillText(line, 200, lineY);
+            const lineY = y + (lineIndex * fontSize * 1.2);
+            ctx.strokeText(line, x, lineY);
+            ctx.fillText(line, x, lineY);
           });
         }
       });

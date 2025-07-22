@@ -76,7 +76,6 @@ export function GamePage({ gameId, playerId, onNavigateToHome }: GamePageProps) 
               placeholder="Enter your nickname"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
               maxLength={20}
-              onKeyPress={(e) => e.key === 'Enter' && handleJoinGame()}
             />
             <button
               onClick={handleJoinGame}
