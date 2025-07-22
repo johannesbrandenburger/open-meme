@@ -1,15 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useQuery } from "convex/react";
-import { api } from "../convex/_generated/api";
+import { useRouter } from "next/navigation";
 import { Toaster } from "sonner";
 import { HomePage } from "./components/HomePage";
-import { GamePage } from "./components/GamePage";
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<"home" | "game">("home");
-  const [gameId, setGameId] = useState<string>("");
+  const router = useRouter();
   const [playerId, setPlayerId] = useState<string>("");
 
   // Generate or retrieve player ID from localStorage
@@ -22,26 +19,8 @@ export default function App() {
     setPlayerId(id);
   }, []);
 
-  // Check URL for game ID
-  useEffect(() => {
-    const path = window.location.pathname;
-    const gameMatch = path.match(/\/game\/([a-z0-9]+)/);
-    if (gameMatch) {
-      setGameId(gameMatch[1]);
-      setCurrentPage("game");
-    }
-  }, []);
-
   const navigateToGame = (newGameId: string) => {
-    setGameId(newGameId);
-    setCurrentPage("game");
-    window.history.pushState({}, "", `/game/${newGameId}`);
-  };
-
-  const navigateToHome = () => {
-    setCurrentPage("home");
-    setGameId("");
-    window.history.pushState({}, "", "/");
+    router.push(`/game/${newGameId}`);
   };
 
   if (!playerId) {
@@ -54,15 +33,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
-      {currentPage === "home" ? (
-        <HomePage playerId={playerId} onNavigateToGame={navigateToGame} />
-      ) : (
-        <GamePage
-          gameId={gameId}
-          playerId={playerId}
-          onNavigateToHome={navigateToHome}
-        />
-      )}
+      <HomePage playerId={playerId} onNavigateToGame={navigateToGame} />
       <Toaster />
     </div>
   );
