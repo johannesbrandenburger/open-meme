@@ -1,0 +1,6282 @@
+[
+  {
+    "name": "Ancient Aliens Guy",
+    "imgUrl": "templates/aag.jpg",
+    "source": "http://knowyourmeme.com/memes/ancient-aliens",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "aliens"
+    ]
+  },
+  {
+    "name": "It's A Trap!",
+    "imgUrl": "templates/ackbar.jpg",
+    "source": "http://knowyourmeme.com/memes/its-a-trap",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "it's a trap!"
+    ]
+  },
+  {
+    "name": "Afraid to Ask Andy",
+    "imgUrl": "templates/afraid.jpg",
+    "source": "http://knowyourmeme.com/memes/afraid-to-ask-andy",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "i don't know what this meme is for",
+      "and at this point i'm too afraid to ask"
+    ]
+  },
+  {
+    "name": "Agnes Harkness Winking",
+    "imgUrl": "templates/agnes.jpg",
+    "source": "https://knowyourmeme.com/memes/agnes-harkness-winking",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "i have read and agree to the terms and conditions"
+    ]
+  },
+  {
+    "name": "Sweet Brown",
+    "imgUrl": "templates/aint-got-time.jpg",
+    "source": "https://knowyourmeme.com/memes/sweet-brown-aint-nobody-got-time-for-that",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "memes?",
+      "ain't nobody got time fo' that"
+    ]
+  },
+  {
+    "name": "Awkward Moment Seal",
+    "imgUrl": "templates/ams.jpg",
+    "source": "https://knowyourmeme.com/memes/awkward-moment-seal",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "when you're watching a movie",
+      "and your parents walk in at the sex scene"
+    ]
+  },
+  {
+    "name": "Do You Want Ants?",
+    "imgUrl": "templates/ants.jpg",
+    "source": "http://knowyourmeme.com/memes/do-you-want-ants",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "do you want ants?",
+      "because that's how you get ants"
+    ]
+  },
+  {
+    "name": "Almost Politically Correct Redneck",
+    "imgUrl": "templates/apcr.jpg",
+    "source": "https://knowyourmeme.com/memes/almost-politically-correct-redneck",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "I supported my sister's abortion",
+      "Still would have been cool to be a dad"
+    ]
+  },
+  {
+    "name": "And Then I Said",
+    "imgUrl": "templates/atis.jpg",
+    "source": "https://knowyourmeme.com/memes/and-then-i-said",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "and then i said",
+      "the exam will only contain what we've covered in lectures"
+    ]
+  },
+  {
+    "name": "Life... Finds a Way",
+    "imgUrl": "templates/away.jpg",
+    "source": "https://www.youtube.com/watch?v=dMjQ3hA9mEA",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "life...",
+      "finds a way"
+    ]
+  },
+  {
+    "name": "Socially Awesome Penguin",
+    "imgUrl": "templates/awesome.jpg",
+    "source": "http://knowyourmeme.com/memes/socially-awesome-penguin",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "say a word wrong",
+      "create hilarious inside joke"
+    ]
+  },
+  {
+    "name": "Socially Awesome Awkward Penguin",
+    "imgUrl": "templates/awesome-awkward.jpg",
+    "source": "http://knowyourmeme.com/memes/socially-awkward-penguin",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "first day at new job",
+      "spill coffee on bossman"
+    ]
+  },
+  {
+    "name": "Socially Awkward Penguin",
+    "imgUrl": "templates/awkward.jpg",
+    "source": "http://knowyourmeme.com/memes/socially-awkward-penguin",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "start telling joke",
+      "forget punchline"
+    ]
+  },
+  {
+    "name": "Socially Awkward Awesome Penguin",
+    "imgUrl": "templates/awkward-awesome.jpg",
+    "source": "http://knowyourmeme.com/memes/socially-awkward-penguin",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "trip guy on the street",
+      "he was running with a stolen purse"
+    ]
+  },
+  {
+    "name": "You Should Feel Bad",
+    "imgUrl": "templates/bad.jpg",
+    "source": "http://knowyourmeme.com/memes/your-musics-bad-and-you-should-feel-bad",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "your meme is bad",
+      "and you should feel bad"
+    ]
+  },
+  {
+    "name": "Milk Was a Bad Choice",
+    "imgUrl": "templates/badchoice.jpg",
+    "source": "https://www.youtube.com/watch?v=DeY0yPqibb0",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "milk",
+      "was a bad choice"
+    ]
+  },
+  {
+    "name": "Running Away Balloon",
+    "imgUrl": "templates/balloon.jpg",
+    "source": "https://knowyourmeme.com/memes/running-away-balloon",
+    "text": [
+      {
+        "style": "upper",
+        "color": "black",
+        "font": "comic",
+        "anchor_x": 0.61,
+        "anchor_y": 0.1,
+        "angle": 0,
+        "scale_x": 0.39,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "black",
+        "font": "comic",
+        "anchor_x": 0.8,
+        "anchor_y": 0.57,
+        "angle": 0,
+        "scale_x": 0.39,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "black",
+        "font": "comic",
+        "anchor_x": 0,
+        "anchor_y": 0.7,
+        "angle": 0,
+        "scale_x": 0.27,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Opportunities",
+      "Opportunities",
+      "Shyness"
+    ]
+  },
+  {
+    "name": "Butthurt Dweller",
+    "imgUrl": "templates/bd.jpg",
+    "source": "http://knowyourmeme.com/memes/butthurt-dweller-gordo-granudo",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "can't workout",
+      "don't want to get too buff"
+    ]
+  },
+  {
+    "name": "I'm Going to Build My Own Theme Park",
+    "imgUrl": "templates/bender.jpg",
+    "source": "http://knowyourmeme.com/memes/im-going-to-build-my-own-theme-park-with-blackjack-and-hookers",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "i'm going to build my own theme park",
+      "with blackjack and hookers"
+    ]
+  },
+  {
+    "name": "But It's Honest Work",
+    "imgUrl": "templates/bihw.jpg",
+    "source": "https://knowyourmeme.com/memes/but-its-honest-work",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "it ain't much",
+      "but it's honest work"
+    ]
+  },
+  {
+    "name": "Why Shouldn't I Keep It",
+    "imgUrl": "templates/bilbo.jpg",
+    "source": "https://knowyourmeme.com/memes/after-all-why-not-why-shouldnt-i-keep-it",
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.4,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.9,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "After all... why not?",
+      "Why shouldn't I keep it?"
+    ]
+  },
+  {
+    "name": "Baby Insanity Wolf",
+    "imgUrl": "templates/biw.jpg",
+    "source": "http://knowyourmeme.com/memes/baby-insanity-wolf",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "gets iced coffee",
+      "in the winter"
+    ]
+  },
+  {
+    "name": "Bad Luck Brian",
+    "imgUrl": "templates/blb.jpg",
+    "source": "http://knowyourmeme.com/memes/bad-luck-brian",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "falls asleep in class",
+      "has a wet dream"
+    ]
+  },
+  {
+    "name": "I Should Buy a Boat Cat",
+    "imgUrl": "templates/boat.jpg",
+    "source": "http://knowyourmeme.com/memes/i-should-buy-a-boat-cat",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "i should buy a boat"
+    ]
+  },
+  {
+    "name": "Why Not Both?",
+    "imgUrl": "templates/both.jpg",
+    "source": "http://knowyourmeme.com/memes/why-not-both-why-dont-we-have-both",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0.2,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "hard or soft tacos",
+      "why not both?"
+    ]
+  },
+  {
+    "name": "This is Bull, Shark",
+    "imgUrl": "templates/bs.jpg",
+    "source": "https://www.reddit.com/r/funny/comments/3grsfs",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "what a surprise...",
+      "you caught me again"
+    ]
+  },
+  {
+    "name": "X, X Everywhere",
+    "imgUrl": "templates/buzz.jpg",
+    "source": "https://imgflip.com/memetemplate/X-Everywhere",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0.05,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0.5,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "memes",
+      "memes everywhere"
+    ]
+  },
+  {
+    "name": "Office Space Milton",
+    "imgUrl": "templates/cake.jpg",
+    "source": "https://www.youtube.com/watch?v=mDOKGa92NRo",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "I was told there would be cake"
+    ]
+  },
+  {
+    "name": "I am the Captain Now",
+    "imgUrl": "templates/captain.jpg",
+    "source": "https://www.youtube.com/watch?v=dvA-mimf2yg",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "look at me",
+      "i am the captain now"
+    ]
+  },
+  {
+    "name": "Captain America Elevator Fight Dad Joke",
+    "imgUrl": "templates/captain-america.jpg",
+    "source": "https://knowyourmeme.com/memes/captain-america-elevator-fight-dad-joke",
+    "text": [
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.23,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0.1,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.57,
+        "angle": 0,
+        "scale_x": 0.4,
+        "scale_y": 0.08,
+        "align": "center",
+        "start": 0.4,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thick",
+        "anchor_x": 0.5,
+        "anchor_y": 0.56,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0.7,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Have you ever eaten a clock?",
+      "No, why?",
+      "It's time consuming."
+    ]
+  },
+  {
+    "name": "Confession Bear",
+    "imgUrl": "templates/cb.jpg",
+    "source": "http://knowyourmeme.com/memes/confession-bear",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "i stole",
+      "the pic-i-nic basket"
+    ]
+  },
+  {
+    "name": "Communist Bugs Bunny",
+    "imgUrl": "templates/cbb.jpg",
+    "source": "https://knowyourmeme.com/memes/communist-bugs-bunny",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "our memes!"
+    ]
+  },
+  {
+    "name": "Comic Book Guy",
+    "imgUrl": "templates/cbg.jpg",
+    "source": "http://simpsons.wikia.com/wiki/Jeffrey_Albertson",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "worst thing ever!"
+    ]
+  },
+  {
+    "name": "What is this, a Center for Ants?!",
+    "imgUrl": "templates/center.jpg",
+    "source": "http://knowyourmeme.com/memes/what-is-this-a-center-for-ants",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "what is this",
+      "a center for ants"
+    ]
+  },
+  {
+    "name": "Captain Hindsight",
+    "imgUrl": "templates/ch.jpg",
+    "source": "http://knowyourmeme.com/memes/captain-hindsight",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "if you wanted to avoid the friend zone",
+      "you should have made your intentions known from the start"
+    ]
+  },
+  {
+    "name": "Cheems",
+    "imgUrl": "templates/cheems.jpg",
+    "source": "https://knowyourmeme.com/memes/cheems",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "it's a good time to sleep",
+      "nothing will go wrong after this"
+    ]
+  },
+  {
+    "name": "You Were the Chosen One!",
+    "imgUrl": "templates/chosen.jpg",
+    "source": "http://knowyourmeme.com/memes/you-were-the-chosen-one",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "you were the chosen one!"
+    ]
+  },
+  {
+    "name": "What a Country",
+    "imgUrl": "templates/country.jpg",
+    "source": "https://www.youtube.com/watch?v=Q8mD2hsxrhQ",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Inflammable means flammable?",
+      "What a country!"
+    ]
+  },
+  {
+    "name": "Get Better Material",
+    "imgUrl": "templates/crow.jpg",
+    "source": "https://knowyourmeme.com/memes/get-better-material",
+    "text": [
+      {
+        "style": "upper",
+        "color": "black",
+        "font": "comic",
+        "anchor_x": 0.325,
+        "anchor_y": 0.02,
+        "angle": 0,
+        "scale_x": 0.15,
+        "scale_y": 0.15,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "black",
+        "font": "comic",
+        "anchor_x": 0.615,
+        "anchor_y": 0.72,
+        "angle": 12,
+        "scale_x": 0.3,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Caw Caw Caw",
+      "Caw Caw Caw Caw Caw Caw"
+    ]
+  },
+  {
+    "name": "Crying on Floor",
+    "imgUrl": "templates/cryingfloor.jpg",
+    "source": "http://knowyourmeme.com/photos/1125083-hold-the-door",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "it's okay",
+      "lets just reschedule drinking"
+    ]
+  },
+  {
+    "name": "Distracted Boyfriend",
+    "imgUrl": "templates/db.jpg",
+    "source": "https://knowyourmeme.com/memes/distracted-boyfriend",
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.12,
+        "anchor_y": 0.7,
+        "angle": 0,
+        "scale_x": 0.325,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.55,
+        "anchor_y": 0.45,
+        "angle": 0,
+        "scale_x": 0.175,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.74,
+        "anchor_y": 0.66,
+        "angle": 0,
+        "scale_x": 0.2,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Socialism",
+      "The Youth",
+      "Capitalism"
+    ]
+  },
+  {
+    "name": "Expectation vs. Reality",
+    "imgUrl": "templates/dbg.jpg",
+    "source": "https://knowyourmeme.com/memes/disappointed-black-guy",
+    "text": [
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 0.48,
+        "scale_y": 0.5,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.5,
+        "angle": 0,
+        "scale_x": 0.48,
+        "scale_y": 0.5,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Clicking the 'X' on a mobile ad",
+      "The 'X' is part of the ad"
+    ]
+  },
+  {
+    "name": "Distracted Girlfriend",
+    "imgUrl": "templates/dg.jpg",
+    "source": "https://knowyourmeme.com/memes/distracted-boyfriend",
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.02,
+        "anchor_y": 0.6,
+        "angle": 0,
+        "scale_x": 0.35,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.45,
+        "anchor_y": 0.75,
+        "angle": 0,
+        "scale_x": 0.25,
+        "scale_y": 0.15,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.75,
+        "anchor_y": 0.65,
+        "angle": 0,
+        "scale_x": 0.225,
+        "scale_y": 0.15,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Socialism",
+      "The Youth",
+      "Capitalism"
+    ]
+  },
+  {
+    "name": "Disaster Girl",
+    "imgUrl": "templates/disastergirl.jpg",
+    "source": "http://knowyourmeme.com/memes/disaster-girl",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "just as I planned..."
+    ]
+  },
+  {
+    "name": "See? Nobody Cares",
+    "imgUrl": "templates/dodgson.jpg",
+    "source": "http://knowyourmeme.com/memes/see-nobody-cares",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0.2,
+        "stop": 0.55
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0.65,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "we've got dodgson here!",
+      "see? nobody cares"
+    ]
+  },
+  {
+    "name": "Doge",
+    "imgUrl": "templates/doge.jpg",
+    "source": "http://knowyourmeme.com/memes/doge",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "such meme",
+      "very skill"
+    ]
+  },
+  {
+    "name": "Drunk Baby",
+    "imgUrl": "templates/drunk.jpg",
+    "source": "https://knowyourmeme.com/memes/drunk-baby--2",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Walk in a straight line?",
+      "Officer, I can barely stand"
+    ]
+  },
+  {
+    "name": "Daily Struggle",
+    "imgUrl": "templates/ds.jpg",
+    "source": "https://knowyourmeme.com/memes/daily-struggle",
+    "text": [
+      {
+        "style": "none",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.085,
+        "anchor_y": 0.085,
+        "angle": 12.5,
+        "scale_x": 0.32,
+        "scale_y": 0.095,
+        "align": "center",
+        "start": 0,
+        "stop": 0.5
+      },
+      {
+        "style": "none",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.455,
+        "anchor_y": 0.055,
+        "angle": 10.5,
+        "scale_x": 0.23,
+        "scale_y": 0.09,
+        "align": "center",
+        "start": 0.5,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.04,
+        "anchor_y": 0.82,
+        "angle": 0,
+        "scale_x": 0.92,
+        "scale_y": 0.15,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "The dress is black and blue.",
+      "The dress is gold and white."
+    ]
+  },
+  {
+    "name": "Dating Site Murderer",
+    "imgUrl": "templates/dsm.jpg",
+    "source": "http://knowyourmeme.com/memes/dating-site-murderer",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "they will never find your body",
+      "as attractive as i do"
+    ]
+  },
+  {
+    "name": "Schrute Facts",
+    "imgUrl": "templates/dwight.jpg",
+    "source": "http://knowyourmeme.com/memes/schrute-facts",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "love is all you need?",
+      "false. you need water and rations."
+    ]
+  },
+  {
+    "name": "You Sit on a Throne of Lies",
+    "imgUrl": "templates/elf.jpg",
+    "source": "http://knowyourmeme.com/memes/you-sit-on-a-throne-of-lies",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "you sit on a throne of lies"
+    ]
+  },
+  {
+    "name": "Ermahgerd",
+    "imgUrl": "templates/ermg.jpg",
+    "source": "http://knowyourmeme.com/memes/ermahgerd",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "ermahgerd",
+      "memes"
+    ]
+  },
+  {
+    "name": "Forever Alone",
+    "imgUrl": "templates/fa.jpg",
+    "source": "http://knowyourmeme.com/memes/forever-alone",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "forever",
+      "alone"
+    ]
+  },
+  {
+    "name": "Facepalm",
+    "imgUrl": "templates/facepalm.jpg",
+    "source": "http://knowyourmeme.com/memes/facepalm",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "I can't even"
+    ]
+  },
+  {
+    "name": "Foul Bachelor Frog",
+    "imgUrl": "templates/fbf.jpg",
+    "source": "http://knowyourmeme.com/memes/foul-bachelor-frog",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "paper towel",
+      "the plate that cleans up after itself"
+    ]
+  },
+  {
+    "name": "Stop Trying to Make Fetch Happen",
+    "imgUrl": "templates/fetch.jpg",
+    "source": "http://knowyourmeme.com/memes/stop-trying-to-make-fetch-happen",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "stop trying to make fetch happen",
+      "it's not going to happen"
+    ]
+  },
+  {
+    "name": "Fuck Me, Right?",
+    "imgUrl": "templates/fmr.jpg",
+    "source": "http://knowyourmeme.com/memes/fuck-me-right",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "fuck me, right?"
+    ]
+  },
+  {
+    "name": "First World Problems",
+    "imgUrl": "templates/fwp.jpg",
+    "source": "http://knowyourmeme.com/memes/first-world-problems",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "someone on the internet",
+      "disagrees with me"
+    ]
+  },
+  {
+    "name": "Confused Gandalf",
+    "imgUrl": "templates/gandalf.jpg",
+    "source": "http://knowyourmeme.com/memes/confused-gandalf",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "I have no memory of this place"
+    ]
+  },
+  {
+    "name": "Galaxy Brain",
+    "imgUrl": "templates/gb.jpg",
+    "source": "https://knowyourmeme.com/memes/galaxy-brain",
+    "text": [
+      {
+        "style": "none",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 0.49,
+        "scale_y": 0.245,
+        "align": "center",
+        "start": 0.1,
+        "stop": 1
+      },
+      {
+        "style": "none",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.255,
+        "angle": 0,
+        "scale_x": 0.49,
+        "scale_y": 0.246,
+        "align": "center",
+        "start": 0.3,
+        "stop": 1
+      },
+      {
+        "style": "none",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.51,
+        "angle": 0,
+        "scale_x": 0.489,
+        "scale_y": 0.224,
+        "align": "center",
+        "start": 0.5,
+        "stop": 1
+      },
+      {
+        "style": "none",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.746,
+        "angle": 0,
+        "scale_x": 0.49,
+        "scale_y": 0.255,
+        "align": "center",
+        "start": 0.7,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Who",
+      "Whom",
+      "Whom'st",
+      "Whomst'd"
+    ]
+  },
+  {
+    "name": "You Know What Really Grinds My Gears?",
+    "imgUrl": "templates/gears.jpg",
+    "source": "http://knowyourmeme.com/memes/you-know-what-really-grinds-my-gears",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "you know what really grinds my gears?",
+      "when people post images of cogs that don't mesh"
+    ]
+  },
+  {
+    "name": "Good Guy Greg",
+    "imgUrl": "templates/ggg.jpg",
+    "source": "http://knowyourmeme.com/memes/good-guy-greg",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "sleeps on your couch",
+      "makes breakfast"
+    ]
+  },
+  {
+    "name": "And It's Gone",
+    "imgUrl": "templates/gone.jpg",
+    "source": "https://knowyourmeme.com/memes/and-its-gone",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "we'll just invest that money",
+      "...aaaand it's gone"
+    ]
+  },
+  {
+    "name": "Gru's Plan",
+    "imgUrl": "templates/gru.jpg",
+    "source": "https://knowyourmeme.com/memes/grus-plan",
+    "text": [
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.275,
+        "anchor_y": 0.2,
+        "angle": 0,
+        "scale_x": 0.2075,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0.1,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.78,
+        "anchor_y": 0.2,
+        "angle": 0,
+        "scale_x": 0.205,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0.3,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.28,
+        "anchor_y": 0.7,
+        "angle": 0,
+        "scale_x": 0.205,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0.5,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.78,
+        "anchor_y": 0.7,
+        "angle": 0,
+        "scale_x": 0.205,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0.7,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Learn how to make memes.",
+      "Make a meme.",
+      "No one likes it.",
+      "No one likes it."
+    ]
+  },
+  {
+    "name": "Grumpy Cat",
+    "imgUrl": "templates/grumpycat.jpg",
+    "source": "https://imgflip.com/memegenerator/Grumpy-Cat",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "i hope that what does not kill you",
+      "tries again"
+    ]
+  },
+  {
+    "name": "I Should Not Have Said That",
+    "imgUrl": "templates/hagrid.jpg",
+    "source": "https://www.youtube.com/watch?v=498HkRM77gg",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "i should not have said that"
+    ]
+  },
+  {
+    "name": "Epic Handshake",
+    "imgUrl": "templates/handshake.jpg",
+    "source": "https://www.deviantart.com/miloslavvonranda/art/EPIC-handshake-by-Dillon-and-Dutch-325709082",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": -0.0275,
+        "anchor_y": 0.3,
+        "angle": -45,
+        "scale_x": 0.4,
+        "scale_y": 0.4,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.4,
+        "anchor_y": 0.35,
+        "angle": 27.5,
+        "scale_x": 0.4,
+        "scale_y": 0.4,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.15,
+        "anchor_y": 0.1,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "left",
+      "right",
+      "center"
+    ]
+  },
+  {
+    "name": "It's Happening",
+    "imgUrl": "templates/happening.jpg",
+    "source": "http://knowyourmeme.com/memes/doom-paul-its-happening",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "it's happening"
+    ]
+  },
+  {
+    "name": "Hide the Pain Harold",
+    "imgUrl": "templates/harold.jpg",
+    "source": "https://knowyourmeme.com/memes/hide-the-pain-harold",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "when the boss sees",
+      "your meme tab"
+    ]
+  },
+  {
+    "name": "Hipster Barista",
+    "imgUrl": "templates/hipster.jpg",
+    "source": "http://knowyourmeme.com/memes/hipster-barista",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "puts coffee deal on Groupon",
+      "rolls eyes when you actually use it"
+    ]
+  },
+  {
+    "name": "We Have Food at Home",
+    "imgUrl": "templates/home.jpg",
+    "source": "https://knowyourmeme.com/memes/we-have-food-at-home",
+    "text": [
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0.001,
+        "scale_x": 1,
+        "scale_y": 0.1,
+        "align": "left",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.1,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.1,
+        "align": "left",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.2,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.1,
+        "align": "left",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Me: Can we stop and get food?",
+      "Mom: We have food at home.",
+      "Food at home:"
+    ]
+  },
+  {
+    "name": "I Can Has Cheezburger?",
+    "imgUrl": "templates/icanhas.jpg",
+    "source": "http://knowyourmeme.com/memes/happy-cat",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "i can has",
+      "this meme?"
+    ]
+  },
+  {
+    "name": "Oh, I'm Sorry, I Thought This Was America",
+    "imgUrl": "templates/imsorry.jpg",
+    "source": "http://knowyourmeme.com/memes/oh-im-sorry-i-thought-this-was-america",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "oh, i'm sorry",
+      "i thought this was america"
+    ]
+  },
+  {
+    "name": "Inigo Montoya",
+    "imgUrl": "templates/inigo.jpg",
+    "source": "http://knowyourmeme.com/memes/you-keep-using-that-word-i-do-not-think-it-means-what-you-think-it-means",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "you keep using that word",
+      "i do not think it means what you think it means"
+    ]
+  },
+  {
+    "name": "The Most Interesting Man in the World",
+    "imgUrl": "templates/interesting.jpg",
+    "source": "http://knowyourmeme.com/memes/the-most-interesting-man-in-the-world",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "I don't often drink beer",
+      "so you shouldn't value my opinion"
+    ]
+  },
+  {
+    "name": "Joseph Ducreux",
+    "imgUrl": "templates/jd.jpg",
+    "source": "https://knowyourmeme.com/memes/joseph-ducreux-archaic-rap",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "disregard females",
+      "acquire currency"
+    ]
+  },
+  {
+    "name": "Nothing To Do Here",
+    "imgUrl": "templates/jetpack.jpg",
+    "source": "http://knowyourmeme.com/memes/nothing-to-do-here-jet-pack-guy",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "nothing to do here"
+    ]
+  },
+  {
+    "name": "It's Simple, Kill the Batman",
+    "imgUrl": "templates/joker.jpg",
+    "source": "https://www.youtube.com/watch?v=f_XHjqABQQA",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "it's simple",
+      "kill the batman"
+    ]
+  },
+  {
+    "name": "Conspiracy Keanu",
+    "imgUrl": "templates/keanu.jpg",
+    "source": "http://knowyourmeme.com/memes/conspiracy-keanu",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "what if the CIA invented dinosaurs",
+      "to discourage time travel?"
+    ]
+  },
+  {
+    "name": "But That's None of My Business",
+    "imgUrl": "templates/kermit.jpg",
+    "source": "http://knowyourmeme.com/memes/but-thats-none-of-my-business",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "but that's none of my business"
+    ]
+  },
+  {
+    "name": "Khaby Lame Shrug",
+    "imgUrl": "templates/khaby-lame.jpg",
+    "source": "https://knowyourmeme.com/photos/2132291-khaby-lame-shrug-its-that-simple",
+    "text": [
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.02,
+        "anchor_y": 0.02,
+        "angle": 0,
+        "scale_x": 0.45,
+        "scale_y": 0.47,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.02,
+        "anchor_y": 0.51,
+        "angle": 0,
+        "scale_x": 0.45,
+        "scale_y": 0.47,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Bad mood?",
+      "Laugh at memes"
+    ]
+  },
+  {
+    "name": "Karate Kyle",
+    "imgUrl": "templates/kk.jpg",
+    "source": "https://knowyourmeme.com/memes/karate-kyle",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.15,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.85,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.15,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "they broke my pencils",
+      "i broke their neck"
+    ]
+  },
+  {
+    "name": "Leo Strutting",
+    "imgUrl": "templates/leo.jpg",
+    "source": "https://knowyourmeme.com/memes/strutting-leo",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "I have no idea",
+      "what I am doing"
+    ]
+  },
+  {
+    "name": "Everything the Light Touches is Our Kingdom",
+    "imgUrl": "templates/light.jpg",
+    "source": "https://www.youtube.com/watch?v=JawCb15MWLc",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "khaki",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "What about that shadowy place?",
+      "That's beyond our borders. You must never go there."
+    ]
+  },
+  {
+    "name": "Do It Live!",
+    "imgUrl": "templates/live.jpg",
+    "source": "http://knowyourmeme.com/memes/bill-oreilly-rant",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "do it live!"
+    ]
+  },
+  {
+    "name": "Laughing Lizard",
+    "imgUrl": "templates/ll.jpg",
+    "source": "http://knowyourmeme.com/memes/laughing-lizard-hhhehehe",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "hhhehehe"
+    ]
+  },
+  {
+    "name": "Laundry Room Viking",
+    "imgUrl": "templates/lrv.jpg",
+    "source": "http://knowyourmeme.com/memes/laundry-room-viking",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "do the laundry they said",
+      "it will be fun they said"
+    ]
+  },
+  {
+    "name": "Member Berries",
+    "imgUrl": "templates/mb.jpg",
+    "source": "http://knowyourmeme.com/memes/member-berries",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "'member",
+      "star wars?"
+    ]
+  },
+  {
+    "name": "Michael Scott No God No",
+    "imgUrl": "templates/michael-scott.jpg",
+    "source": "https://www.youtube.com/watch?v=31g0YE61PLQ",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "no, god! no god please no!",
+      "noooooooooooooooo!"
+    ]
+  },
+  {
+    "name": "Midwit",
+    "imgUrl": "templates/midwit.jpg",
+    "source": "https://knowyourmeme.com/memes/iq-bell-curve-midwit",
+    "text": [
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.02,
+        "anchor_y": 0.46,
+        "angle": 0,
+        "scale_x": 0.283,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.13,
+        "anchor_y": 0.02,
+        "angle": 0,
+        "scale_x": 0.7,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.687,
+        "anchor_y": 0.386,
+        "angle": 0,
+        "scale_x": 0.283,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "if it's good I do it",
+      "NOOOOO you have to have complex reasons for what you're doing. what is the point. what is your goal.",
+      "if it's good I do it"
+    ]
+  },
+  {
+    "name": "Mini Keanu Reeves",
+    "imgUrl": "templates/mini-keanu.jpg",
+    "source": "https://knowyourmeme.com/memes/mini-keanu-reeves",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "me waiting for mom to stop talking on the phone",
+      "so I can tell her my Pokemon evolved"
+    ]
+  },
+  {
+    "name": "Minor Mistake Marvin",
+    "imgUrl": "templates/mmm.jpg",
+    "source": "http://knowyourmeme.com/memes/minor-mistake-marvin",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Puts ice cream back",
+      "Into the refrigerator"
+    ]
+  },
+  {
+    "name": "Shut Up and Take My Money!",
+    "imgUrl": "templates/money.jpg",
+    "source": "http://knowyourmeme.com/memes/shut-up-and-take-my-money",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "shut up and",
+      "take my money!"
+    ]
+  },
+  {
+    "name": "One Does Not Simply Walk into Mordor",
+    "imgUrl": "templates/mordor.jpg",
+    "source": "http://knowyourmeme.com/memes/one-does-not-simply-walk-into-mordor",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "one does not simply",
+      "walk into mordor"
+    ]
+  },
+  {
+    "name": "Matrix Morpheus",
+    "imgUrl": "templates/morpheus.jpg",
+    "source": "http://knowyourmeme.com/memes/matrix-morpheus",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "what if I told you that",
+      "reality was an illusion?"
+    ]
+  },
+  {
+    "name": "I Guarantee It",
+    "imgUrl": "templates/mw.jpg",
+    "source": "http://knowyourmeme.com/memes/george-zimmer-i-guarantee-it",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "you're gonna like the way you look",
+      "i guarantee it"
+    ]
+  },
+  {
+    "name": "So I Got That Goin' For Me, Which is Nice",
+    "imgUrl": "templates/nice.jpg",
+    "source": "http://knowyourmeme.com/memes/so-i-got-that-goin-for-me-which-is-nice",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "so i got that goin' for me, which is nice"
+    ]
+  },
+  {
+    "name": "What the Hell is This?",
+    "imgUrl": "templates/noah.jpg",
+    "source": null,
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.79,
+        "anchor_y": 0.3,
+        "angle": 0,
+        "scale_x": 0.2,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.68,
+        "anchor_y": 0.7,
+        "angle": 0,
+        "scale_x": 0.2,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.06,
+        "anchor_y": 0.68,
+        "angle": 0,
+        "scale_x": 0.2,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.9,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Street",
+      "Road",
+      "Stroad",
+      "What the hell is this?"
+    ]
+  },
+  {
+    "name": "I Have No Idea What I'm Doing",
+    "imgUrl": "templates/noidea.jpg",
+    "source": "http://knowyourmeme.com/memes/i-have-no-idea-what-i-m-doing",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "i have no idea",
+      "what i'm doing"
+    ]
+  },
+  {
+    "name": "Overly Attached Girlfriend",
+    "imgUrl": "templates/oag.jpg",
+    "source": "http://knowyourmeme.com/memes/overly-attached-girlfriend",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "i know you received my email",
+      "because i checked your inbox"
+    ]
+  },
+  {
+    "name": "That Would Be Great",
+    "imgUrl": "templates/officespace.jpg",
+    "source": "http://knowyourmeme.com/memes/that-would-be-great",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "yeah...",
+      "that'd be great"
+    ]
+  },
+  {
+    "name": "An Older Code Sir, But It Checks Out",
+    "imgUrl": "templates/older.jpg",
+    "source": "http://knowyourmeme.com/memes/its-an-older-meme-but-it-checks-out",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "it's an older meme sir",
+      "but it checks out"
+    ]
+  },
+  {
+    "name": "Oprah You Get a Car",
+    "imgUrl": "templates/oprah.jpg",
+    "source": "http://knowyourmeme.com/memes/oprah-you-get-a-car",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Top Line",
+      "Bottom Line"
+    ]
+  },
+  {
+    "name": "Push it somewhere else Patrick",
+    "imgUrl": "templates/patrick.jpg",
+    "source": "http://knowyourmeme.com/memes/push-it-somewhere-else-patrick",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.15,
+        "align": "center",
+        "start": 0.15,
+        "stop": 0.55
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.85,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.15,
+        "align": "center",
+        "start": 0.55,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "why don't we take all the memes",
+      "and put them on memegen"
+    ]
+  },
+  {
+    "name": "Perfection",
+    "imgUrl": "templates/perfection.jpg",
+    "source": "https://knowyourmeme.com/memes/perfection",
+    "text": [
+      {
+        "style": "upper",
+        "color": "black",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.333,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thin",
+        "anchor_x": 0.5,
+        "anchor_y": 0.225,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "black",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.333,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.333,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thin",
+        "anchor_x": 0.5,
+        "anchor_y": 0.56,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "black",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.666,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.333,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thin",
+        "anchor_x": 0.5,
+        "anchor_y": 0.895,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Sebastian Shaw",
+      "I prefer the real Darth Vader.",
+      "Hayden Christensen",
+      "I said, the real Darth Vader.",
+      "Jake Lloyd",
+      "Perfection."
+    ]
+  },
+  {
+    "name": "Persian Cat Room Guardian",
+    "imgUrl": "templates/persian.jpg",
+    "source": "https://knowyourmeme.com/memes/persian-cat-room-guardian",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "when you wake up from a nap",
+      "and your mom starts yelling at you"
+    ]
+  },
+  {
+    "name": "Philosoraptor",
+    "imgUrl": "templates/philosoraptor.jpg",
+    "source": "http://knowyourmeme.com/memes/philosoraptor",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "if the earth is the third planet from the sun",
+      "then isn't every country a third world country?"
+    ]
+  },
+  {
+    "name": "Is This a Pigeon?",
+    "imgUrl": "templates/pigeon.jpg",
+    "source": "https://knowyourmeme.com/memes/is-this-a-pigeon",
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.15,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 0.35,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.71,
+        "anchor_y": 0.3,
+        "angle": 0,
+        "scale_x": 0.175,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0.4,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Engineer",
+      "PowerPoint",
+      "Is this Photoshop?"
+    ]
+  },
+  {
+    "name": "Unpopular opinion puffin",
+    "imgUrl": "templates/puffin.jpg",
+    "source": "http://knowyourmeme.com/memes/unpopular-opinion-puffin",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "I don't find Mitch Hedberg",
+      "all the funny"
+    ]
+  },
+  {
+    "name": "Oh, Is That What We're Going to Do Today?",
+    "imgUrl": "templates/red.jpg",
+    "source": "https://www.imdb.com/title/tt0720046/",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "oh, is that what we're going to do today?",
+      "we're going to fight?"
+    ]
+  },
+  {
+    "name": "I Immediately Regret This Decision!",
+    "imgUrl": "templates/regret.jpg",
+    "source": "https://www.youtube.com/watch?v=gd9ltJGykYc",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "i immediately regret this decision"
+    ]
+  },
+  {
+    "name": "Pepperidge Farm Remembers",
+    "imgUrl": "templates/remembers.jpg",
+    "source": "http://knowyourmeme.com/memes/pepperidge-farm-remembers",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "remember this meme?",
+      "pepperidge farm remembers"
+    ]
+  },
+  {
+    "name": "Roll Safe",
+    "imgUrl": "templates/rollsafe.jpg",
+    "source": "http://knowyourmeme.com/memes/roll-safe",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "can't get fired",
+      "if you don't have a job"
+    ]
+  },
+  {
+    "name": "Sad Joe Biden",
+    "imgUrl": "templates/sad-biden.jpg",
+    "source": "http://knowyourmeme.com/memes/sad-joe-biden",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "sad joe biden",
+      "doesn't think you'll vote"
+    ]
+  },
+  {
+    "name": "Sad George Bush",
+    "imgUrl": "templates/sad-bush.jpg",
+    "source": "http://knowyourmeme.com/memes/sad-joe-biden",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "sad george bush",
+      "doesn't think you'll vote"
+    ]
+  },
+  {
+    "name": "Sad Bill Clinton",
+    "imgUrl": "templates/sad-clinton.jpg",
+    "source": "https://en.wikipedia.org/wiki/Bill_Clinton",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "sad bill clinton",
+      "doesn't think you'll vote"
+    ]
+  },
+  {
+    "name": "Feels Bad Man",
+    "imgUrl": "templates/sadfrog.jpg",
+    "source": "http://knowyourmeme.com/memes/feels-bad-man-sad-frog",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "feels bad man"
+    ]
+  },
+  {
+    "name": "Salt Bae",
+    "imgUrl": "templates/saltbae.jpg",
+    "source": "http://knowyourmeme.com/memes/saltbae",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "pours salt on it"
+    ]
+  },
+  {
+    "name": "They're The Same Picture",
+    "imgUrl": "templates/same.jpg",
+    "source": "https://knowyourmeme.com/memes/theyre-the-same-picture",
+    "text": [
+      {
+        "style": "none",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.06,
+        "anchor_y": 0.015,
+        "angle": -12,
+        "scale_x": 0.35,
+        "scale_y": 0.3,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "none",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.525,
+        "anchor_y": 0.06,
+        "angle": -12,
+        "scale_x": 0.45,
+        "scale_y": 0.3,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.45,
+        "anchor_y": 0.775,
+        "angle": 0,
+        "scale_x": 0.4,
+        "scale_y": 0.15,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "π",
+      "3",
+      "The Bible"
+    ]
+  },
+  {
+    "name": "Sarcastic Bear",
+    "imgUrl": "templates/sarcasticbear.jpg",
+    "source": "http://knowyourmeme.com/memes/sarcastic-bear",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "i'm so sorry",
+      "i haven't memorized the internet"
+    ]
+  },
+  {
+    "name": "Say the Line, Bart!",
+    "imgUrl": "templates/say.jpg",
+    "source": "https://knowyourmeme.com/memes/say-the-line-bart",
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "comic",
+        "anchor_x": 0,
+        "anchor_y": 0.33,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.17,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "comic",
+        "anchor_x": 0,
+        "anchor_y": 0.85,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.15,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Say the line, Senior Engineer!",
+      "It depends."
+    ]
+  },
+  {
+    "name": "Scumbag Brain",
+    "imgUrl": "templates/sb.jpg",
+    "source": "http://knowyourmeme.com/memes/scumbag-brain",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "remembers the face",
+      "but not the name"
+    ]
+  },
+  {
+    "name": "Sudden Clarity Clarence",
+    "imgUrl": "templates/scc.jpg",
+    "source": "http://knowyourmeme.com/memes/sudden-clarity-clarence",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "oh my god",
+      "those weren't listerine breath strips"
+    ]
+  },
+  {
+    "name": "Inhaling Seagull",
+    "imgUrl": "templates/seagull.jpg",
+    "source": "https://knowyourmeme.com/memes/inhaling-seagull",
+    "text": [
+      {
+        "style": "none",
+        "color": "white",
+        "font": "comic",
+        "anchor_x": 0,
+        "anchor_y": 0.24,
+        "angle": 0,
+        "scale_x": 0.25,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "none",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.75,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.25,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "some",
+      "BODY ONCE TOLD ME THE THE WORLD WAS GONNA ROLL ME!!"
+    ]
+  },
+  {
+    "name": "Sealed Fate",
+    "imgUrl": "templates/sf.jpg",
+    "source": "https://www.reddit.com/r/AdviceAnimals/comments/3fenos/i_like_the_idea_of_the_impending_doom_seal_i_hope/ctnxw3k",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "i accidentally used a swear word",
+      "and i know my mom heard it from the other room"
+    ]
+  },
+  {
+    "name": "Skeptical Third World Kid",
+    "imgUrl": "templates/sk.jpg",
+    "source": "http://knowyourmeme.com/memes/third-world-success",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "you finished your plate",
+      "because i was starving?"
+    ]
+  },
+  {
+    "name": "Seal of Approval",
+    "imgUrl": "templates/soa.jpg",
+    "source": "http://knowyourmeme.com/memes/seal-of-approval",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "first wipe",
+      "clean toiletpaper"
+    ]
+  },
+  {
+    "name": "I Would Be So Happy",
+    "imgUrl": "templates/sohappy.jpg",
+    "source": "https://www.youtube.com/watch?v=z_17RHGKNTY",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "if i could use this meme",
+      "i would be so happy"
+    ]
+  },
+  {
+    "name": "No Soup for You",
+    "imgUrl": "templates/soup-nazi.jpg",
+    "source": "https://knowyourmeme.com/memes/no-soup-for-you-soup-nazi",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "no soup for you!"
+    ]
+  },
+  {
+    "name": "This is Sparta!",
+    "imgUrl": "templates/sparta.jpg",
+    "source": "https://www.youtube.com/watch?v=QkWS9PiXekE",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "this. is.",
+      "sparta!"
+    ]
+  },
+  {
+    "name": "Fake Spirit Halloween Costume",
+    "imgUrl": "templates/spirit.jpg",
+    "source": "https://knowyourmeme.com/photos/2466845-fake-spirit-halloween-costumes",
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.1,
+        "anchor_y": 0.28,
+        "angle": 0,
+        "scale_x": 0.35,
+        "scale_y": 0.16,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thin",
+        "anchor_x": 0.1,
+        "anchor_y": 0.45,
+        "angle": 0,
+        "scale_x": 0.34,
+        "scale_y": 0.05,
+        "align": "left",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thin",
+        "anchor_x": 0.1,
+        "anchor_y": 0.51,
+        "angle": 0,
+        "scale_x": 0.34,
+        "scale_y": 0.08,
+        "align": "left",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thin",
+        "anchor_x": 0.1,
+        "anchor_y": 0.59,
+        "angle": 0,
+        "scale_x": 0.34,
+        "scale_y": 0.08,
+        "align": "left",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thin",
+        "anchor_x": 0.1,
+        "anchor_y": 0.67,
+        "angle": 0,
+        "scale_x": 0.34,
+        "scale_y": 0.08,
+        "align": "left",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "My Dad",
+      "Includes:",
+      "- Nothing",
+      "- Nothing",
+      "- Nothing"
+    ]
+  },
+  {
+    "name": "Mocking Spongebob",
+    "imgUrl": "templates/spongebob.jpg",
+    "source": "http://knowyourmeme.com/memes/mocking-spongebob",
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "mock",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "BF: I don't even know her like that",
+      "Me: i DoN'T eVeN KnOw HeR lIkE tHaT"
+    ]
+  },
+  {
+    "name": "Scumbag Steve",
+    "imgUrl": "templates/ss.jpg",
+    "source": "http://knowyourmeme.com/memes/scumbag-steve",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "needs a place to crash",
+      "never leaves"
+    ]
+  },
+  {
+    "name": "Baby, You've Got a Stew Going",
+    "imgUrl": "templates/stew.jpg",
+    "source": "https://www.youtube.com/watch?v=Sr2PlqXw03Y",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "baby, you've got a stew going!"
+    ]
+  },
+  {
+    "name": "Stop It Patrick You're Scaring Him",
+    "imgUrl": "templates/stop.jpg",
+    "source": "https://knowyourmeme.com/memes/stop-it-patrick-youre-scaring-him",
+    "text": [
+      {
+        "style": "default",
+        "color": "#b1e0d0",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.06,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "#ffb6a6",
+        "font": "thin",
+        "anchor_x": 0.5,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.075,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "#fff05c",
+        "font": "thin",
+        "anchor_x": 0.18,
+        "anchor_y": 0.335,
+        "angle": 0,
+        "scale_x": 0.32,
+        "scale_y": 0.18,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "#b1e0d0",
+        "font": "thin",
+        "anchor_x": 0.5,
+        "anchor_y": 0.335,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.07,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "#ffb6a6",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.67,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.075,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "#fff05c",
+        "font": "thin",
+        "anchor_x": 0.5,
+        "anchor_y": 0.67,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.075,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "I'm claustrophobic.",
+      "What does \"claustrophobic\" mean?",
+      "It means he's afraid of Santa Claus.",
+      "No, it doesn't.",
+      "HO-HO-HO",
+      "Stop it, Patrick, you're scaring him!"
+    ]
+  },
+  {
+    "name": "Stop It, Get Some Help",
+    "imgUrl": "templates/stop-it.jpg",
+    "source": "https://knowyourmeme.com/memes/stop-it-get-some-help",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "stop it",
+      "get some help"
+    ]
+  },
+  {
+    "name": "Success Kid",
+    "imgUrl": "templates/success.jpg",
+    "source": "http://knowyourmeme.com/memes/success-kid-i-hate-sandcastles",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "don't know a question on the test",
+      "answer is in another question"
+    ]
+  },
+  {
+    "name": "10 Guy",
+    "imgUrl": "templates/tenguy.jpg",
+    "source": "http://knowyourmeme.com/memes/10-guy",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "can't read the words on the menu",
+      "turns down the radio"
+    ]
+  },
+  {
+    "name": "The Rent Is Too Damn High",
+    "imgUrl": "templates/toohigh.jpg",
+    "source": "http://knowyourmeme.com/memes/the-rent-is-too-damn-high-jimmy-mcmillan",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "the rent is",
+      "too damn high"
+    ]
+  },
+  {
+    "name": "Principal Skinner",
+    "imgUrl": "templates/touch.jpg",
+    "source": "https://knowyourmeme.com/memes/am-i-out-of-touch",
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.3,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Am I so out of touch?",
+      "No, it's the children who are wrong."
+    ]
+  },
+  {
+    "name": "At Least You Tried",
+    "imgUrl": "templates/tried.jpg",
+    "source": "http://knowyourmeme.com/memes/you-tried",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "at least",
+      "you tried"
+    ]
+  },
+  {
+    "name": "Donald Trump",
+    "imgUrl": "templates/trump.jpg",
+    "source": "https://knowyourmeme.com/memes/people/donald-trump",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "this is the best meme in the history of memes",
+      "maybe ever"
+    ]
+  },
+  {
+    "name": "Ugandan Knuckles",
+    "imgUrl": "templates/ugandanknuck.jpg",
+    "source": "http://knowyourmeme.com/memes/ugandan-knuckles",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "do u know de wey?"
+    ]
+  },
+  {
+    "name": "Vince McMahon Reaction",
+    "imgUrl": "templates/vince.jpg",
+    "source": "https://knowyourmeme.com/memes/vince-mcmahon-reaction",
+    "text": [
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 0.495,
+        "scale_y": 0.315,
+        "align": "center",
+        "start": 0.1,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.32,
+        "angle": 0,
+        "scale_x": 0.495,
+        "scale_y": 0.357,
+        "align": "center",
+        "start": 0.4,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0.68,
+        "angle": 0,
+        "scale_x": 0.495,
+        "scale_y": 0.32,
+        "align": "center",
+        "start": 0.7,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "2-Day Delivery",
+      "Overnight Shipping",
+      "Shopping at the Store"
+    ]
+  },
+  {
+    "name": "Patrick Star's Wallet",
+    "imgUrl": "templates/wallet.jpg",
+    "source": "https://knowyourmeme.com/memes/patrick-stars-wallet",
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.17,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.08,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thin",
+        "anchor_x": 0.5,
+        "anchor_y": 0.18,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.07,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.4,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thin",
+        "anchor_x": 0.5,
+        "anchor_y": 0.43,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.07,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.65,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thin",
+        "anchor_x": 0.5,
+        "anchor_y": 0.67,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.08,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.92,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.08,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thin",
+        "anchor_x": 0.5,
+        "anchor_y": 0.92,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.08,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Aren't you Patrick Star?",
+      "Yup.",
+      "And this is your ID?",
+      "Yup.",
+      "I found the ID in this wallet so it must be yours.",
+      "That makes sense to me.",
+      "Then take it!",
+      "It's not my wallet."
+    ]
+  },
+  {
+    "name": "What Are Ya Gonna Do?",
+    "imgUrl": "templates/waygd.jpg",
+    "source": "https://www.youtube.com/watch?v=76URh0S7YIw",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "yeah...",
+      "what are ya gonna do?"
+    ]
+  },
+  {
+    "name": "What Year Is It?",
+    "imgUrl": "templates/whatyear.jpg",
+    "source": "http://knowyourmeme.com/memes/what-year-is-it",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "",
+      "what year is it?"
+    ]
+  },
+  {
+    "name": "Winter is coming",
+    "imgUrl": "templates/winter.jpg",
+    "source": "http://knowyourmeme.com/memes/imminent-ned-brace-yourselves-winter-is-coming",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "prepare yourself",
+      "winter is coming"
+    ]
+  },
+  {
+    "name": "Who Killed Hannibal?",
+    "imgUrl": "templates/wkh.jpg",
+    "source": "https://knowyourmeme.com/memes/who-killed-hannibal",
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.1,
+        "anchor_y": 0.3,
+        "angle": 0,
+        "scale_x": 0.3,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.53,
+        "anchor_y": 0.35,
+        "angle": 0,
+        "scale_x": 0.3,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "khaki",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.875,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.125,
+        "align": "center",
+        "start": 0.2,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Twin Towers",
+      "George Bush",
+      "Why would Al-Qaeda do this?"
+    ]
+  },
+  {
+    "name": "Woman Yelling at a Cat",
+    "imgUrl": "templates/woman-cat.jpg",
+    "source": "https://knowyourmeme.com/memes/woman-yelling-at-a-cat",
+    "text": [
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.22,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thin",
+        "anchor_x": 0.5,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 0.5,
+        "scale_y": 0.22,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Mom telling me how useless I am",
+      "12 year old me playing Minecraft"
+    ]
+  },
+  {
+    "name": "Condescending Wonka",
+    "imgUrl": "templates/wonka.jpg",
+    "source": "http://knowyourmeme.com/memes/condescending-wonka-creepy-wonka",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "oh, you just graduated?",
+      "you must know everything"
+    ]
+  },
+  {
+    "name": "The Worst Day Of Your Life So Far",
+    "imgUrl": "templates/worst.jpg",
+    "source": "https://knowyourmeme.com/memes/the-worst-day-of-your-life-so-far",
+    "text": [
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.4,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.9,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.1,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "This is the worst day of my life.",
+      "This is the worst day of your life so far."
+    ]
+  },
+  {
+    "name": "X all the Y",
+    "imgUrl": "templates/xy.jpg",
+    "source": "http://knowyourmeme.com/memes/x-all-the-y",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "all the things!!!"
+    ]
+  },
+  {
+    "name": "Y'all Got Any More of Them",
+    "imgUrl": "templates/yallgot.jpg",
+    "source": "http://knowyourmeme.com/memes/yall-got-anymore-of",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "y'all got any more of them",
+      "memes"
+    ]
+  },
+  {
+    "name": "Xzibit Yo Dawg",
+    "imgUrl": "templates/yodawg.jpg",
+    "source": "http://knowyourmeme.com/memes/xzibit-yo-dawg",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "yo dawg",
+      "i heard you like memes"
+    ]
+  },
+  {
+    "name": "Y U NO Guy",
+    "imgUrl": "templates/yuno.jpg",
+    "source": "http://knowyourmeme.com/memes/y-u-no-guy",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.8,
+        "angle": 0,
+        "scale_x": 1,
+        "scale_y": 0.2,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "y u no",
+      "use this meme!?"
+    ]
+  },
+  {
+    "name": "All Your Base Are Belong to Us",
+    "imgUrl": "templates/zero-wing.jpg",
+    "source": "https://knowyourmeme.com/memes/all-your-base-are-belong-to-us",
+    "text": [
+      {
+        "style": "upper",
+        "color": "palegoldenrod",
+        "font": "thick",
+        "anchor_x": 0.025,
+        "anchor_y": 0.7,
+        "angle": 0,
+        "scale_x": 0.95,
+        "scale_y": 0.265,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "all your base are belong to us"
+    ]
+  }
+]
