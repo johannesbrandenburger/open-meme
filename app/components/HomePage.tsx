@@ -30,10 +30,31 @@ export function HomePage({ playerId, onNavigateToGame }: HomePageProps) {
         nickname: nickname.trim(),
       });
 
-      // Copy game link to clipboard
+      // Copy game link to clipboard with fallback for iOS
       const gameUrl = `${window.location.origin}/game/${result.gameId}`;
-      await navigator.clipboard.writeText(gameUrl);
-      toast.success("Game created! Link copied to clipboard");
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(gameUrl);
+          toast.success("Game created! Link copied to clipboard");
+        } else {
+          // Fallback for older browsers or when clipboard API is not available
+          const textArea = document.createElement("textarea");
+          textArea.value = gameUrl;
+          textArea.style.position = "fixed";
+          textArea.style.left = "-999999px";
+          textArea.style.top = "-999999px";
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          toast.success("Game created! Link copied to clipboard");
+        }
+      } catch (clipboardError) {
+        // If clipboard fails, still show success but inform user to copy manually
+        console.warn("Clipboard copy failed:", clipboardError);
+        toast.success("Game created! Please copy the URL from your browser");
+      }
 
       onNavigateToGame(result.gameId);
     } catch (error) {
