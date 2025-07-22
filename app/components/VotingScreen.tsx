@@ -110,7 +110,7 @@ export function VotingScreen({ game, playerId }: VotingScreenProps) {
         {/* Meme Display */}
         <div className="bg-white p-4">
           <MemeCanvas 
-            template={currentMeme.templateName} 
+            template={currentMeme.template} 
             texts={currentMeme.texts} 
           />
         </div>
