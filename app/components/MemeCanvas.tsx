@@ -22,8 +22,7 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
     const img = new Image();
     img.crossOrigin = "anonymous";
     
-    // Use the new Convex endpoint to load the template image
-    img.src = `${template.imgUrl}`;
+    img.src = `/${template.imgUrl}`;
     
     img.onload = () => {
       // Draw the image
