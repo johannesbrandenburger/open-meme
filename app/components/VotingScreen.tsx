@@ -3,9 +3,10 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
 import { Id } from "../../convex/_generated/dataModel";
+import { FunctionReturnType } from "convex/server";
 
 interface VotingScreenProps {
-  game: any; // From gameEngine.getGameState
+  game: NonNullable<FunctionReturnType<typeof api.games.getGameState>>;
   playerId: string;
 }
 
@@ -82,7 +83,7 @@ export function VotingScreen({ game, playerId }: VotingScreenProps) {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  if (!currentMeme || allMemes.length === 0) {
+  if (!currentMeme || !currentMeme.template || allMemes.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-white text-xl">Loading memes...</div>

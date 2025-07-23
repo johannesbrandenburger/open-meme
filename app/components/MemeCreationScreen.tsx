@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
 import { Doc } from "../../convex/_generated/dataModel";
+import { FunctionReturnType } from "convex/server"; // Import this utility
 
 interface MemeCreationScreenProps {
-  game: any; // From gameEngine.getGameState
+  game: NonNullable<FunctionReturnType<typeof api.games.getGameState>>;
   playerId: string;
 }
 
@@ -19,7 +20,7 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
   
   // Get a random meme template
   const template = useQuery(api.memes.getRandomMemeTemplate, { 
-    excludeTemplates: usedTemplates 
+    excludeTemplates: usedTemplates
   });
   
   // Check if player already has a meme for this round

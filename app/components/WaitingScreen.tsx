@@ -1,9 +1,10 @@
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { toast } from "sonner";
+import { FunctionReturnType } from "convex/server";
 
 interface WaitingScreenProps {
-  game: any;
+  game: NonNullable<FunctionReturnType<typeof api.games.getGameState>>;
   playerId: string;
   onNavigateToHome: () => void;
 }
@@ -43,7 +44,7 @@ export function WaitingScreen({ game, playerId, onNavigateToHome }: WaitingScree
             Players ({game.players.length})
           </h3>
           <div className="space-y-2">
-            {game.players.map((player: any) => (
+            {game.players.map((player) => (
               <div
                 key={player.playerId}
                 className="flex items-center justify-between bg-gray-50 rounded-lg p-3"

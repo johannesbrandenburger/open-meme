@@ -2,9 +2,10 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useEffect } from "react";
 import { MemeCanvas } from "./MemeCanvas";
+import { FunctionReturnType } from "convex/server";
 
 interface ResultsScreenProps {
-  game: any;
+  game: NonNullable<FunctionReturnType<typeof api.games.getGameState>>;
   playerId: string;
   isFinal?: boolean;
 }
@@ -41,18 +42,18 @@ export function ResultsScreen({ game, playerId, isFinal = false }: ResultsScreen
 
   // Get player names
   const getPlayerName = (playerId: string) => {
-    const player = game.players.find((p: any) => p.playerId === playerId);
+    const player = game.players.find((p) => p.playerId === playerId);
     return player?.nickname || "Unknown";
   };
 
   // Calculate total scores if final
   const playerTotalScores = isFinal ? 
-    game.players.map((player: any) => ({
+    game.players.map((player) => ({
       ...player,
       totalScore: roundMemes
-        .filter((meme: any) => meme.playerId === player.playerId)
-        .reduce((sum: number, meme: any) => sum + meme.score, 0)
-    })).sort((a: any, b: any) => b.totalScore - a.totalScore) : [];
+        .filter((meme) => meme.playerId === player.playerId)
+        .reduce((sum: number, meme) => sum + meme.score, 0)
+    })).sort((a, b) => b.totalScore - a.totalScore) : [];
 
   return (
     <div className="min-h-screen p-4">
@@ -72,7 +73,7 @@ export function ResultsScreen({ game, playerId, isFinal = false }: ResultsScreen
           <div className="bg-white p-6 border-t">
             <h3 className="text-xl font-bold text-gray-800 mb-4">Final Leaderboard</h3>
             <div className="space-y-3">
-              {playerTotalScores.map((player: any, index: number) => (
+              {playerTotalScores.map((player, index: number) => (
                 <div
                   key={player.playerId}
                   className={`flex items-center justify-between p-4 rounded-lg ${
@@ -103,7 +104,7 @@ export function ResultsScreen({ game, playerId, isFinal = false }: ResultsScreen
             {isFinal ? "All Memes This Round" : "Round Results"}
           </h3>
           <div className="grid gap-6 md:grid-cols-2">
-            {sortedMemes.map((meme: any, index: number) => (
+            {sortedMemes.map((meme, index: number) => (
               <div
                 key={meme._id}
                 className={`border rounded-lg p-4 ${

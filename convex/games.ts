@@ -1,8 +1,44 @@
 import { v } from "convex/values";
 import { mutation, query, internalMutation } from "./_generated/server";
 import { api, internal } from "./_generated/api";
+import { Id } from "./_generated/dataModel";
 
 import templatesJson from "./templates.json";
+
+// Type for template from JSON
+type Template = {
+  name: string;
+  imgUrl: string;
+  source: string | null;
+  text: Array<{
+    style: string;
+    color: string;
+    font: string;
+    anchor_x: number;
+    anchor_y: number;
+    angle: number;
+    scale_x: number;
+    scale_y: number;
+    align: string;
+    start: number;
+    stop: number;
+  }>;
+  example: string[];
+};
+
+// Type for meme with template data
+type MemeWithTemplate = {
+  _id: Id<"memes">;
+  _creationTime: number;
+  gameId: string;
+  playerId: string;
+  round: number;
+  templateName: string;
+  texts: string[];
+  score: number;
+  createdAt: number;
+  template?: Template;
+};
 
 // Generate a random game ID
 function generateGameId(): string {
@@ -235,8 +271,66 @@ export const getGameState = query({
         isHost: v.boolean(),
         joinedAt: v.number(),
       })),
-      currentRoundMemes: v.array(v.any()),
-      currentVotingMeme: v.optional(v.any()),
+      currentRoundMemes: v.array(v.object({
+        _id: v.id("memes"),
+        _creationTime: v.number(),
+        gameId: v.string(),
+        playerId: v.string(),
+        round: v.number(),
+        templateName: v.string(),
+        texts: v.array(v.string()),
+        score: v.number(),
+        createdAt: v.number(),
+        template: v.optional(v.object({
+          name: v.string(),
+          imgUrl: v.string(),
+          source: v.union(v.string(), v.null()),
+          text: v.array(v.object({
+            style: v.string(),
+            color: v.string(),
+            font: v.string(),
+            anchor_x: v.number(),
+            anchor_y: v.number(),
+            angle: v.number(),
+            scale_x: v.number(),
+            scale_y: v.number(),
+            align: v.string(),
+            start: v.number(),
+            stop: v.number(),
+          })),
+          example: v.array(v.string()),
+        })),
+      })),
+      currentVotingMeme: v.optional(v.object({
+        _id: v.id("memes"),
+        _creationTime: v.number(),
+        gameId: v.string(),
+        playerId: v.string(),
+        round: v.number(),
+        templateName: v.string(),
+        texts: v.array(v.string()),
+        score: v.number(),
+        createdAt: v.number(),
+        template: v.optional(v.object({
+          name: v.string(),
+          imgUrl: v.string(),
+          source: v.union(v.string(), v.null()),
+          text: v.array(v.object({
+            style: v.string(),
+            color: v.string(),
+            font: v.string(),
+            anchor_x: v.number(),
+            anchor_y: v.number(),
+            angle: v.number(),
+            scale_x: v.number(),
+            scale_y: v.number(),
+            align: v.string(),
+            start: v.number(),
+            stop: v.number(),
+          })),
+          example: v.array(v.string()),
+        })),
+      })),
     }),
     v.null()
   ),
@@ -266,8 +360,8 @@ export const getGameState = query({
     }
 
     // Get current round memes for voting/results screens
-    let currentRoundMemes: any[] = [];
-    let currentVotingMeme: any = undefined;
+    let currentRoundMemes: MemeWithTemplate[] = [];
+    let currentVotingMeme: MemeWithTemplate | undefined = undefined;
 
     if (game.status === "voting" || game.status === "results") {
       const memes = await ctx.db
