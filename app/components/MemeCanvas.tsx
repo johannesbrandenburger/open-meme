@@ -107,7 +107,7 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
         if (text && text.trim()) {
           // Set up text styling based on template config
           ctx.fillStyle = textConfig.color;
-          ctx.strokeStyle = "black";
+          ctx.strokeStyle = textConfig.color === "black" ? "white" : "black";
           ctx.lineWidth = 2;
           
           // Set font based on template config
@@ -117,10 +117,14 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
           
           // Set text alignment
           ctx.textAlign = textConfig.align as CanvasTextAlign;
+          ctx.textBaseline = "middle";
 
           // Calculate position based on anchor points and actual canvas size
           const x = textConfig.anchor_x * canvasWidth + (canvasWidth * textConfig.scale_x / 2);
-          const y = textConfig.anchor_y * canvasHeight + (fontSize / 2);
+          // For Y position, use the anchor_y directly with the canvas height
+          // anchor_y of 0 means top, 1 means bottom, 0.5 means middle
+          const textAreaHeight = canvasHeight * textConfig.scale_y;
+          const y = textConfig.anchor_y * canvasHeight + (textAreaHeight / 2);
 
           // Apply text transformation
           const processedText = textConfig.style === "upper" ? text.toUpperCase() : text;
@@ -131,7 +135,10 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
 
           // Draw each line
           lines.forEach((line, lineIndex) => {
-            const lineY = y + (lineIndex * fontSize * 1.2);
+            // Center the text block vertically
+            const totalTextHeight = lines.length * fontSize * 1.2;
+            const startY = y - (totalTextHeight / 2) + (fontSize / 2);
+            const lineY = startY + (lineIndex * fontSize * 1.2);
             ctx.strokeText(line, x, lineY);
             ctx.fillText(line, x, lineY);
           });
