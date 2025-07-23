@@ -75,14 +75,27 @@ import { parse } from 'yaml'
     example: string[];
   }[] = [];
 
-  // iterate over each template directory to fill the allMemes array (skip memes which do not have a config.yml or default.jpg (only jpg supported))
+  // iterate over each template directory to fill the allMemes array (skip memes which do not have a config.yml or default image)
   for (const template of templates) {
     const templatePath = path.join(templatesDir, template);
     const configPath = path.join(templatePath, "config.yml");
-    const imgPath = path.join(templatePath, "default.jpg");
+    
+    // Check for supported image formats
+    const supportedFormats = ['jpg', 'png'];
+    let imgPath = '';
+    let imgFormat = '';
+    
+    for (const format of supportedFormats) {
+      const formatPath = path.join(templatePath, `default.${format}`);
+      if (fs.existsSync(formatPath)) {
+        imgPath = formatPath;
+        imgFormat = format;
+        break;
+      }
+    }
 
-    if (!fs.existsSync(configPath) || !fs.existsSync(imgPath)) {
-      console.warn(`Skipping ${template}: missing config.yml or default.jpg`);
+    if (!fs.existsSync(configPath) || !imgPath) {
+      console.warn(`Skipping ${template}: missing config.yml or default image (jpg/png/gif)`);
       continue;
     }
 
@@ -92,32 +105,35 @@ import { parse } from 'yaml'
 
     // TEMP: skip memes with >500kb image size
     const imgStats = fs.statSync(imgPath);
-    if (imgStats.size > 500 * 1024) {
+    if (imgStats.size > 700 * 1024) {
       console.warn(`Skipping ${template}: image size > 500kb (${imgStats.size} bytes)`);
       continue;
     }
 
     allMemes.push({
       name: config.name,
-      imgUrl: `templates/${template}.jpg`,
+      imgUrl: `templates/${template}.${imgFormat}`,
       source: config.source,
       text: config.text,
       example: config.example,
     });
 
-    // copy the default.jpg to public/templates/<template>.jpg
+    // copy the default image to public/templates/<template>.<format>
     const publicTemplatesDir = path.join("public", "templates");
     if (!fs.existsSync(publicTemplatesDir)) {
       fs.mkdirSync(publicTemplatesDir, { recursive: true });
     }
-    const destImgPath = path.join(publicTemplatesDir, `${template}.jpg`);
+    const destImgPath = path.join(publicTemplatesDir, `${template}.${imgFormat}`);
     fs.copyFileSync(imgPath, destImgPath);
 
-    console.log(`Loaded meme template: ${config.name} (${template})`);
+    console.log(`Loaded meme template: ${config.name} (${template}.${imgFormat})`);
   }
 
   // write the allMemes array to a JSON file in convex/memes.json
   const outputPath = path.join("convex", "templates.json");
   await fs.promises.writeFile(outputPath, JSON.stringify(allMemes, null, 2));
   console.log(`Meme templates saved to ${outputPath}`);
+
+  // stats
+  console.log(`Total memes loaded: ${allMemes.length}`);
 })()
