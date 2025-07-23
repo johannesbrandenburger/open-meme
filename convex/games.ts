@@ -5,6 +5,9 @@ import { Id } from "./_generated/dataModel";
 
 import templatesJson from "./templates.json";
 
+const MEMES_PER_ROUND = 5; // Number of memes per round
+const ROUNDS = 3; // Total number of rounds in a game
+
 // Type for template from JSON
 type Template = {
   name: string;
@@ -61,7 +64,7 @@ export const createGame = mutation({
       hostId: args.hostId,
       status: "waiting",
       currentRound: 0,
-      totalRounds: 3,
+      totalRounds: ROUNDS,
       createdAt: Date.now(),
     });
 
@@ -277,7 +280,6 @@ export const getGameState = query({
         isHost: v.boolean(),
         joinedAt: v.number(),
       })),
-      // new: playerTemplates: example: { playerId: [{ name: string, imgUrl: string, text: Array<{ style: string, color: string, font: string, anchor_x: number, anchor_y: number, angle: number, scale_x: number, scale_y: number, align: string, start: number, stop: number }> }] }
       playerTemplates: v.array(v.object({
         name: v.string(),
         imgUrl: v.string(),
@@ -404,7 +406,8 @@ export const getGameState = query({
     // Get the templates for the current game and the player
     const playerTemplates = (await ctx.db
       .query("gameTemplates")
-      .withIndex("by_game_player", (q) => q.eq("gameId", args.gameId).eq("playerId", args.playerId))
+      .withIndex("by_game_player_round",
+        (q) => q.eq("gameId", args.gameId).eq("playerId", args.playerId).eq("round", game.currentRound))
       .collect())
       .map((template) => ({
         name: template.name,
@@ -708,8 +711,8 @@ export const forceProgressGame = mutation({
 });
 
 function generateTemplates(gameId: string, playerId: string) {
-  const shuffledTemplates = templatesJson.sort(() => 0.5 - Math.random()).slice(0, 5);
-  const playerTemplates = shuffledTemplates.slice(0, 5).map((template) => ({
+  const shuffledTemplates = templatesJson.sort(() => 0.5 - Math.random()).slice(0, MEMES_PER_ROUND * ROUNDS);
+  const playerTemplates = shuffledTemplates.map((template, index) => ({
     gameId: gameId,
     playerId: playerId,
     name: template.name,
@@ -717,6 +720,7 @@ function generateTemplates(gameId: string, playerId: string) {
     source: template.source,
     text: template.text,
     example: template.example,
+    round: Math.floor(index / MEMES_PER_ROUND) + 1, // Assign round based on index
   }));
   return playerTemplates;
 }

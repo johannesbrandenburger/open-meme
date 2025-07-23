@@ -12,7 +12,6 @@ interface MemeCreationScreenProps {
 }
 
 export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) {
-  const [texts, setTexts] = useState<string[]>([]);
   const [shufflesLeft, setShufflesLeft] = useState(5);
   const [isSaving, setIsSaving] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,8 +19,18 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
   const autosaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // Get a random meme template
-  const [template, setTemplate] = useState(game.playerTemplates[0] || null);
+  const [template, setTemplate] = useState<typeof game.playerTemplates[0] | null>(null);
   const [templateIndex, setTemplateIndex] = useState(0);
+  const [texts, setTexts] = useState<string[]>([]);
+
+  // Initialize template and texts when game.playerTemplates is available
+  useEffect(() => {
+    if (game.playerTemplates && game.playerTemplates.length > 0 && !template) {
+      const initialTemplate = game.playerTemplates[0];
+      setTemplate(initialTemplate);
+      setTexts(new Array(initialTemplate.text.length).fill(""));
+    }
+  }, [game.playerTemplates, template]);
 
   // Check if player already has a meme for this round
   const existingMeme = useQuery(api.memes.getPlayerMeme, {
@@ -38,7 +47,7 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
 
   // Initialize texts array when template changes
   useEffect(() => {
-    if (template && texts.length === 0) {
+    if (template && template.text) {
       setTexts(new Array(template.text.length).fill(""));
     }
   }, [template]);
@@ -134,14 +143,13 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
     // Don't allow shuffle if meme is submitted
     if (existingMeme?.submitted) return;
     
-    if (shufflesLeft > 0 && template) {
+    if (shufflesLeft > 0 && game.playerTemplates && game.playerTemplates.length > 0) {
       setShufflesLeft(prev => prev - 1);
       const nextIndex = (templateIndex + 1) % game.playerTemplates.length;
-      setTemplate(prev => {
-        return game.playerTemplates[nextIndex];
-      });
+      const nextTemplate = game.playerTemplates[nextIndex];
+      setTemplate(nextTemplate);
       setTemplateIndex(nextIndex);
-      setTexts([]); // Clear texts when shuffling
+      setTexts(new Array(nextTemplate.text.length).fill("")); // Initialize with correct length
     }
   };
 
@@ -181,7 +189,7 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
     }
   }, [clientTimeLeft, game.status, texts, autoSave, existingMeme?.submitted]);
 
-  if (!template) {
+  if (!template || !game.playerTemplates || game.playerTemplates.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-xl">Loading meme template...</div>

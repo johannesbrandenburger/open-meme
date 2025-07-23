@@ -96,6 +96,7 @@ const applicationTables = {
     name: v.string(),
     imgUrl: v.string(),
     source: v.union(v.string(), v.null()),
+    round: v.number(),
     text: v.array(v.object({
       style: v.string(),
       color: v.string(),
@@ -111,7 +112,7 @@ const applicationTables = {
     })),
     example: v.array(v.string()),
   }).index("by_game_player", ["gameId", "playerId"])
-    .index("by_game_template", ["gameId", "name"]),
+    .index("by_game_player_round", ["gameId", "playerId", "round"])
 };
 
 export default defineSchema({
