@@ -51,9 +51,12 @@ const applicationTables = {
     currentRound: v.number(),
     totalRounds: v.number(),
     currentMemeIndex: v.optional(v.number()),
-    timeLeft: v.optional(v.number()),
+    phaseEndTime: v.optional(v.number()), // Server timestamp when current phase ends
+    votingMemeIndex: v.optional(v.number()), // Current meme being voted on
     createdAt: v.number(),
-  }).index("by_game_id", ["gameId"]),
+    lastProgressTime: v.optional(v.number()), // Track when game was last progressed
+  }).index("by_game_id", ["gameId"])
+    .index("by_status", ["status"]),
 
   players: defineTable({
     gameId: v.string(),

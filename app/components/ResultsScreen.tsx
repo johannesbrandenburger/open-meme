@@ -127,7 +127,7 @@ export function ResultsScreen({ game, playerId, isFinal = false }: ResultsScreen
                 <div className="flex justify-center">
                   <div className="w-48">
                     <MemeCanvas 
-                      template={meme.templateName} 
+                      template={meme.template} 
                       texts={meme.texts} 
                     />
                   </div>

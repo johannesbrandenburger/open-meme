@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
@@ -17,24 +19,20 @@ export function GamePage({ gameId, playerId, onNavigateToHome }: GamePageProps) 
   const [nickname, setNickname] = useState(() => 
     localStorage.getItem("openmeme-nickname") || ""
   );
-  const [hasJoined, setHasJoined] = useState(false);
+  const [hasJoinedOnce, setHasJoinedOnce] = useState(false);
 
-  const game = useQuery(api.games.getGameForPlayer, { gameId, playerId });
+  // Use the new unified game state query
+  const game = useQuery(api.games.getGameState, { gameId, playerId });
   const joinGame = useMutation(api.games.joinGame);
 
-  // Auto-join game when nickname is available
+  // Auto-join logic simplified - only run once when we have nickname and haven't joined
+  const shouldAttemptJoin = nickname && !hasJoinedOnce && !game?.currentPlayer;
+  
   useEffect(() => {
-    if (nickname && !hasJoined && game === null) {
+    if (shouldAttemptJoin) {
       handleJoinGame();
     }
-  }, [nickname, hasJoined, game]);
-
-  // Auto-join if game exists and player is already in it
-  useEffect(() => {
-    if (game && game.currentPlayer && !hasJoined) {
-      setHasJoined(true);
-    }
-  }, [game, hasJoined]);
+  }, [shouldAttemptJoin]);
 
   const handleJoinGame = async () => {
     if (!nickname.trim()) {
@@ -49,11 +47,19 @@ export function GamePage({ gameId, playerId, onNavigateToHome }: GamePageProps) 
         playerId,
         nickname: nickname.trim(),
       });
-      setHasJoined(true);
+      setHasJoinedOnce(true);
     } catch (error: any) {
-      toast.error(error.message || "Failed to join game");
+      // Provide more user-friendly error messages
       if (error.message === "Game not found") {
+        toast.error("This game doesn't exist anymore");
         onNavigateToHome();
+      } else if (error.message === "Game has finished") {
+        toast.error("This game has already finished");
+      } else if (error.message === "Cannot join - game has already started") {
+        toast.error("Sorry, this game has already started and you weren't part of it");
+        onNavigateToHome();
+      } else {
+        toast.error(error.message || "Failed to join game");
       }
     }
   };

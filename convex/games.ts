@@ -1,5 +1,8 @@
 import { v } from "convex/values";
-import { query, mutation } from "./_generated/server";
+import { mutation, query, internalMutation } from "./_generated/server";
+import { api, internal } from "./_generated/api";
+
+import templatesJson from "./templates.json";
 
 // Generate a random game ID
 function generateGameId(): string {
@@ -11,6 +14,7 @@ export const createGame = mutation({
     hostId: v.string(),
     nickname: v.string(),
   },
+  returns: v.object({ gameId: v.string() }),
   handler: async (ctx, args) => {
     const gameId = generateGameId();
     
@@ -44,8 +48,9 @@ export const joinGame = mutation({
     playerId: v.string(),
     nickname: v.string(),
   },
+  returns: v.object({ success: v.boolean() }),
   handler: async (ctx, args) => {
-    // Check if game exists and is in waiting state
+    // Check if game exists
     const game = await ctx.db
       .query("games")
       .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
@@ -55,8 +60,8 @@ export const joinGame = mutation({
       throw new Error("Game not found");
     }
 
-    if (game.status !== "waiting") {
-      throw new Error("Game has already started");
+    if (game.status === "finished") {
+      throw new Error("Game has finished");
     }
 
     // Check if player already joined
@@ -67,10 +72,21 @@ export const joinGame = mutation({
       .first();
 
     if (existingPlayer) {
+      // Player already exists - just update nickname if needed and return success
+      if (existingPlayer.nickname !== args.nickname) {
+        await ctx.db.patch(existingPlayer._id, {
+          nickname: args.nickname,
+        });
+      }
       return { success: true };
     }
 
-    // Add player to game
+    // For new players, only allow joining if game is in waiting state
+    if (game.status !== "waiting") {
+      throw new Error("Cannot join - game has already started");
+    }
+
+    // Add new player to game
     await ctx.db.insert("players", {
       gameId: args.gameId,
       playerId: args.playerId,
@@ -84,11 +100,217 @@ export const joinGame = mutation({
   },
 });
 
+export const checkPlayerInGame = query({
+  args: {
+    gameId: v.string(),
+    playerId: v.string(),
+  },
+  returns: v.union(
+    v.object({
+      _id: v.id("players"),
+      _creationTime: v.number(),
+      gameId: v.string(),
+      playerId: v.string(),
+      nickname: v.string(),
+      totalScore: v.number(),
+      isHost: v.boolean(),
+      joinedAt: v.number(),
+    }),
+    v.null()
+  ),
+  handler: async (ctx, args) => {
+    const player = await ctx.db
+      .query("players")
+      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
+      .filter((q) => q.eq(q.field("playerId"), args.playerId))
+      .first();
+
+    return player || null;
+  },
+});
+
+export const reconnectToGame = mutation({
+  args: {
+    gameId: v.string(),
+    playerId: v.string(),
+  },
+  returns: v.object({ 
+    success: v.boolean(),
+    alreadyInGame: v.boolean(),
+    gameStatus: v.optional(v.string()),
+  }),
+  handler: async (ctx, args) => {
+    // Check if game exists
+    const game = await ctx.db
+      .query("games")
+      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
+      .first();
+
+    if (!game) {
+      throw new Error("Game not found");
+    }
+
+    // Check if player is already in the game
+    const existingPlayer = await ctx.db
+      .query("players")
+      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
+      .filter((q) => q.eq(q.field("playerId"), args.playerId))
+      .first();
+
+    if (existingPlayer) {
+      return { 
+        success: true, 
+        alreadyInGame: true, 
+        gameStatus: game.status 
+      };
+    }
+
+    return { 
+      success: true, 
+      alreadyInGame: false, 
+      gameStatus: game.status 
+    };
+  },
+});
+
+export const progressGame = mutation({
+  args: { gameId: v.string() },
+  returns: v.object({ success: v.boolean() }),
+  handler: async (ctx, args) => {
+    // This is now handled automatically by the game engine
+    // Just return success for backwards compatibility
+    return { success: true };
+  },
+});
+
+
+// Game timing constants
+const CREATION_TIME = 60 * 1000; // 60 seconds in milliseconds
+const VOTING_TIME_PER_MEME = 30 * 1000; // 30 seconds per meme
+const RESULTS_TIME = 10 * 1000; // 10 seconds to view results
+
+export const getGameState = query({
+  args: {
+    gameId: v.string(),
+    playerId: v.optional(v.string())
+  },
+  returns: v.union(
+    v.object({
+      _id: v.id("games"),
+      _creationTime: v.number(),
+      gameId: v.string(),
+      hostId: v.string(),
+      status: v.union(
+        v.literal("waiting"),
+        v.literal("creating"),
+        v.literal("voting"),
+        v.literal("results"),
+        v.literal("finished")
+      ),
+      currentRound: v.number(),
+      totalRounds: v.number(),
+      currentMemeIndex: v.optional(v.number()),
+      phaseEndTime: v.optional(v.number()),
+      votingMemeIndex: v.optional(v.number()),
+      createdAt: v.number(),
+      lastProgressTime: v.optional(v.number()),
+      timeLeft: v.number(),
+      players: v.array(v.object({
+        _id: v.id("players"),
+        _creationTime: v.number(),
+        gameId: v.string(),
+        playerId: v.string(),
+        nickname: v.string(),
+        totalScore: v.number(),
+        isHost: v.boolean(),
+        joinedAt: v.number(),
+      })),
+      currentPlayer: v.optional(v.object({
+        _id: v.id("players"),
+        _creationTime: v.number(),
+        gameId: v.string(),
+        playerId: v.string(),
+        nickname: v.string(),
+        totalScore: v.number(),
+        isHost: v.boolean(),
+        joinedAt: v.number(),
+      })),
+      currentRoundMemes: v.array(v.any()),
+      currentVotingMeme: v.optional(v.any()),
+    }),
+    v.null()
+  ),
+  handler: async (ctx, args) => {
+    const game = await ctx.db
+      .query("games")
+      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
+      .first();
+
+    if (!game) {
+      return null;
+    }
+
+    const players = await ctx.db
+      .query("players")
+      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
+      .collect();
+
+    const currentPlayer = args.playerId
+      ? players.find(p => p.playerId === args.playerId)
+      : undefined;
+
+    // Calculate time left based on server time
+    let timeLeft = 0;
+    if (game.phaseEndTime) {
+      timeLeft = Math.max(0, Math.floor((game.phaseEndTime - Date.now()) / 1000));
+    }
+
+    // Get current round memes for voting/results screens
+    let currentRoundMemes: any[] = [];
+    let currentVotingMeme: any = undefined;
+
+    if (game.status === "voting" || game.status === "results") {
+      const memes = await ctx.db
+        .query("memes")
+        .withIndex("by_game_and_round", (q) =>
+          q.eq("gameId", args.gameId).eq("round", game.currentRound)
+        )
+        .collect();
+
+      // Enhance memes with template data and voting info
+      currentRoundMemes = memes.map((meme) => {
+        const template = templatesJson.find((t: any) => t.name === meme.templateName);
+        return {
+          ...meme,
+          template,
+        };
+      });
+
+      // Sort memes consistently for voting (by creation time)
+      currentRoundMemes.sort((a, b) => a._creationTime - b._creationTime);
+
+      if (game.status === "voting" && game.votingMemeIndex !== undefined) {
+        currentVotingMeme = currentRoundMemes[game.votingMemeIndex];
+      }
+    }
+
+    return {
+      ...game,
+      timeLeft,
+      players,
+      currentPlayer,
+      currentRoundMemes,
+      currentVotingMeme,
+    };
+  },
+});
+
 export const startGame = mutation({
   args: {
     gameId: v.string(),
     hostId: v.string(),
   },
+  returns: v.object({ success: v.boolean() }),
   handler: async (ctx, args) => {
     const game = await ctx.db
       .query("games")
@@ -107,74 +329,205 @@ export const startGame = mutation({
       throw new Error("Game has already started");
     }
 
-    // Update game status to creating (first round)
+    const now = Date.now();
     await ctx.db.patch(game._id, {
       status: "creating",
       currentRound: 1,
-      timeLeft: 60, // 60 seconds for meme creation
+      phaseEndTime: now + CREATION_TIME,
+      lastProgressTime: now,
+    });
+
+    // Schedule automatic progression
+    await ctx.scheduler.runAfter(CREATION_TIME, internal.games.autoProgressGame, {
+      gameId: args.gameId,
+      expectedPhaseEndTime: now + CREATION_TIME,
     });
 
     return { success: true };
   },
 });
 
-export const progressGame = mutation({
-  args: { gameId: v.string() },
-  handler: async (ctx, args) => {
-    const game = await ctx.db
-      .query("games")
-      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
-      .first();
-
-    if (!game) return { success: false };
-
-    if (game.status === "voting") {
-      await ctx.db.patch(game._id, { status: "results", timeLeft: 10 });
-    } else if (game.status === "results") {
-      if (game.currentRound < game.totalRounds) {
-        await ctx.db.patch(game._id, {
-          status: "creating",
-          currentRound: game.currentRound + 1,
-          timeLeft: 60,
-        });
-      } else {
-        await ctx.db.patch(game._id, { status: "finished" });
-      }
-    }
-
-    return { success: true };
+export const autoProgressGame = internalMutation({
+  args: {
+    gameId: v.string(),
+    expectedPhaseEndTime: v.number(),
   },
-});
-
-export const getGame = query({
-  args: { gameId: v.string() },
+  returns: v.null(),
   handler: async (ctx, args) => {
     const game = await ctx.db
       .query("games")
       .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
       .first();
 
-    if (!game) {
+    if (!game || game.status === "finished") {
       return null;
     }
 
-    const players = await ctx.db
-      .query("players")
-      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
-      .collect();
+    // Only progress if we're still in the expected phase
+    if (game.phaseEndTime !== args.expectedPhaseEndTime) {
+      return null;
+    }
 
-    return {
-      ...game,
-      players,
-    };
+    const now = Date.now();
+
+    switch (game.status) {
+      case "creating":
+        // Move to voting phase
+        const memes = await ctx.db
+          .query("memes")
+          .withIndex("by_game_and_round", (q) =>
+            q.eq("gameId", args.gameId).eq("round", game.currentRound)
+          )
+          .collect();
+
+        if (memes.length === 0) {
+          // No memes created, skip to next round or end game
+          if (game.currentRound < game.totalRounds) {
+            await ctx.db.patch(game._id, {
+              status: "creating",
+              currentRound: game.currentRound + 1,
+              phaseEndTime: now + CREATION_TIME,
+              lastProgressTime: now,
+            });
+
+            await ctx.scheduler.runAfter(CREATION_TIME, internal.games.autoProgressGame, {
+              gameId: args.gameId,
+              expectedPhaseEndTime: now + CREATION_TIME,
+            });
+          } else {
+            await ctx.db.patch(game._id, {
+              status: "finished",
+              phaseEndTime: undefined,
+              lastProgressTime: now,
+            });
+          }
+          return null;
+        }
+
+        const votingEndTime = now + (VOTING_TIME_PER_MEME * memes.length);
+        await ctx.db.patch(game._id, {
+          status: "voting",
+          votingMemeIndex: 0,
+          phaseEndTime: votingEndTime,
+          lastProgressTime: now,
+        });
+
+        // Schedule progression through each meme
+        for (let i = 0; i < memes.length; i++) {
+          const memeEndTime = now + (VOTING_TIME_PER_MEME * (i + 1));
+          await ctx.scheduler.runAfter(VOTING_TIME_PER_MEME * (i + 1), internal.games.progressVotingMeme, {
+            gameId: args.gameId,
+            memeIndex: i,
+            expectedTime: memeEndTime,
+          });
+        }
+        break;
+
+      case "voting":
+        // Move to results phase
+        const resultsEndTime = now + RESULTS_TIME;
+        await ctx.db.patch(game._id, {
+          status: "results",
+          votingMemeIndex: undefined,
+          phaseEndTime: resultsEndTime,
+          lastProgressTime: now,
+        });
+
+        await ctx.scheduler.runAfter(RESULTS_TIME, internal.games.autoProgressGame, {
+          gameId: args.gameId,
+          expectedPhaseEndTime: resultsEndTime,
+        });
+        break;
+
+      case "results":
+        // Move to next round or finish game
+        if (game.currentRound < game.totalRounds) {
+          const nextRoundEndTime = now + CREATION_TIME;
+          await ctx.db.patch(game._id, {
+            status: "creating",
+            currentRound: game.currentRound + 1,
+            phaseEndTime: nextRoundEndTime,
+            lastProgressTime: now,
+          });
+
+          await ctx.scheduler.runAfter(CREATION_TIME, internal.games.autoProgressGame, {
+            gameId: args.gameId,
+            expectedPhaseEndTime: nextRoundEndTime,
+          });
+        } else {
+          await ctx.db.patch(game._id, {
+            status: "finished",
+            phaseEndTime: undefined,
+            lastProgressTime: now,
+          });
+        }
+        break;
+    }
+
+    return null;
   },
 });
 
-export const getGameForPlayer = query({
+export const progressVotingMeme = internalMutation({
+  args: {
+    gameId: v.string(),
+    memeIndex: v.number(),
+    expectedTime: v.number(),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const game = await ctx.db
+      .query("games")
+      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
+      .first();
+
+    if (!game || game.status !== "voting") {
+      return null;
+    }
+
+    const memes = await ctx.db
+      .query("memes")
+      .withIndex("by_game_and_round", (q) =>
+        q.eq("gameId", args.gameId).eq("round", game.currentRound)
+      )
+      .collect();
+
+    const nextMemeIndex = args.memeIndex + 1;
+
+    if (nextMemeIndex < memes.length) {
+      // Move to next meme
+      await ctx.db.patch(game._id, {
+        votingMemeIndex: nextMemeIndex,
+      });
+    } else {
+      // All memes voted on, move to results
+      const now = Date.now();
+      const resultsEndTime = now + RESULTS_TIME;
+
+      await ctx.db.patch(game._id, {
+        status: "results",
+        votingMemeIndex: undefined,
+        phaseEndTime: resultsEndTime,
+        lastProgressTime: now,
+      });
+
+      await ctx.scheduler.runAfter(RESULTS_TIME, internal.games.autoProgressGame, {
+        gameId: args.gameId,
+        expectedPhaseEndTime: resultsEndTime,
+      });
+    }
+
+    return null;
+  },
+});
+
+// Force progress game for manual control (e.g., if all players are ready)
+export const forceProgressGame = mutation({
   args: {
     gameId: v.string(),
     playerId: v.string(),
   },
+  returns: v.object({ success: v.boolean() }),
   handler: async (ctx, args) => {
     const game = await ctx.db
       .query("games")
@@ -182,36 +535,28 @@ export const getGameForPlayer = query({
       .first();
 
     if (!game) {
-      return null;
+      throw new Error("Game not found");
     }
 
-    const players = await ctx.db
-      .query("players")
-      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
-      .collect();
-
-    const currentPlayer = players.find(p => p.playerId === args.playerId);
-
-    if (!currentPlayer) {
-      return null;
+    // Only host can force progress for now
+    if (game.hostId !== args.playerId) {
+      throw new Error("Only the host can force game progression");
     }
 
-    // Get current round memes for voting screen
-    let currentRoundMemes: any[] = [];
-    if (game.status === "voting" || game.status === "results") {
-      currentRoundMemes = await ctx.db
-        .query("memes")
-        .withIndex("by_game_and_round", (q) => 
-          q.eq("gameId", args.gameId).eq("round", game.currentRound)
-        )
-        .collect();
-    }
+    const now = Date.now();
 
-    return {
-      ...game,
-      players,
-      currentPlayer,
-      currentRoundMemes,
-    };
+    // Force progress by setting phase end time to now
+    await ctx.db.patch(game._id, {
+      phaseEndTime: now,
+      lastProgressTime: now,
+    });
+
+    // Trigger immediate progression
+    await ctx.scheduler.runAfter(0, internal.games.autoProgressGame, {
+      gameId: args.gameId,
+      expectedPhaseEndTime: now,
+    });
+
+    return { success: true };
   },
 });

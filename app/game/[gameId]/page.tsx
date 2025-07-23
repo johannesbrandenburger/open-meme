@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Toaster } from "sonner";
-import { GamePage } from "../../components/GamePage";
+import { GamePage } from "@/app/components/GamePage";
 
 export default function GameRoute() {
   const params = useParams();

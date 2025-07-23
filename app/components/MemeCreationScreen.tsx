@@ -1,21 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
 import { Doc } from "../../convex/_generated/dataModel";
 
 interface MemeCreationScreenProps {
-  game: Doc<"games">;
+  game: any; // From gameEngine.getGameState
   playerId: string;
 }
 
 export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) {
   const [texts, setTexts] = useState<string[]>([]);
-  const [timeLeft, setTimeLeft] = useState(90); // 90 seconds per round
   const [shufflesLeft, setShufflesLeft] = useState(3);
   const [usedTemplates, setUsedTemplates] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string>("");
+  const [clientTimeLeft, setClientTimeLeft] = useState<number>(0);
   
   // Get a random meme template
   const template = useQuery(api.memes.getRandomMemeTemplate, { 
@@ -37,12 +37,34 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
     if (template && texts.length === 0) {
       setTexts(new Array(template.text.length).fill(""));
     }
-  }, [template, texts.length]);
+  }, [template]);
 
-  // Reset timer when round changes
+  // Reset state when round changes
   useEffect(() => {
-    setTimeLeft(90); // Reset to 90 seconds for new round
+    setShufflesLeft(3);
+    setUsedTemplates([]);
+    setTexts([]);
   }, [game.currentRound]);
+
+  // Update client timer when server timer changes
+  useEffect(() => {
+    setClientTimeLeft(game.timeLeft);
+  }, [game.timeLeft]);
+
+  // Client-side countdown timer
+  useEffect(() => {
+    // Only start timer if we have time left
+    if (clientTimeLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      setClientTimeLeft(prev => {
+        const newTime = Math.max(0, prev - 1);
+        return newTime;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [clientTimeLeft > 0]); // Restart timer when we transition from 0 to >0 time
 
   // Load existing meme if player has one
   useEffect(() => {
@@ -50,30 +72,6 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
       setTexts(existingMeme.texts);
     }
   }, [existingMeme]);
-
-  // Timer countdown
-  useEffect(() => {
-    if (game.status !== "creating") return;
-    
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          // Timer will be cleared when component unmounts or game status changes
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [game.status]);
-
-  // Auto-save when time runs out
-  useEffect(() => {
-    if (timeLeft === 0 && game.status === "creating") {
-      handleSaveMeme();
-    }
-  }, [timeLeft, game.status]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -91,11 +89,11 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
     if (shufflesLeft > 0 && template) {
       setShufflesLeft(prev => prev - 1);
       setUsedTemplates(prev => [...prev, template.name]);
-      // The query will automatically re-run and get a new template
+      setTexts([]); // Clear texts when shuffling
     }
   };
 
-  const handleSaveMeme = async () => {
+  const handleSaveMeme = useCallback(async () => {
     if (!template) return;
     
     setIsSaving(true);
@@ -113,12 +111,18 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
       setTimeout(() => setSaveMessage(""), 3000);
     } catch (error) {
       console.error("Failed to save meme:", error);
-      setSaveMessage("Failed to save meme. Please try again. ❌");
-      setTimeout(() => setSaveMessage(""), 3000);
+      setSaveMessage("Failed to save meme. Please try again.");
     } finally {
       setIsSaving(false);
     }
-  };
+  }, [template, game.gameId, playerId, texts, saveMeme]);
+
+  // Auto-save when time runs out (use client timer for responsiveness)
+  useEffect(() => {
+    if (clientTimeLeft === 0 && game.status === "creating" && texts.some(t => t.trim())) {
+      handleSaveMeme();
+    }
+  }, [clientTimeLeft, game.status, texts, handleSaveMeme]);
 
   if (!template) {
     return (
@@ -138,7 +142,9 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
             <p className="text-sm text-gray-600">Round {game.currentRound} of {game.totalRounds}</p>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-red-500">{formatTime(timeLeft)}</div>
+            <div className={`text-2xl font-bold ${clientTimeLeft <= 10 ? 'text-red-500' : 'text-green-500'}`}>
+              {formatTime(clientTimeLeft)}
+            </div>
             <div className="text-sm text-gray-600">Shuffles: {shufflesLeft}</div>
           </div>
         </div>
@@ -159,6 +165,7 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
               placeholder={`Text ${index + 1}`}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
               maxLength={50}
+              disabled={clientTimeLeft === 0}
             />
           ))}
         </div>
@@ -177,7 +184,7 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
           
           <button
             onClick={handleShuffle}
-            disabled={shufflesLeft === 0}
+            disabled={shufflesLeft === 0 || clientTimeLeft === 0}
             className="w-full bg-yellow-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-yellow-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             🎲 Shuffle Template ({shufflesLeft} left)
@@ -185,11 +192,17 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
           
           <button
             onClick={handleSaveMeme}
-            disabled={isSaving}
+            disabled={isSaving || clientTimeLeft === 0}
             className="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-green-600 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSaving ? "💾 Saving..." : "💾 Save Meme"}
           </button>
+
+          {clientTimeLeft === 0 && (
+            <div className="text-center p-4 bg-yellow-100 rounded-lg">
+              <p className="text-yellow-700 font-semibold">Time's up! Waiting for other players...</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
