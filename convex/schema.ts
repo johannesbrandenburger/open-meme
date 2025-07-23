@@ -75,6 +75,7 @@ const applicationTables = {
     templateName: v.string(),
     texts: v.array(v.string()),
     score: v.number(),
+    submitted: v.boolean(),
     createdAt: v.number(),
   }).index("by_game_and_round", ["gameId", "round"])
     .index("by_game_player_round", ["gameId", "playerId", "round"]),

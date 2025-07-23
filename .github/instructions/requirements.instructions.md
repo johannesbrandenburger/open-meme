@@ -1,3 +1,7 @@
+---
+applyTo: "**/*"
+---
+
 # OpenMeme - The Open Source Meme Game - Requirements
 
 OpenMeme is a web-based open source clone of the popular game "Make it Meme".

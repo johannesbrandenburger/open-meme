@@ -36,6 +36,7 @@ type MemeWithTemplate = {
   templateName: string;
   texts: string[];
   score: number;
+  submitted: boolean;
   createdAt: number;
   template?: Template;
 };
@@ -315,6 +316,7 @@ export const getGameState = query({
         templateName: v.string(),
         texts: v.array(v.string()),
         score: v.number(),
+        submitted: v.boolean(),
         createdAt: v.number(),
         template: v.optional(v.object({
           name: v.string(),
@@ -345,6 +347,7 @@ export const getGameState = query({
         templateName: v.string(),
         texts: v.array(v.string()),
         score: v.number(),
+        submitted: v.boolean(),
         createdAt: v.number(),
         template: v.optional(v.object({
           name: v.string(),

@@ -46,13 +46,18 @@ export const saveMeme = mutation({
       .first();
 
     if (existingMeme) {
-      // Update existing meme
+      // Don't update if already submitted
+      if (existingMeme.submitted) {
+        throw new Error("Meme already submitted and cannot be modified");
+      }
+      
+      // Update existing meme (autosave)
       await ctx.db.patch(existingMeme._id, {
         templateName: args.templateName,
         texts: args.texts,
       });
     } else {
-      // Create new meme
+      // Create new meme (autosave)
       await ctx.db.insert("memes", {
         gameId: args.gameId,
         playerId: args.playerId,
@@ -60,9 +65,54 @@ export const saveMeme = mutation({
         templateName: args.templateName,
         texts: args.texts,
         score: 0,
+        submitted: false,
         createdAt: Date.now(),
       });
     }
+
+    return { success: true };
+  },
+});
+
+export const submitMeme = mutation({
+  args: {
+    gameId: v.string(),
+    playerId: v.string(),
+  },
+  returns: v.object({ success: v.boolean() }),
+  handler: async (ctx, args) => {
+    // Get current game to check round
+    const game = await ctx.db
+      .query("games")
+      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
+      .first();
+
+    if (!game) {
+      throw new Error("Game not found");
+    }
+
+    // Get the player's meme for this round
+    const existingMeme = await ctx.db
+      .query("memes")
+      .withIndex("by_game_player_round", (q) =>
+        q.eq("gameId", args.gameId)
+          .eq("playerId", args.playerId)
+          .eq("round", game.currentRound)
+      )
+      .first();
+
+    if (!existingMeme) {
+      throw new Error("No meme found to submit");
+    }
+
+    if (existingMeme.submitted) {
+      throw new Error("Meme already submitted");
+    }
+
+    // Mark as submitted
+    await ctx.db.patch(existingMeme._id, {
+      submitted: true,
+    });
 
     return { success: true };
   },
@@ -84,6 +134,7 @@ export const getPlayerMeme = query({
       templateName: v.string(),
       texts: v.array(v.string()),
       score: v.number(),
+      submitted: v.boolean(),
       createdAt: v.number(),
     }),
     v.null()
