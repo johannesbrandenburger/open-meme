@@ -28,7 +28,7 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
     if (game.playerTemplates && game.playerTemplates.length > 0 && !template) {
       const initialTemplate = game.playerTemplates[0];
       setTemplate(initialTemplate);
-      setTexts(new Array(initialTemplate.text.length).fill(""));
+      setTexts(initialTemplate.example || new Array(initialTemplate.text.length).fill(""));
     }
   }, [game.playerTemplates, template]);
 
@@ -48,7 +48,7 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
   // Initialize texts array when template changes
   useEffect(() => {
     if (template && template.text) {
-      setTexts(new Array(template.text.length).fill(""));
+      setTexts(template.example || new Array(template.text.length).fill(""));
     }
   }, [template]);
 
@@ -227,6 +227,7 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
               type="text"
               value={text}
               onChange={(e) => handleTextChange(index, e.target.value)}
+              onFocus={e => e.target.select()}
               placeholder={`Text ${index + 1}`}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none disabled:bg-gray-100"
               disabled={clientTimeLeft === 0 || existingMeme?.submitted}
