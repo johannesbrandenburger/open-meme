@@ -4,6 +4,7 @@ import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
 import { Doc } from "../../convex/_generated/dataModel";
 import { FunctionReturnType } from "convex/server"; // Import this utility
+import { toast } from "sonner";
 
 interface MemeCreationScreenProps {
   game: NonNullable<FunctionReturnType<typeof api.games.getGameState>>;
@@ -15,7 +16,6 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
   const [shufflesLeft, setShufflesLeft] = useState(5);
   const [usedTemplates, setUsedTemplates] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
-  const [saveMessage, setSaveMessage] = useState<string>("");
   const [clientTimeLeft, setClientTimeLeft] = useState<number>(0);
   
   // Get a random meme template
@@ -98,7 +98,6 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
     if (!template) return;
     
     setIsSaving(true);
-    setSaveMessage("");
     
     try {
       await saveMeme({
@@ -108,11 +107,10 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
         texts,
       });
       
-      setSaveMessage("Meme saved successfully! ✅");
-      setTimeout(() => setSaveMessage(""), 3000);
+      toast.success("Meme saved successfully!");
     } catch (error) {
       console.error("Failed to save meme:", error);
-      setSaveMessage("Failed to save meme. Please try again.");
+      toast.error("Failed to save meme. Please try again.");
     } finally {
       setIsSaving(false);
     }
@@ -173,15 +171,6 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
 
         {/* Actions */}
         <div className="bg-white rounded-b-2xl p-4 space-y-3">
-          {saveMessage && (
-            <div className={`text-center p-2 rounded ${
-              saveMessage.includes('✅') 
-                ? 'bg-green-100 text-green-700' 
-                : 'bg-red-100 text-red-700'
-            }`}>
-              {saveMessage}
-            </div>
-          )}
           
           <button
             onClick={handleShuffle}
