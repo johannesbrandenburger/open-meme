@@ -22,6 +22,7 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
   const [template, setTemplate] = useState<typeof game.playerTemplates[0] | null>(null);
   const [templateIndex, setTemplateIndex] = useState(0);
   const [texts, setTexts] = useState<string[]>([]);
+  const [lastInputTime, setLastInputTime] = useState<number>(Date.now());
 
   // Initialize template and texts when game.playerTemplates is available
   useEffect(() => {
@@ -78,12 +79,26 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
     return () => clearInterval(timer);
   }, [clientTimeLeft > 0]); // Restart timer when we transition from 0 to >0 time
 
-  // Load existing meme if player has one
+  // Update lastInputTime on text change
+  const handleTextChange = (index: number, value: string) => {
+    // Don't allow changes if meme is submitted
+    if (existingMeme?.submitted) return;
+    setLastInputTime(Date.now());
+    const newTexts = [...texts];
+    newTexts[index] = value;
+    setTexts(newTexts);
+  };
+
+  // Load existing meme if player has one, but only if user hasn't typed recently
   useEffect(() => {
     if (existingMeme) {
-      setTexts(existingMeme.texts);
+      const now = Date.now();
+      // Only update texts if user hasn't typed in the last 1 second
+      if (now - lastInputTime > 1000) {
+        setTexts(existingMeme.texts);
+      }
     }
-  }, [existingMeme]);
+  }, [existingMeme, lastInputTime]);
 
   // Autosave function
   const autoSave = useCallback(async () => {
@@ -128,15 +143,6 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const handleTextChange = (index: number, value: string) => {
-    // Don't allow changes if meme is submitted
-    if (existingMeme?.submitted) return;
-    
-    const newTexts = [...texts];
-    newTexts[index] = value;
-    setTexts(newTexts);
   };
 
   const handleShuffle = () => {
