@@ -240,9 +240,9 @@ export const progressGame = mutation({
 
 
 // Game timing constants
-const CREATION_TIME = 60 * 1000; // 60 seconds in milliseconds
-const VOTING_TIME_PER_MEME = 30 * 1000; // 30 seconds per meme
-const RESULTS_TIME = 10 * 1000; // 10 seconds to view results
+export const CREATION_TIME = 60 * 1000; // 60 seconds in milliseconds
+export const VOTING_TIME_PER_MEME = 30 * 1000; // 30 seconds per meme
+export const RESULTS_TIME = 10 * 1000; // 10 seconds to view results
 
 export const getGameState = query({
   args: {
@@ -631,6 +631,11 @@ export const progressVotingMeme = internalMutation({
       .first();
 
     if (!game || game.status !== "voting") {
+      return null;
+    }
+
+    // Safety check to skip if we've already advanced past this meme index
+    if (game.votingMemeIndex !== args.memeIndex) {
       return null;
     }
 

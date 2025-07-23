@@ -1,6 +1,8 @@
 import { v } from "convex/values";
 import { query, mutation, action } from "./_generated/server";
 import templatesJson from "./templates.json";
+import { CREATION_TIME, VOTING_TIME_PER_MEME } from "./games";
+import { internal } from "./_generated/api";
 
 export const getMemeTemplate = (templateName: string) => {
   const template = templatesJson.find(
@@ -50,7 +52,7 @@ export const saveMeme = mutation({
       if (existingMeme.submitted) {
         throw new Error("Meme already submitted and cannot be modified");
       }
-      
+
       // Update existing meme (autosave)
       await ctx.db.patch(existingMeme._id, {
         templateName: args.templateName,
@@ -113,6 +115,69 @@ export const submitMeme = mutation({
     await ctx.db.patch(existingMeme._id, {
       submitted: true,
     });
+
+    // NEW: Check if all players have submitted and advance early if so
+    if (game.status === "creating") {
+      const players = await ctx.db
+        .query("players")
+        .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
+        .collect();
+
+      const memes = await ctx.db
+        .query("memes")
+        .withIndex("by_game_and_round", (q) =>
+          q.eq("gameId", args.gameId).eq("round", game.currentRound)
+        )
+        .collect();
+
+      const submittedCount = memes.filter((m) => m.submitted).length;
+
+      if (submittedCount === players.length) {
+        // All submitted - advance to voting (duplicated from autoProgressGame for creating case)
+        const now = Date.now();
+
+        if (memes.length === 0) {
+          // No memes created, skip to next round or end game
+          if (game.currentRound < game.totalRounds) {
+            await ctx.db.patch(game._id, {
+              status: "creating",
+              currentRound: game.currentRound + 1,
+              phaseEndTime: now + CREATION_TIME,
+              lastProgressTime: now,
+            });
+
+            await ctx.scheduler.runAfter(CREATION_TIME, internal.games.autoProgressGame, {
+              gameId: args.gameId,
+              expectedPhaseEndTime: now + CREATION_TIME,
+            });
+          } else {
+            await ctx.db.patch(game._id, {
+              status: "finished",
+              phaseEndTime: undefined,
+              lastProgressTime: now,
+            });
+          }
+        } else {
+          const votingEndTime = now + (VOTING_TIME_PER_MEME * memes.length);
+          await ctx.db.patch(game._id, {
+            status: "voting",
+            votingMemeIndex: 0,
+            phaseEndTime: votingEndTime,
+            lastProgressTime: now,
+          });
+
+          // Schedule progression through each meme
+          for (let i = 0; i < memes.length; i++) {
+            const memeEndTime = now + (VOTING_TIME_PER_MEME * (i + 1));
+            await ctx.scheduler.runAfter(VOTING_TIME_PER_MEME * (i + 1), internal.games.progressVotingMeme, {
+              gameId: args.gameId,
+              memeIndex: i,
+              expectedTime: memeEndTime,
+            });
+          }
+        }
+      }
+    }
 
     return { success: true };
   },

@@ -1,5 +1,7 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
+import { RESULTS_TIME } from "./games";
+import { internal } from "./_generated/api";
 
 export const submitVote = mutation({
   args: {
@@ -43,6 +45,71 @@ export const submitVote = mutation({
       await ctx.db.patch(meme._id, {
         score: meme.score + args.vote,
       });
+    }
+
+    // NEW: Check if all eligible voters have voted on this meme and advance early if so
+    const game = await ctx.db
+      .query("games")
+      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
+      .first();
+
+    if (game && game.status === "voting" && game.votingMemeIndex !== undefined && meme) {
+      // Get sorted memes (consistent with getGameState)
+      let memes = await ctx.db
+        .query("memes")
+        .withIndex("by_game_and_round", (q) =>
+          q.eq("gameId", args.gameId).eq("round", game.currentRound)
+        )
+        .collect();
+      memes.sort((a, b) => a._creationTime - b._creationTime);
+
+      const currentMeme = memes[game.votingMemeIndex];
+      if (currentMeme._id !== args.memeId) {
+        return { success: true }; // Not the current meme - ignore for progression
+      }
+
+      // Count votes for this meme
+      const roundVotes = await ctx.db
+        .query("votes")
+        .withIndex("by_game_round", (q) =>
+          q.eq("gameId", args.gameId).eq("round", args.round)
+        )
+        .collect();
+      const memeVotes = roundVotes.filter((v) => v.memeId === args.memeId);
+
+      // Eligible voters: all players except meme creator
+      const players = await ctx.db
+        .query("players")
+        .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
+        .collect();
+      const eligibleVoters = players.filter((p) => p.playerId !== meme.playerId).length;
+
+      if (memeVotes.length >= eligibleVoters) {
+        // All voted - advance (duplicated from progressVotingMeme)
+        const now = Date.now();
+        const nextMemeIndex = game.votingMemeIndex + 1;
+
+        if (nextMemeIndex < memes.length) {
+          // Move to next meme
+          await ctx.db.patch(game._id, {
+            votingMemeIndex: nextMemeIndex,
+          });
+        } else {
+          // All memes voted on, move to results
+          const resultsEndTime = now + RESULTS_TIME;
+          await ctx.db.patch(game._id, {
+            status: "results",
+            votingMemeIndex: undefined,
+            phaseEndTime: resultsEndTime,
+            lastProgressTime: now,
+          });
+
+          await ctx.scheduler.runAfter(RESULTS_TIME, internal.games.autoProgressGame, {
+            gameId: args.gameId,
+            expectedPhaseEndTime: resultsEndTime,
+          });
+        }
+      }
     }
 
     return { success: true };
