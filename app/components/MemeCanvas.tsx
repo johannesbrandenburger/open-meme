@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 // {
 //     "name": "Ancient Aliens Guy",
@@ -62,6 +62,27 @@ interface MemeCanvasProps {
 
 export function MemeCanvas({ template, texts }: MemeCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Download function that will be called when the canvas is clicked
+  const downloadMeme = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    // Create a temporary link element
+    const link = document.createElement('a');
+    
+    // Set the download filename - use template name or a default
+    const filename = `${template.name.replace(/\s+/g, '-').toLowerCase()}-meme.png`;
+    
+    // Convert canvas to data URL and set as link href
+    link.href = canvas.toDataURL('image/png');
+    link.download = filename;
+    
+    // Append to body, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }, [template.name]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -171,10 +192,12 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
     <div className="flex justify-center">
       <canvas
         ref={canvasRef}
-        className="border border-gray-300 rounded-lg shadow-lg max-w-full h-auto"
+        className="border border-gray-300 rounded-lg shadow-lg max-w-full h-auto cursor-pointer"
         width={400}
         height={400}
         style={{ maxWidth: '100%', height: 'auto' }}
+        onClick={downloadMeme}
+        title="Click to download meme"
       />
     </div>
   );
