@@ -229,7 +229,6 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
               onChange={(e) => handleTextChange(index, e.target.value)}
               placeholder={`Text ${index + 1}`}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none disabled:bg-gray-100"
-              maxLength={50}
               disabled={clientTimeLeft === 0 || existingMeme?.submitted}
             />
           ))}
