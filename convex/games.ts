@@ -240,9 +240,9 @@ export const progressGame = mutation({
 
 
 // Game timing constants
-export const CREATION_TIME = 60 * 1000; // 60 seconds in milliseconds
-export const VOTING_TIME_PER_MEME = 30 * 1000; // 30 seconds per meme
-export const RESULTS_TIME = 10 * 1000; // 10 seconds to view results
+export const CREATION_TIME = 90 * 1000;
+export const VOTING_TIME_PER_MEME = 30 * 1000;
+export const RESULTS_TIME = 7 * 1000;
 
 export const getGameState = query({
   args: {
