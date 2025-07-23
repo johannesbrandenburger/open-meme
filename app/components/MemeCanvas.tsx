@@ -84,6 +84,64 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
     document.body.removeChild(link);
   }, [template.name]);
 
+  // Helper function to find the best font size for text to fit container
+  const findBestFontSize = (ctx: CanvasRenderingContext2D, text: string, maxWidth: number, maxHeight: number, initialFontSize: number) => {
+    let fontSize = initialFontSize;
+    const minFontSize = 10; // Don't go smaller than this
+    const fontWeight = "bold"; // Assuming Impact-like font
+    const fontDecrement = 2; // How much to reduce font size in each iteration
+    
+    // Start with the initial font size and decrease until text fits or min font size reached
+    while (fontSize > minFontSize) {
+      ctx.font = `${fontWeight} ${fontSize}px Impact, Arial`;
+      
+      // Check if text fits width
+      const words = text.split(" ");
+      if (words.length === 0) return { fontSize, lines: [] };
+      
+      // Check if even a single word is too wide
+      for (const word of words) {
+        if (ctx.measureText(word).width > maxWidth) {
+          // If any single word is too wide, reduce font size immediately
+          fontSize -= fontDecrement;
+          continue;
+        }
+      }
+      
+      const lines = [];
+      let currentLine = words[0];
+      
+      for (let i = 1; i < words.length; i++) {
+        const word = words[i];
+        const width = ctx.measureText(currentLine + " " + word).width;
+        if (width < maxWidth) {
+          currentLine += " " + word;
+        } else {
+          lines.push(currentLine);
+          currentLine = word;
+        }
+      }
+      lines.push(currentLine);
+      
+      // Calculate total height needed
+      const lineHeight = fontSize * 1.2;
+      const totalHeight = lines.length * lineHeight;
+      
+      // Add more restrictive condition - use 90% of max height as a safety margin
+      if (totalHeight <= maxHeight * 0.9) {
+        return { fontSize, lines };
+      }
+      
+      // Reduce font size and try again
+      fontSize -= fontDecrement;
+    }
+    
+    // Return minimum font size if we get here
+    ctx.font = `${fontWeight} ${minFontSize}px Impact, Arial`;
+    // Even at minimum font size, ensure we wrap the text properly
+    return { fontSize: minFontSize, lines: wrapText(ctx, text, maxWidth) };
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -131,10 +189,12 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
           ctx.strokeStyle = textConfig.color === "black" ? "white" : "black";
           ctx.lineWidth = 2;
           
-          // Set font based on template config
-          const fontSize = Math.round(24 * textConfig.scale_y * 5); // Scale font size
-          const fontWeight = textConfig.font === "thick" ? "bold" : "normal";
-          ctx.font = `${fontWeight} ${fontSize}px Impact, Arial`;
+          // Calculate initial font size based on template config
+          const initialFontSize = Math.round(24 * textConfig.scale_y * 5);
+          
+          // Calculate the maximum width and height available for this text area
+          const maxWidth = canvasWidth * textConfig.scale_x * 0.95; // 95% to leave some margin
+          const maxHeight = canvasHeight * textConfig.scale_y * 0.95; // 95% to leave some margin
           
           // Set text alignment
           ctx.textAlign = textConfig.align as CanvasTextAlign;
@@ -142,24 +202,32 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
 
           // Calculate position based on anchor points and actual canvas size
           const x = textConfig.anchor_x * canvasWidth + (canvasWidth * textConfig.scale_x / 2);
-          // For Y position, use the anchor_y directly with the canvas height
-          // anchor_y of 0 means top, 1 means bottom, 0.5 means middle
           const textAreaHeight = canvasHeight * textConfig.scale_y;
           const y = textConfig.anchor_y * canvasHeight + (textAreaHeight / 2);
 
           // Apply text transformation
           const processedText = textConfig.style === "upper" ? text.toUpperCase() : text;
           
-          // Calculate max width based on scale_x and actual canvas width
-          const maxWidth = canvasWidth * textConfig.scale_x * 0.95; // 95% to leave some margin
-          const lines = wrapText(ctx, processedText, maxWidth);
+          // Find the best font size and get wrapped lines
+          const { fontSize, lines } = findBestFontSize(
+            ctx, 
+            processedText, 
+            maxWidth, 
+            maxHeight, 
+            initialFontSize
+          );
+          
+          // Update font with best size
+          const fontWeight = textConfig.font === "thick" ? "bold" : "normal";
+          ctx.font = `${fontWeight} ${fontSize}px Impact, Arial`;
 
           // Draw each line
           lines.forEach((line, lineIndex) => {
             // Center the text block vertically
-            const totalTextHeight = lines.length * fontSize * 1.2;
+            const lineHeight = fontSize * 1.2;
+            const totalTextHeight = lines.length * lineHeight;
             const startY = y - (totalTextHeight / 2) + (fontSize / 2);
-            const lineY = startY + (lineIndex * fontSize * 1.2);
+            const lineY = startY + (lineIndex * lineHeight);
             ctx.strokeText(line, x, lineY);
             ctx.fillText(line, x, lineY);
           });
