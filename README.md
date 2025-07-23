@@ -1,46 +1,34 @@
-# Welcome to your Convex + Next.js + Convex Auth app
+# OpenMeme - The Open Source Meme Game
 
-This is a [Convex](https://convex.dev/) project created with [`npm create convex`](https://www.npmjs.com/package/create-convex).
+OpenMeme is a web-based open source clone of the popular game "Make it Meme".
+It uses the memegen repository as a source for meme templates and lets friends play together in a real-time game.
 
-After the initial setup (<2 minutes) you'll have a working full-stack app using:
+Each round, players are given a random meme template and a short time to add their own text. After the creation phase, players anonymously vote on the memes, and the player with the highest-voted meme wins the round. The game continues for a few rounds, and the player with the highest total score at the end wins the game. The game principle is highly inspired by [Make it Meme](https://makeitmeme.com).
 
-- Convex as your backend (database, server logic)
-- [React](https://react.dev/) as your frontend (web page interactivity)
-- [Next.js](https://nextjs.org/) for optimized web hosting and page routing
-- [Tailwind](https://tailwindcss.com/) for building great looking accessible UI
-- [Convex Auth](https://labs.convex.dev/auth) for authentication
+**Technologies:**
 
-## Get started
+-   Frontend: React, TypeScript
+-   Backend: Convex (This project primarily exists to explore and utilize Convex!)
 
-If you just cloned this codebase and didn't use `npm create convex`, run:
+**Contribution to Meme Source:**
 
-```
-npm install
-npm run dev
-```
+This project utilizes meme templates from the [memegen](https://github.com/jacebrowning/memegen) repository. Contributions to the original repository are highly encouraged to expand the available meme selection.
 
-If you're reading this README on GitHub and want to use this template, run:
+**Inspiration:**
 
-```
-npm create convex@latest -- -t nextjs-convexauth
-```
+The game principle is highly inspired by [Make it Meme](https://makeitmeme.com).
 
-## Learn more
 
-To learn more about developing your project with Convex, check out:
+**Getting Started:**
 
-- The [Tour of Convex](https://docs.convex.dev/get-started) for a thorough introduction to Convex principles.
-- The rest of [Convex docs](https://docs.convex.dev/) to learn about all Convex features.
-- [Stack](https://stack.convex.dev/) for in-depth articles on advanced topics.
-- [Convex Auth docs](https://labs.convex.dev/auth) for documentation on the Convex Auth library.
+1.  Clone the repository: `git clone https://github.com/johannesbrandenburger/open-meme.git`
+2.  Install dependencies: `npm install`
+3.  Set up Convex: Follow the instructions on [Convex documentation](https://docs.convex.dev/)
+4.  Start the development server: `npm run dev`
+5.  Open your browser and navigate to `http://localhost:3000`
 
-## Configuring other authentication methods
+**Update the Memes**
 
-To configure different authentication methods, see [Configuration](https://labs.convex.dev/auth/config) in the Convex Auth docs.
-
-## Join the community
-
-Join thousands of developers building full-stack apps with Convex:
-
-- Join the [Convex Discord community](https://convex.dev/community) to get help in real-time.
-- Follow [Convex on GitHub](https://github.com/get-convex/), star and contribute to the open-source implementation of Convex.
+- if the memes in the memegen repository are updated, you can update the memes in this project by doing the following:
+- clone the memegen repository: `git clone https://github.com/jacebrowning/memegen.git` (at project root)
+- run `npm run update-memes`
