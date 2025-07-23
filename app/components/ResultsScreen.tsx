@@ -11,10 +11,16 @@ interface ResultsScreenProps {
 }
 
 export function ResultsScreen({ game, playerId, isFinal = false }: ResultsScreenProps) {
-  const roundMemes = useQuery(api.memes.getRoundMemes, {
+  // Fetch current round memes or all memes depending on if it's final results
+  const roundMemes = useQuery(api.memes.getRoundMemes, !isFinal ? {
     gameId: game.gameId,
     round: game.currentRound,
-  });
+  } : "skip");
+  
+  // Only fetch all memes for final results
+  const allGameMemes = useQuery(api.memes.getAllGameMemes, isFinal ? {
+    gameId: game.gameId,
+  } : "skip");
 
   const progressGame = useMutation(api.games.progressGame);
 
@@ -29,7 +35,10 @@ export function ResultsScreen({ game, playerId, isFinal = false }: ResultsScreen
     }
   }, [isFinal, game.gameId, progressGame]);
 
-  if (!roundMemes) {
+  // Use the appropriate memes based on whether it's final results or not
+  const memes = isFinal ? allGameMemes : roundMemes;
+
+  if (!memes) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-white text-xl">Loading results...</div>
@@ -38,7 +47,7 @@ export function ResultsScreen({ game, playerId, isFinal = false }: ResultsScreen
   }
 
   // Sort memes by score (highest first)
-  const sortedMemes = [...roundMemes].sort((a, b) => b.score - a.score);
+  const sortedMemes = [...memes].sort((a, b) => b.score - a.score);
 
   // Get player names
   const getPlayerName = (playerId: string) => {
@@ -50,7 +59,7 @@ export function ResultsScreen({ game, playerId, isFinal = false }: ResultsScreen
   const playerTotalScores = isFinal ? 
     game.players.map((player) => ({
       ...player,
-      totalScore: roundMemes
+      totalScore: memes
         .filter((meme) => meme.playerId === player.playerId)
         .reduce((sum: number, meme) => sum + meme.score, 0)
     })).sort((a, b) => b.totalScore - a.totalScore) : [];
@@ -101,7 +110,7 @@ export function ResultsScreen({ game, playerId, isFinal = false }: ResultsScreen
         {/* Meme Results */}
         <div className="bg-white rounded-b-2xl p-6">
           <h3 className="text-xl font-bold text-gray-800 mb-6">
-            {isFinal ? "All Memes This Round" : "Round Results"}
+            {isFinal ? "All Memes" : "Round Results"}
           </h3>
           <div className="grid gap-6 md:grid-cols-2">
             {sortedMemes.map((meme, index: number) => (

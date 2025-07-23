@@ -15,13 +15,13 @@ export function VotingScreen({ game, playerId }: VotingScreenProps) {
   const [clientTimeLeft, setClientTimeLeft] = useState<number>(0);
 
   const submitVote = useMutation(api.voting.submitVote);
-  
+
   // Use server-controlled meme progression
   const currentMeme = game.currentVotingMeme;
   const allMemes = game.currentRoundMemes || [];
   const currentMemeIndex = game.votingMemeIndex || 0;
 
-  const hasVoted = useQuery(api.voting.hasVoted, 
+  const hasVoted = useQuery(api.voting.hasVoted,
     currentMeme ? {
       voterId: playerId,
       memeId: currentMeme._id,
@@ -130,34 +130,30 @@ export function VotingScreen({ game, playerId }: VotingScreenProps) {
             </div>
           ) : (
             <div className="grid grid-cols-3 gap-3">
-                            <button
-                onClick={() => handleVote(-1)}
-                disabled={hasVotedOnCurrent || clientTimeLeft === 0}
-                className="flex flex-col items-center justify-center p-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <span className="text-2xl mb-1">👎</span>
-                <span className="text-sm font-semibold">Downvote</span>
-                <span className="text-xs opacity-80">-1 point</span>
-              </button>
-              
-              <button
-                onClick={() => handleVote(0)}
-                disabled={hasVotedOnCurrent || clientTimeLeft === 0}
-                className="flex flex-col items-center justify-center p-4 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <span className="text-2xl mb-1">😐</span>
-                <span className="text-sm font-semibold">Skip</span>
-                <span className="text-xs opacity-80">0 points</span>
-              </button>
-              
               <button
                 onClick={() => handleVote(1)}
                 disabled={hasVotedOnCurrent || clientTimeLeft === 0}
                 className="flex flex-col items-center justify-center p-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span className="text-2xl mb-1">👍</span>
                 <span className="text-sm font-semibold">Upvote</span>
                 <span className="text-xs opacity-80">+1 point</span>
+              </button>
+              <button
+                onClick={() => handleVote(0)}
+                disabled={hasVotedOnCurrent || clientTimeLeft === 0}
+                className="flex flex-col items-center justify-center p-4 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span className="text-sm font-semibold">Skip</span>
+                <span className="text-xs opacity-80">0 points</span>
+              </button>
+
+              <button
+                onClick={() => handleVote(-1)}
+                disabled={hasVotedOnCurrent || clientTimeLeft === 0}
+                className="flex flex-col items-center justify-center p-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span className="text-sm font-semibold">Downvote</span>
+                <span className="text-xs opacity-80">-1 point</span>
               </button>
             </div>
           )}
@@ -176,7 +172,7 @@ export function VotingScreen({ game, playerId }: VotingScreenProps) {
             <span>{currentMemeIndex + 1} / {allMemes.length}</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
+            <div
               className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
               style={{ width: `${((currentMemeIndex + 1) / allMemes.length) * 100}%` }}
             ></div>

@@ -242,3 +242,27 @@ export const getRoundMemes = query({
     return enrichedMemes.sort(() => Math.random() - 0.5);
   },
 });
+
+export const getAllGameMemes = query({
+  args: {
+    gameId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Since there's no direct by_game_id index, we can use by_game_and_round and just collect all memes
+    const memes = await ctx.db
+      .query("memes")
+      .withIndex("by_game_and_round", (q) => q.eq("gameId", args.gameId))
+      .collect();
+
+    // enrich memes with template data
+    const enrichedMemes = memes.map((meme) => {
+      const template = getMemeTemplate(meme.templateName);
+      return {
+        ...meme,
+        template: template,
+      };
+    });
+
+    return enrichedMemes;
+  },
+});
