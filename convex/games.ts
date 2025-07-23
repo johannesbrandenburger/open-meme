@@ -53,7 +53,7 @@ export const createGame = mutation({
   returns: v.object({ gameId: v.string() }),
   handler: async (ctx, args) => {
     const gameId = generateGameId();
-    
+
     // Create the game
     await ctx.db.insert("games", {
       gameId,
@@ -73,6 +73,12 @@ export const createGame = mutation({
       isHost: true,
       joinedAt: Date.now(),
     });
+
+    // Generate initial templates for the host
+    const playerTemplates = generateTemplates(gameId, args.hostId);
+    for (const template of playerTemplates) {
+      await ctx.db.insert("gameTemplates", template);
+    }
 
     return { gameId };
   },
@@ -122,6 +128,10 @@ export const joinGame = mutation({
       throw new Error("Cannot join - game has already started");
     }
 
+    // Create the player templates
+    // templatesJson is a big array from which we select 5 random templates
+    const playerTemplates = generateTemplates(args.gameId, args.playerId);
+
     // Add new player to game
     await ctx.db.insert("players", {
       gameId: args.gameId,
@@ -131,6 +141,11 @@ export const joinGame = mutation({
       isHost: false,
       joinedAt: Date.now(),
     });
+
+    // Add player templates
+    for (const template of playerTemplates) {
+      await ctx.db.insert("gameTemplates", template);
+    }
 
     return { success: true };
   },
@@ -170,7 +185,7 @@ export const reconnectToGame = mutation({
     gameId: v.string(),
     playerId: v.string(),
   },
-  returns: v.object({ 
+  returns: v.object({
     success: v.boolean(),
     alreadyInGame: v.boolean(),
     gameStatus: v.optional(v.string()),
@@ -194,17 +209,17 @@ export const reconnectToGame = mutation({
       .first();
 
     if (existingPlayer) {
-      return { 
-        success: true, 
-        alreadyInGame: true, 
-        gameStatus: game.status 
+      return {
+        success: true,
+        alreadyInGame: true,
+        gameStatus: game.status
       };
     }
 
-    return { 
-      success: true, 
-      alreadyInGame: false, 
-      gameStatus: game.status 
+    return {
+      success: true,
+      alreadyInGame: false,
+      gameStatus: game.status
     };
   },
 });
@@ -228,7 +243,7 @@ const RESULTS_TIME = 10 * 1000; // 10 seconds to view results
 export const getGameState = query({
   args: {
     gameId: v.string(),
-    playerId: v.optional(v.string())
+    playerId: v.string()
   },
   returns: v.union(
     v.object({
@@ -260,6 +275,26 @@ export const getGameState = query({
         totalScore: v.number(),
         isHost: v.boolean(),
         joinedAt: v.number(),
+      })),
+      // new: playerTemplates: example: { playerId: [{ name: string, imgUrl: string, text: Array<{ style: string, color: string, font: string, anchor_x: number, anchor_y: number, angle: number, scale_x: number, scale_y: number, align: string, start: number, stop: number }> }] }
+      playerTemplates: v.array(v.object({
+        name: v.string(),
+        imgUrl: v.string(),
+        source: v.union(v.string(), v.null()),
+        text: v.array(v.object({
+          style: v.string(),
+          color: v.string(),
+          font: v.string(),
+          anchor_x: v.number(),
+          anchor_y: v.number(),
+          angle: v.number(),
+          scale_x: v.number(),
+          scale_y: v.number(),
+          align: v.string(),
+          start: v.number(),
+          stop: v.number(),
+        })),
+        example: v.array(v.string()),
       })),
       currentPlayer: v.optional(v.object({
         _id: v.id("players"),
@@ -363,6 +398,19 @@ export const getGameState = query({
     let currentRoundMemes: MemeWithTemplate[] = [];
     let currentVotingMeme: MemeWithTemplate | undefined = undefined;
 
+    // Get the templates for the current game and the player
+    const playerTemplates = (await ctx.db
+      .query("gameTemplates")
+      .withIndex("by_game_player", (q) => q.eq("gameId", args.gameId).eq("playerId", args.playerId))
+      .collect())
+      .map((template) => ({
+        name: template.name,
+        imgUrl: template.imgUrl,
+        source: template.source,
+        text: template.text,
+        example: template.example,
+      }));
+
     if (game.status === "voting" || game.status === "results") {
       const memes = await ctx.db
         .query("memes")
@@ -395,6 +443,7 @@ export const getGameState = query({
       currentPlayer,
       currentRoundMemes,
       currentVotingMeme,
+      playerTemplates: playerTemplates
     };
   },
 });
@@ -654,3 +703,17 @@ export const forceProgressGame = mutation({
     return { success: true };
   },
 });
+
+function generateTemplates(gameId: string, playerId: string) {
+  const shuffledTemplates = templatesJson.sort(() => 0.5 - Math.random()).slice(0, 5);
+  const playerTemplates = shuffledTemplates.slice(0, 5).map((template) => ({
+    gameId: gameId,
+    playerId: playerId,
+    name: template.name,
+    imgUrl: template.imgUrl,
+    source: template.source,
+    text: template.text,
+    example: template.example,
+  }));
+  return playerTemplates;
+}

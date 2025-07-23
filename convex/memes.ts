@@ -1,22 +1,6 @@
 import { v } from "convex/values";
-import { query, mutation } from "./_generated/server";
+import { query, mutation, action } from "./_generated/server";
 import templatesJson from "./templates.json";
-
-export const getRandomMemeTemplate = query({
-  args: { excludeTemplates: v.optional(v.array(v.string())) },
-  handler: async (ctx, args) => {
-    const exclude = args.excludeTemplates || [];
-    const availableTemplates = templatesJson;
-    const filteredTemplates = availableTemplates.filter(
-      (template) => !exclude.includes(template.name)
-    );
-    if (filteredTemplates.length === 0) {
-      return null;
-    }
-    const randomIndex = Math.floor(Math.random() * filteredTemplates.length);
-    return filteredTemplates[randomIndex];
-  },
-});
 
 export const getMemeTemplate = (templateName: string) => {
   const template = templatesJson.find(

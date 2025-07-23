@@ -14,15 +14,13 @@ interface MemeCreationScreenProps {
 export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) {
   const [texts, setTexts] = useState<string[]>([]);
   const [shufflesLeft, setShufflesLeft] = useState(5);
-  const [usedTemplates, setUsedTemplates] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [clientTimeLeft, setClientTimeLeft] = useState<number>(0);
   
   // Get a random meme template
-  const template = useQuery(api.memes.getRandomMemeTemplate, { 
-    excludeTemplates: usedTemplates
-  });
-  
+  const [template, setTemplate] = useState(game.playerTemplates[0] || null);
+  const [templateIndex, setTemplateIndex] = useState(0);
+
   // Check if player already has a meme for this round
   const existingMeme = useQuery(api.memes.getPlayerMeme, {
     gameId: game.gameId,
@@ -42,8 +40,7 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
 
   // Reset state when round changes
   useEffect(() => {
-    setShufflesLeft(3);
-    setUsedTemplates([]);
+    setShufflesLeft(5);
     setTexts([]);
   }, [game.currentRound]);
 
@@ -89,7 +86,11 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
   const handleShuffle = () => {
     if (shufflesLeft > 0 && template) {
       setShufflesLeft(prev => prev - 1);
-      setUsedTemplates(prev => [...prev, template.name]);
+      const nextIndex = (templateIndex + 1) % game.playerTemplates.length;
+      setTemplate(prev => {
+        return game.playerTemplates[nextIndex];
+      });
+      setTemplateIndex(nextIndex);
       setTexts([]); // Clear texts when shuffling
     }
   };

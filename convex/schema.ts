@@ -88,6 +88,29 @@ const applicationTables = {
     createdAt: v.number(),
   }).index("by_game_round", ["gameId", "round"])
     .index("by_voter_meme", ["voterId", "memeId"]),
+
+  gameTemplates: defineTable({
+    gameId: v.string(),
+    playerId: v.string(),
+    name: v.string(),
+    imgUrl: v.string(),
+    source: v.union(v.string(), v.null()),
+    text: v.array(v.object({
+      style: v.string(),
+      color: v.string(),
+      font: v.string(),
+      anchor_x: v.number(),
+      anchor_y: v.number(),
+      angle: v.number(),
+      scale_x: v.number(),
+      scale_y: v.number(),
+      align: v.string(),
+      start: v.number(),
+      stop: v.number(),
+    })),
+    example: v.array(v.string()),
+  }).index("by_game_player", ["gameId", "playerId"])
+    .index("by_game_template", ["gameId", "name"]),
 };
 
 export default defineSchema({
