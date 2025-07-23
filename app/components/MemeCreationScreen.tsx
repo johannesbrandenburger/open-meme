@@ -1,10 +1,46 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useQuery, useMutation, useAction } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
-import { Doc } from "../../convex/_generated/dataModel";
-import { FunctionReturnType } from "convex/server"; // Import this utility
+import { FunctionReference, FunctionReturnType } from "convex/server";
 import { toast } from "sonner";
+
+/**
+ * A custom hook to debounce a Convex mutation. This encapsulates the
+ * timeout logic, making the component that uses it cleaner.
+ * @param mutation The Convex mutation function to debounce.
+ * @param delay The debounce delay in milliseconds.
+ */
+function useDebouncedMutation<T extends FunctionReference<"mutation">>(mutation: T, delay: number) {
+  const mutationFn = useMutation(mutation);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const debouncedMutation = useCallback(
+    (args: any) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = setTimeout(() => {
+        // Autosave is a background task; we'll log errors but not show UI.
+        mutationFn(args).catch(error => {
+          console.error("Autosave failed:", error);
+        });
+      }, delay);
+    },
+    [mutationFn, delay]
+  );
+
+  // Cleanup the timeout when the component unmounts
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  return debouncedMutation;
+}
 
 interface MemeCreationScreenProps {
   game: NonNullable<FunctionReturnType<typeof api.games.getGameState>>;
@@ -12,173 +48,162 @@ interface MemeCreationScreenProps {
 }
 
 export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) {
+  // --- State Management ---
+
   const [shufflesLeft, setShufflesLeft] = useState(5);
-  const [isSaving, setIsSaving] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [clientTimeLeft, setClientTimeLeft] = useState<number>(0);
-  const autosaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
-  // Get a random meme template
-  const [template, setTemplate] = useState<typeof game.playerTemplates[0] | null>(null);
+  const [clientTimeLeft, setClientTimeLeft] = useState(game.timeLeft);
+
+  // Core state for the meme being created. `null` indicates it's not yet initialized.
+  const [template, setTemplate] =
+    useState<typeof game.playerTemplates[0] | null>(null);
+  const [texts, setTexts] = useState<string[] | null>(null);
   const [templateIndex, setTemplateIndex] = useState(0);
-  const [texts, setTexts] = useState<string[]>([]);
-  const [lastInputTime, setLastInputTime] = useState<number>(Date.now());
 
-  // Initialize template and texts when game.playerTemplates is available
-  useEffect(() => {
-    if (game.playerTemplates && game.playerTemplates.length > 0 && !template) {
-      const initialTemplate = game.playerTemplates[0];
-      setTemplate(initialTemplate);
-      setTexts(initialTemplate.example || new Array(initialTemplate.text.length).fill(""));
-    }
-  }, [game.playerTemplates, template]);
+  // Ref to prevent re-initializing state from the server within the same round.
+  // This is the key to preventing user input from being overwritten.
+  const hasInitialized = useRef(false);
 
-  // Check if player already has a meme for this round
+  // --- Convex Hooks ---
+
   const existingMeme = useQuery(api.memes.getPlayerMeme, {
     gameId: game.gameId,
     playerId,
     round: game.currentRound,
   });
-  
-  // Mutation to save the meme (autosave)
+
   const saveMeme = useMutation(api.memes.saveMeme);
-  
-  // Mutation to submit the meme
   const submitMeme = useMutation(api.memes.submitMeme);
+  const debouncedSaveMeme = useDebouncedMutation(api.memes.saveMeme, 500);
 
-  // Initialize texts array when template changes
-  useEffect(() => {
-    if (template && template.text) {
-      setTexts(template.example || new Array(template.text.length).fill(""));
-    }
-  }, [template]);
+  // --- Effects ---
 
-  // Reset state when round changes
+  // Effect 1: Reset component state when the game round changes.
   useEffect(() => {
+    hasInitialized.current = false;
     setShufflesLeft(5);
-    setTexts([]);
-  }, [game.currentRound]);
+    setTexts(null); // Clear texts to show a loading state
+    setTemplate(null); // Clear template
+    setClientTimeLeft(game.timeLeft); // Re-sync timer with the server
+  }, [game.currentRound, game.timeLeft]);
 
-  // Update client timer when server timer changes
+  // Effect 2: Initialize component state from server data.
+  // Runs once per round after data is loaded. It loads a saved meme or
+  // sets up a new one without overwriting active user input later.
   useEffect(() => {
-    setClientTimeLeft(game.timeLeft);
-  }, [game.timeLeft]);
+    const templates = game.playerTemplates;
+    if (
+      hasInitialized.current ||
+      !templates ||
+      templates.length === 0 ||
+      existingMeme === undefined
+    ) {
+      return;
+    }
 
-  // Client-side countdown timer
+    let initialTemplate: typeof templates[0];
+    let initialTexts: string[];
+    let initialTemplateIndex = 0;
+
+    if (existingMeme) {
+      // Player has a saved meme for this round; load it.
+      const savedIdx = templates.findIndex(
+        t => t.name === existingMeme.templateName
+      );
+      if (savedIdx !== -1) {
+        initialTemplateIndex = savedIdx;
+        initialTemplate = templates[savedIdx];
+      } else {
+        initialTemplate = templates[0]; // Fallback
+      }
+      initialTexts = existingMeme.texts;
+    } else {
+      // No saved meme; start with the first template.
+      initialTemplate = templates[0];
+      initialTexts =
+        initialTemplate.example ||
+        new Array(initialTemplate.text.length).fill("");
+    }
+
+    setTemplate(initialTemplate);
+    setTemplateIndex(initialTemplateIndex);
+    setTexts(initialTexts);
+    hasInitialized.current = true; // Mark as initialized for this round
+  }, [game.playerTemplates, existingMeme, game.currentRound]);
+
+  // Effect 3: Client-side countdown timer for UI responsiveness.
   useEffect(() => {
-    // Only start timer if we have time left
     if (clientTimeLeft <= 0) return;
-
     const timer = setInterval(() => {
-      setClientTimeLeft(prev => {
-        const newTime = Math.max(0, prev - 1);
-        return newTime;
-      });
+      setClientTimeLeft(prev => Math.max(0, prev - 1));
     }, 1000);
-
     return () => clearInterval(timer);
-  }, [clientTimeLeft > 0]); // Restart timer when we transition from 0 to >0 time
+  }, [clientTimeLeft]);
 
-  // Update lastInputTime on text change
+  // Effect 4: Autosave user progress on text change.
+  useEffect(() => {
+    if (
+      !hasInitialized.current ||
+      !template ||
+      !texts ||
+      existingMeme?.submitted ||
+      texts.every(t => !t.trim())
+    ) {
+      return;
+    }
+
+    debouncedSaveMeme({
+      gameId: game.gameId,
+      playerId,
+      templateName: template.name,
+      texts,
+    });
+  }, [texts, template, game.gameId, playerId, debouncedSaveMeme, existingMeme]);
+
+  // --- Event Handlers ---
+
   const handleTextChange = (index: number, value: string) => {
-    // Don't allow changes if meme is submitted
-    if (existingMeme?.submitted) return;
-    setLastInputTime(Date.now());
+    if (!texts || existingMeme?.submitted) return;
     const newTexts = [...texts];
     newTexts[index] = value;
     setTexts(newTexts);
   };
 
-  // Load existing meme if player has one, but only if user hasn't typed recently
-  useEffect(() => {
-    if (existingMeme) {
-      const now = Date.now();
-      // Only update texts if user hasn't typed in the last 1 second
-      if (now - lastInputTime > 1000) {
-        setTexts(existingMeme.texts);
-      }
+  const handleShuffle = useCallback(() => {
+    if (
+      shufflesLeft <= 0 ||
+      existingMeme?.submitted ||
+      !game.playerTemplates
+    ) {
+      return;
     }
-  }, [existingMeme, lastInputTime]);
 
-  // Autosave function
-  const autoSave = useCallback(async () => {
-    if (!template || texts.every(t => !t.trim())) return;
-    
-    try {
-      await saveMeme({
-        gameId: game.gameId,
-        playerId,
-        templateName: template.name,
-        texts,
-      });
-    } catch (error) {
-      console.error("Autosave failed:", error);
-    }
-  }, [template, game.gameId, playerId, texts, saveMeme]);
+    setShufflesLeft(prev => prev - 1);
+    const nextIndex = (templateIndex + 1) % game.playerTemplates.length;
+    const nextTemplate = game.playerTemplates[nextIndex];
 
-  // Auto-save with debouncing when texts change
-  useEffect(() => {
-    // Don't autosave if meme is already submitted
-    if (existingMeme?.submitted) return;
-    
-    // Clear existing timeout
-    if (autosaveTimeoutRef.current) {
-      clearTimeout(autosaveTimeoutRef.current);
-    }
-    
-    // Set new timeout for autosave (500ms debounce)
-    autosaveTimeoutRef.current = setTimeout(() => {
-      autoSave();
-    }, 500);
-    
-    // Cleanup timeout on unmount
-    return () => {
-      if (autosaveTimeoutRef.current) {
-        clearTimeout(autosaveTimeoutRef.current);
-      }
-    };
-  }, [texts, autoSave, existingMeme?.submitted]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const handleShuffle = () => {
-    // Don't allow shuffle if meme is submitted
-    if (existingMeme?.submitted) return;
-    
-    if (shufflesLeft > 0 && game.playerTemplates && game.playerTemplates.length > 0) {
-      setShufflesLeft(prev => prev - 1);
-      const nextIndex = (templateIndex + 1) % game.playerTemplates.length;
-      const nextTemplate = game.playerTemplates[nextIndex];
-      setTemplate(nextTemplate);
-      setTemplateIndex(nextIndex);
-      setTexts(new Array(nextTemplate.text.length).fill("")); // Initialize with correct length
-    }
-  };
+    setTemplateIndex(nextIndex);
+    setTemplate(nextTemplate);
+    setTexts(
+      nextTemplate.example || new Array(nextTemplate.text.length).fill("")
+    );
+  }, [shufflesLeft, templateIndex, game.playerTemplates, existingMeme]);
 
   const handleSubmitMeme = useCallback(async () => {
-    if (!template || existingMeme?.submitted) return;
-    
+    if (!template || !texts || existingMeme?.submitted) return;
+
     setIsSubmitting(true);
-    
     try {
-      // First, save the current state
+      // Explicitly save final state before submitting to prevent race conditions.
       await saveMeme({
         gameId: game.gameId,
         playerId,
         templateName: template.name,
         texts,
       });
-      
-      // Then submit the meme
-      await submitMeme({
-        gameId: game.gameId,
-        playerId,
-      });
-      
+
+      await submitMeme({ gameId: game.gameId, playerId });
+
       toast.success("Meme submitted successfully!");
     } catch (error) {
       console.error("Failed to submit meme:", error);
@@ -186,16 +211,18 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
     } finally {
       setIsSubmitting(false);
     }
-  }, [template, game.gameId, playerId, texts, saveMeme, submitMeme, existingMeme?.submitted]);
+  }, [template, texts, game.gameId, playerId, saveMeme, submitMeme, existingMeme]);
 
-  // Auto-save when time runs out (use client timer for responsiveness)
-  useEffect(() => {
-    if (clientTimeLeft === 0 && game.status === "creating" && texts.some(t => t.trim()) && !existingMeme?.submitted) {
-      autoSave();
-    }
-  }, [clientTimeLeft, game.status, texts, autoSave, existingMeme?.submitted]);
+  // --- Render Logic ---
 
-  if (!template || !game.playerTemplates || game.playerTemplates.length === 0) {
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  // Show a loading state until the component is initialized.
+  if (!template || !texts) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-xl">Loading meme template...</div>
@@ -203,20 +230,35 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
     );
   }
 
+  const isTimeUp = clientTimeLeft === 0;
+  const isSubmitted = existingMeme?.submitted === true;
+  const canInteract = !isTimeUp && !isSubmitted;
+
   return (
     <div className="min-h-screen p-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="bg-white rounded-t-2xl p-4 flex justify-between items-center">
           <div>
-            <h2 className="text-xl font-bold text-gray-800">Create Your Meme</h2>
-            <p className="text-sm text-gray-600">Round {game.currentRound} of {game.totalRounds}</p>
+            <h2 className="text-xl font-bold text-gray-800">
+              Create Your Meme
+            </h2>
+            <p className="text-sm text-gray-600">
+              Round {game.currentRound} of {game.totalRounds}
+            </p>
           </div>
           <div className="text-right">
-            <div className={`text-2xl font-bold ${clientTimeLeft <= 10 ? 'text-red-500' : 'text-green-500'}`}>
+            <div
+              className={`text-2xl font-bold ${isTimeUp || clientTimeLeft <= 10
+                  ? "text-red-500"
+                  : "text-green-500"
+                }`}
+            >
               {formatTime(clientTimeLeft)}
             </div>
-            <div className="text-sm text-gray-600">Shuffles: {shufflesLeft}</div>
+            <div className="text-sm text-gray-600">
+              Shuffles: {shufflesLeft}
+            </div>
           </div>
         </div>
 
@@ -232,49 +274,54 @@ export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) 
               key={index}
               type="text"
               value={text}
-              onChange={(e) => handleTextChange(index, e.target.value)}
+              onChange={e => handleTextChange(index, e.target.value)}
               onFocus={e => e.target.select()}
               placeholder={`Text ${index + 1}`}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none disabled:bg-gray-100"
-              disabled={clientTimeLeft === 0 || existingMeme?.submitted}
+              disabled={!canInteract}
             />
           ))}
         </div>
 
         {/* Actions */}
         <div className="bg-white rounded-b-2xl p-4 space-y-3">
-          
           <button
             onClick={handleShuffle}
-            disabled={shufflesLeft === 0 || clientTimeLeft === 0 || existingMeme?.submitted}
+            disabled={!canInteract || shufflesLeft === 0}
             className="w-full bg-yellow-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-yellow-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             🎲 Shuffle Template ({shufflesLeft} left)
           </button>
-          
-          {!existingMeme?.submitted ? (
+
+          {!isSubmitted ? (
             <button
               onClick={handleSubmitMeme}
-              disabled={isSubmitting || clientTimeLeft === 0 || texts.every(t => !t.trim())}
+              disabled={
+                !canInteract || isSubmitting || texts.every(t => !t.trim())
+              }
               className="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-green-600 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? "� Submitting..." : "� Submit Meme"}
+              {isSubmitting ? "Submitting..." : "Submit Meme"}
             </button>
           ) : (
             <div className="w-full bg-green-100 text-green-700 font-semibold py-3 px-6 rounded-lg text-center">
-              ✅ Meme Submitted! Waiting for other players...
+              Meme Submitted! Waiting for other players...
             </div>
           )}
 
-          {clientTimeLeft === 0 && !existingMeme?.submitted && (
+          {isTimeUp && !isSubmitted && (
             <div className="text-center p-4 bg-yellow-100 rounded-lg">
-              <p className="text-yellow-700 font-semibold">Time's up! Your meme was auto-saved. Waiting for other players...</p>
+              <p className="text-yellow-700 font-semibold">
+                Time's up! Your meme was auto-saved.
+              </p>
             </div>
           )}
-          
-          {clientTimeLeft > 0 && !existingMeme?.submitted && (
+
+          {canInteract && (
             <div className="text-center p-2 bg-blue-50 rounded-lg">
-              <p className="text-blue-600 text-sm">💾 Auto-saving as you type...</p>
+              <p className="text-blue-600 text-sm">
+                💾 Auto-saving as you type...
+              </p>
             </div>
           )}
         </div>
