@@ -11,7 +11,7 @@ interface MemeCreationScreenProps {
 
 export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) {
   const [texts, setTexts] = useState<string[]>([]);
-  const [shufflesLeft, setShufflesLeft] = useState(3);
+  const [shufflesLeft, setShufflesLeft] = useState(5);
   const [usedTemplates, setUsedTemplates] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string>("");
