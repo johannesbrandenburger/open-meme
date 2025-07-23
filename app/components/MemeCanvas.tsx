@@ -150,7 +150,7 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
     if (!ctx) return;
 
     // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Load and draw the meme template
     const img = new Image();
