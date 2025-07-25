@@ -57,8 +57,7 @@ const applicationTables = {
 
     isSubmitted: v.boolean(),
     createdAt: v.number(),
-  }).index("by_game_and_round", ["gameId", "round"])
-    .index("by_game_player_round", ["gameId", "playerId", "round"]),
+  }).index("by_game_player_round", ["gameId", "playerId", "round"]),
 
   votes: defineTable({
     userId: v.id("users"),
