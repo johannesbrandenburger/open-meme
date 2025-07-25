@@ -9,3 +9,5 @@ crons.interval(
   { seconds: 1 }, // every minute
   internal.games.tickGames,
 );
+
+export default crons;

@@ -29,6 +29,30 @@ export const getMeme = query({
   }
 });
 
+export const getOwnMeme = query({
+  args: {
+    gameId: v.id("games")
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("User not authenticated");
+    const { gameId } = args;
+    const game = await ctx.db.get(gameId);
+    if (!game) throw new Error("Game not found");
+    const meme = await ctx.db.query("memes")
+      .withIndex("by_game_player_round", (q) => q
+        .eq("gameId", gameId)
+        .eq("playerId", userId)
+        .eq("round", game.currentRound))
+      .first();
+
+    if (!meme) {
+      throw new Error("Meme not found");
+    }
+    return meme;
+  }
+});
+
 export const nextShuffle = mutation({
   args: {
     memeId: v.id("memes"),
