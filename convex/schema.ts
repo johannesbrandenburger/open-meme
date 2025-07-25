@@ -34,13 +34,16 @@ const applicationTables = {
       v.literal("ended")
     ),
 
+    timeLeft: v.number(),
+
     currentRound: v.number(),
     totalRounds: v.number(),
     votingMemeNo: v.number(),
-    votingMemeId: v.id("memes"), // TODO: maybe store order of memes for voting
+    votingMemeId: v.optional(v.id("memes")), // TODO: maybe store order of memes for voting
     players: v.array(v.id("users")),
 
-    startedAt: v.number(),
+    createdAt: v.number(),
+    startedAt: v.optional(v.number()),
   }).index("by_status", ["status"]),
 
   memes: defineTable({

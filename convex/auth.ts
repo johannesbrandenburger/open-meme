@@ -3,6 +3,7 @@ import { Password } from "@convex-dev/auth/providers/Password";
 import { Anonymous } from "@convex-dev/auth/providers/Anonymous";
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { GenericQueryCtx } from "convex/server";
 
 export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
   providers: [Anonymous],
