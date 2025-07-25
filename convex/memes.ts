@@ -1,7 +1,7 @@
 import { v } from "convex/values";
 import { query, mutation, action } from "./_generated/server";
 import templatesJson from "./templates.json";
-import { CREATION_TIME } from "./games";
+import { CREATION_TIME, VOTE_TIME } from "./games";
 import { internal } from "./_generated/api";
 import { getAuthUserId } from "@convex-dev/auth/server";
 
@@ -78,6 +78,27 @@ export const submitMeme = mutation({
       isSubmitted: true,
       createdAt: Date.now(),
     });
+
+
+    // if now every player has submitted their meme, we can start the voting
+    const game = await ctx.db.get(meme.gameId);
+    if (!game) {
+      throw new Error("Game not found");
+    }
+    const memesOfCurrentRound = await ctx.db.query("memes")
+      .withIndex("by_game_round", (q) => q
+        .eq("gameId", game._id)
+        .eq("round", game.currentRound))
+      .collect();
+    const allSubmitted = memesOfCurrentRound.every(m => m.isSubmitted);
+    if (allSubmitted) {
+      await ctx.db.patch(game._id, {
+        status: "voting",
+        timeLeft: VOTE_TIME,
+        votingMemeNo: 1,
+        votingMemeId: memesOfCurrentRound[0]?._id, // Start with the first meme
+      });
+    }
   }
 });
 
