@@ -2,39 +2,47 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Toaster } from "sonner";
-import { HomePage } from "./components/HomePage";
+import { toast } from "sonner";
+import { useConvexAuth, useMutation } from "convex/react";
+import { SignIn } from "./components/SignIn";
+import { api } from "@/convex/_generated/api";
 
 export default function App() {
   const router = useRouter();
-  const [playerId, setPlayerId] = useState<string>("");
+  const { isLoading, isAuthenticated } = useConvexAuth();
 
-  // Generate or retrieve player ID from localStorage
-  useEffect(() => {
-    let id = localStorage.getItem("openmeme-player-id");
-    if (!id) {
-      id = Math.random().toString(36).substring(2, 15);
-      localStorage.setItem("openmeme-player-id", id);
-    }
-    setPlayerId(id);
-  }, []);
+  const createGame = useMutation(api.games.createGame);
 
   const navigateToGame = (newGameId: string) => {
     router.push(`/game/${newGameId}`);
   };
 
-  if (!playerId) {
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
-      </div>
+      <SignIn/>
     );
   }
 
+  const handleCreateGame = async () => {
+    toast("Creating new game...", { icon: "⏳" });
+    const newGameId = await createGame();
+    if (!newGameId) {
+      toast.error("Failed to create game");
+      return;
+    }
+    navigateToGame(newGameId);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
-      <HomePage playerId={playerId} onNavigateToGame={navigateToGame} />
-      <Toaster />
+    <div>
+      <h1>Welcome to Open Meme</h1>
+      <button onClick={handleCreateGame}>Create New Game</button>
     </div>
   );
+
+
 }

@@ -1,46 +1,48 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useAuthActions } from "@convex-dev/auth/react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { toast } from "sonner";
 
 export function SignIn() {
     const createUser = useMutation(api.auth.createUser);
-    const [name, setName] = useState("");
-
-    const handleSignIn = async () => {
-        if (!name.trim()) {
-            toast.error("Please enter a name");
-            return;
-        }
-
-        try {
-            await createUser({ name: name.trim() });
-            toast.success("Signed in successfully!");
-            // Redirect or perform any other action after successful sign-in
-        } catch (error: any) {
-            toast.error(error.message || "Failed to sign in");
-        }
-    };
+    const { signIn } = useAuthActions();
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
-                <h1 className="text-3xl font-bold text-gray-800 mb-6">Sign In</h1>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter your name"
-                    className="w-full p-3 border border-gray-300 rounded-lg mb-4"
-                />
-                <button
-                    onClick={handleSignIn}
-                    className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
+        <div>
+            <div>
+                <form
+                    className="flex flex-col gap-2"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        const formData = new FormData(e.target as HTMLFormElement);
+                        void signIn("anonymous")
+                            .catch((error) => {
+                                toast.error(`Sign in failed: ${error.message}`);
+                                throw error;
+                            })
+                            .then(() => {
+                                createUser({
+                                    name: formData.get("name") as string,
+                                })
+                            });
+                    }}
                 >
-                    Sign In
-                </button>
+                    <input
+                        className="bg-background text-foreground rounded-md p-2 border-2 border-slate-200 dark:border-slate-800"
+                        type="text"
+                        name="name"
+                        placeholder="Nickname"
+                    />
+                    <button
+                        className="bg-foreground text-background rounded-md"
+                        type="submit"
+                    >
+                        Sign in
+                    </button>
+                </form>
+
             </div>
         </div>
     );

@@ -29,7 +29,7 @@ export const createGame = mutation({
     }
 
     // Create a new game
-    const game = await ctx.db.insert("games", {
+    const gameId = await ctx.db.insert("games", {
       hostId: userId,
       status: "waiting",
       timeLeft: 0,
@@ -39,6 +39,8 @@ export const createGame = mutation({
       players: [userId],
       createdAt: Date.now(),
     });
+
+    return gameId;
   }
 });
 
