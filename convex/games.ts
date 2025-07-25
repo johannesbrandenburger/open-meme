@@ -17,7 +17,7 @@ export const MEMES_PER_ROUND = 5; // Number of memes per round the user can choo
 export const createGame = mutation({
   args: {},
   handler: async (ctx, args) => {
-    
+
     // Get the authenticated user
     const userId = await getAuthUserId(ctx);
     if (!userId) {
@@ -119,7 +119,7 @@ export const startGame = mutation({
             };
             await ctx.db.insert("memes", meme);
           }
-        ));
+          ));
       })
     );
 
@@ -134,4 +134,90 @@ export const startGame = mutation({
     // right now this is done with a cron job, (https://docs.convex.dev/scheduling/cron-jobs)
     // but could be moved to a Scheduled Functions approach later (https://docs.convex.dev/scheduling/scheduled-functions)
   }
+
 });
+
+
+export const tickGames = internalMutation({
+  handler: async (ctx) => {
+
+    // We can query all games since inactive games will be deleted
+    const games = await ctx.db.query("games").collect();
+    
+    await Promise.all(games.map(async (game) => {
+      const memesOfCurrentRound = await ctx.db.query("memes")
+        .withIndex("by_game_round", (q) => q
+          .eq("gameId", game._id)
+          .eq("round", game.currentRound))
+        .collect(); // TODO: check if the order has to be specified (because we index it later)
+
+      if (game.status === "waiting") return; // Skip waiting games
+
+      // Check if the game has time left
+      if (game.timeLeft <= 0) {
+        if (game.status === "creating") {
+          // Move to voting phase
+          await ctx.db.patch(game._id, {
+            status: "voting",
+            timeLeft: VOTE_TIME,
+            votingMemeNo: 1,
+            votingMemeId: memesOfCurrentRound[0]?._id, // Start with the first meme
+          });
+        }
+
+        else if (game.status === "voting") {
+
+          if (game.votingMemeNo < game.players.length) {
+            // Move to next meme voting phase
+            await ctx.db.patch(game._id, {
+              timeLeft: VOTE_TIME,
+              votingMemeNo: game.votingMemeNo + 1,
+              votingMemeId: memesOfCurrentRound[game.votingMemeNo]?._id, // Get the next meme
+            });
+          }
+
+          else {
+            // Move to round stats phase
+            await ctx.db.patch(game._id, {
+              status: "round_stats",
+              timeLeft: ROUND_STATS_TIME,
+            });
+          }
+
+        }
+        
+        else if (game.status === "round_stats") {
+        
+          if (game.currentRound < game.totalRounds) {
+            // Move to next round
+            await ctx.db.patch(game._id, {
+              status: "creating",
+              timeLeft: CREATION_TIME,
+              currentRound: game.currentRound + 1,
+            });
+          }
+          
+          else {
+            // Move to final stats phase
+            await ctx.db.patch(game._id, {
+              status: "final_stats",
+              timeLeft: FINAL_STATS_TIME,
+            });
+          }
+        }
+        
+        else if (game.status === "final_stats") {
+          // delete the game
+          await ctx.db.delete(game._id);
+        }
+
+      } else {
+
+        // Decrease time left
+        await ctx.db.patch(game._id, {
+          timeLeft: game.timeLeft - 1,
+        });
+      }
+    }));
+  }
+})
