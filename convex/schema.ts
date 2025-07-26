@@ -39,7 +39,7 @@ const applicationTables = {
     currentRound: v.number(),
     totalRounds: v.number(),
     votingMemeNo: v.number(),
-    votingMemeId: v.optional(v.id("memes")), // TODO: maybe store order of memes for voting
+    votingMemes: v.array(v.id("memes")),
     players: v.array(v.id("users")),
 
     createdAt: v.number(),

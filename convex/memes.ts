@@ -116,11 +116,13 @@ export const submitMeme = mutation({
       .collect();
     const allSubmitted = memesOfCurrentRound.every(m => m.isSubmitted);
     if (allSubmitted) {
+      const submittedMemes = memesOfCurrentRound.filter(meme => meme.isSubmitted);
+      const votingMemes = submittedMemes.sort(() => 0.5 - Math.random()).map(meme => meme._id);
       await ctx.db.patch(game._id, {
         status: "voting",
         timeLeft: VOTE_TIME,
         votingMemeNo: 1,
-        votingMemeId: memesOfCurrentRound[0]?._id, // Start with the first meme
+        votingMemes: votingMemes,
       });
     }
   }

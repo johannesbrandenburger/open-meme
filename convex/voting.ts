@@ -80,15 +80,9 @@ export const submitVote = mutation({
 
       if (game.votingMemeNo < game.players.length) {
         // Move to next meme voting phase
-        const memesOfCurrentRound = await ctx.db.query("memes")
-          .withIndex("by_game_round", (q) => q
-            .eq("gameId", game._id)
-            .eq("round", game.currentRound))
-          .collect();
         await ctx.db.patch(game._id, {
           timeLeft: VOTE_TIME,
           votingMemeNo: game.votingMemeNo + 1,
-          votingMemeId: memesOfCurrentRound[game.votingMemeNo]?._id, // Get the next meme
         });
       } else {
         // Move to round stats phase

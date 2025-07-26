@@ -37,6 +37,7 @@ export const createGame = mutation({
       currentRound: 0,
       totalRounds: ROUNDS,
       votingMemeNo: 0,
+      votingMemes: [],
       players: [userId],
       createdAt: Date.now(),
     });
@@ -174,11 +175,13 @@ export const tickOneGame = async (ctx: GenericMutationCtx<DataModel>, gameId: Id
   if (game.timeLeft <= 0) {
     if (game.status === "creating") {
       // Move to voting phase
+      const submittedMemes = memesOfCurrentRound.filter(meme => meme.isSubmitted);
+      const votingMemes = submittedMemes.sort(() => 0.5 - Math.random()).map(meme => meme._id);
       await ctx.db.patch(game._id, {
         status: "voting",
         timeLeft: VOTE_TIME,
         votingMemeNo: 1,
-        votingMemeId: memesOfCurrentRound[0]?._id, // Start with the first meme
+        votingMemes: votingMemes,
       });
     }
 
@@ -189,7 +192,6 @@ export const tickOneGame = async (ctx: GenericMutationCtx<DataModel>, gameId: Id
         await ctx.db.patch(game._id, {
           timeLeft: VOTE_TIME,
           votingMemeNo: game.votingMemeNo + 1,
-          votingMemeId: memesOfCurrentRound[game.votingMemeNo]?._id, // Get the next meme
         });
       }
 
@@ -271,10 +273,13 @@ export const getGameStateForPlayer = query({
     }
 
     // if is voting, provide the current meme for the user
-    let currentVotingMeme = null;
+    let currentVotingMeme = undefined;
     let isVotingOnOwnMeme = false;
-    if (game.status === "voting" && game.votingMemeId) {
-      currentVotingMeme = await ctx.db.get(game.votingMemeId);
+    if (game.status === "voting") {
+
+      // Get the current meme for voting
+      const currentVotingMemeId = game.votingMemes[game.votingMemeNo - 1];
+      currentVotingMeme = await ctx.db.get(currentVotingMemeId);
       if (!currentVotingMeme) {
         throw new Error("Voting meme not found");
       }
