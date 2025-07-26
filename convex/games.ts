@@ -60,15 +60,16 @@ export const joinGame = mutation({
     // Check if the game exists or has already started
     const game = await ctx.db.get(gameId);
     if (!game) {
-      throw new Error("Game not found");
-    }
-    if (game.status !== "waiting") {
-      throw new Error("Cannot join - game has already started");
+      return null; // Game not found
     }
 
     // Check if the player is already in the game
     if (game.players.includes(userId)) {
       return { success: true };
+    }
+
+    if (game.status !== "waiting") {
+      throw new Error("Cannot join - game has already started");
     }
 
     // Add player to the game

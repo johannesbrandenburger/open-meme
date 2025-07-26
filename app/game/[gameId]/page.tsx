@@ -4,61 +4,23 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { api } from "@/convex/_generated/api";
-import { useMutation, useQuery } from "convex/react";
+import { useConvexAuth, useMutation, useQuery } from "convex/react";
 import { Id } from "@/convex/_generated/dataModel";
 import { MemeCreationScreen } from "@/app/components/MemeCreationScreen";
 import { ROUNDS } from "@/convex/games";
 import { VotingScreen } from "@/app/components/VotingScreen";
+import { SignIn } from "@/app/components/SignIn";
+import Game from "@/app/components/Game";
 
 export default function GameRoute() {
-  const params = useParams();
-  const router = useRouter();
-  const gameId = params.gameId as Id<"games">;
-  const game = useQuery(api.games.getGameStateForPlayer, { gameId });
-  const startGame = useMutation(api.games.startGame);
-
-  if (!gameId) return <div>Error: Game ID is required</div>;
-  if (!game) return <div>Loading game...</div>;
-
-  return (<>
-    {/* <code>
-      {JSON.stringify(game, null, 2)}
-    </code> */}
-    {/* only for dev: */}
-    <h1>Game {gameId}</h1>
-    <p>Status: {game.status}</p>
-    <p>Time Left: {game.timeLeft} seconds</p>
-    <p>Round: {game.currentRound} of 3</p>
-
-    {game?.status === "waiting" && (
-      <button
-        onClick={async () => {
-          try {
-            await startGame({ gameId });
-            toast.success("Game started!");
-          } catch (error) {
-            console.error("Failed to start game:", error);
-            toast.error("Failed to start game");
-          }
-        }}
-      >
-        Start Game
-      </button>
-    )}
-
-
-    {game?.status === "creating" && (
-      <div>
-        <h2>Creating Memes</h2>
-        <MemeCreationScreen game={game} />
-      </div>
-    )}
-
-    {game?.status === "voting" && (
-      <div>
-        <h2>Voting Phase</h2>
-        <VotingScreen game={game} />
-      </div>
-    )}
-  </>);
+  const { isLoading, isAuthenticated } = useConvexAuth();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (!isAuthenticated) {
+    return (
+      <SignIn/>
+    );
+  }
+  return <Game/>
 }
