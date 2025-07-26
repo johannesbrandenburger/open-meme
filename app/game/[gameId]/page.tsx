@@ -7,6 +7,8 @@ import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import { Id } from "@/convex/_generated/dataModel";
 import { MemeCreationScreen } from "@/app/components/MemeCreationScreen";
+import { ROUNDS } from "@/convex/games";
+import { VotingScreen } from "@/app/components/VotingScreen";
 
 export default function GameRoute() {
   const params = useParams();
@@ -26,7 +28,7 @@ export default function GameRoute() {
     <h1>Game {gameId}</h1>
     <p>Status: {game.status}</p>
     <p>Time Left: {game.timeLeft} seconds</p>
-    <p>Round: {game.currentRound}</p>
+    <p>Round: {game.currentRound} of 3</p>
 
     {game?.status === "waiting" && (
       <button
@@ -49,6 +51,13 @@ export default function GameRoute() {
       <div>
         <h2>Creating Memes</h2>
         <MemeCreationScreen game={game} />
+      </div>
+    )}
+
+    {game?.status === "voting" && (
+      <div>
+        <h2>Voting Phase</h2>
+        <VotingScreen game={game} />
       </div>
     )}
   </>);

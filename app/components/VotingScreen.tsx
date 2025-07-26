@@ -1,0 +1,52 @@
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { MemeCanvas } from "./MemeCanvas";
+import { FunctionReference, FunctionReturnType } from "convex/server";
+
+interface VotingScreenProps {
+  game: NonNullable<FunctionReturnType<typeof api.games.getGameStateForPlayer>>;
+}
+
+export function VotingScreen({ game }: VotingScreenProps) {
+
+  const vote = useQuery(api.voting.userVote, { gameId: game._id, round: game.currentRound });
+  const submitVote = useMutation(api.voting.submitVote)
+
+  // .withOptimisticUpdate(
+  //   (localStore, args) => {
+  //     const { gameId, round, memeId, score } = args;
+  //     const currentValue = localStore.getQuery(api.voting.userVote, { gameId: game._id, round: game.currentRound });
+  //     if (currentValue !== undefined) {
+  //       localStore.setQuery(api.voting.userVote, { gameId: game._id, round: game.currentRound }, {
+  //         ...currentValue,
+  //         memeId: memeId,
+  //         score: score,
+  //         userId: localStore.getAuthUserId(),
+  //       });
+  //     }
+  //   }
+  // )
+
+  if (vote) return <div>Thanks for voting! Let's wait for the other players to finish.</div>
+
+  const memeId = game.currentVotingMeme?._id;
+  const template = game.currentVotingMeme?.templates[game.currentVotingMeme?.templateIndex]
+  if (!template || !memeId) return <div>Loading...</div>;
+
+  return (<>
+    <MemeCanvas template={template} texts={game.currentVotingMeme?.texts || []} />
+    <br />
+    {/* submit vote buttons */}
+    <button
+      onClick={() => submitVote({ gameId: game._id, round: game.currentRound, memeId: memeId, score: 1 })}
+    >Upvote</button>
+    <button
+      onClick={() => submitVote({ gameId: game._id, round: game.currentRound, memeId: memeId, score: 0 })}
+    >Skip</button>
+    <button
+      onClick={() => submitVote({ gameId: game._id, round: game.currentRound, memeId: memeId, score: -1 })}
+    >Downvote</button>
+
+  </>)
+}

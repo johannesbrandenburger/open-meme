@@ -235,7 +235,7 @@ export const getGameStateForPlayer = query({
 
     const { gameId } = args;
     const game = await ctx.db.get(gameId);
-    if (!game) throw new Error("Game not found");
+    if (!game) return null; // Game not found (probably deleted)
 
     // Check if the user is part of the game
     if (!game.players.includes(userId)) {
