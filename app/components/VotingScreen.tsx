@@ -5,7 +5,7 @@ import { MemeCanvas } from "./MemeCanvas";
 import { FunctionReference, FunctionReturnType } from "convex/server";
 
 interface VotingScreenProps {
-  game: NonNullable<FunctionReturnType<typeof api.games.getGameStateForPlayer>>;
+  game: Exclude<NonNullable<FunctionReturnType<typeof api.games.getGameStateForPlayer>>, "GAME_NOT_FOUND">;
 }
 
 export function VotingScreen({ game }: VotingScreenProps) {

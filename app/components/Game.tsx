@@ -24,20 +24,24 @@ export default function Game() {
       toast.error("Game ID is required");
       router.push("/");
     } else {
-        joinGame({ gameId }).catch((error) => {
-            console.error("Failed to join game:", error);
-            toast.error("Failed to join game");
-        });
+      joinGame({ gameId }).catch((error) => {
+        console.error("Failed to join game:", error);
+        toast.error("Failed to join game");
+      });
     }
   }, [gameId, joinGame, router]);
 
   if (!gameId) return <div>Error: Game ID is required</div>;
   if (!game) return <div>Loading game...</div>;
+  if (game == "GAME_NOT_FOUND") {
+    toast.error("Game probably does not exist anymore");
+    return (<>
+      <div>Game not found</div>
+      <button onClick={() => router.push("/")}>Go to Home</button>
+    </>)
+  }
 
   return (<>
-    {/* <code>
-      {JSON.stringify(game, null, 2)}
-    </code> */}
     {/* only for dev: */}
     <h1>Game {gameId}</h1>
     <p>Status: {game.status}</p>
