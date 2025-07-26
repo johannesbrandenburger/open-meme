@@ -76,7 +76,7 @@ export const submitVote = mutation({
         .eq("round", round))
       .collect();
 
-    if (votes.length === game.players.length) {
+    if (votes.length === game.players.length - 1) { // -1 because the owner doesn't vote
 
       if (game.votingMemeNo < game.players.length) {
         // Move to next meme voting phase

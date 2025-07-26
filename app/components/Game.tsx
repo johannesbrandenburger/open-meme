@@ -10,12 +10,14 @@ import { MemeCreationScreen } from "@/app/components/MemeCreationScreen";
 import { ROUNDS } from "@/convex/games";
 import { VotingScreen } from "@/app/components/VotingScreen";
 import { SignIn } from "@/app/components/SignIn";
+import { RoundStats } from "./RoundStats";
+import { FinalStats } from "./FinalStats";
 
 export default function Game() {
   const params = useParams();
   const router = useRouter();
   const gameId = params.gameId as Id<"games">;
-  const game = useQuery(api.games.getGameStateForPlayer, { gameId });
+  const game = useQuery(api.gamestate.getGameStateForPlayer, { gameId });
   const startGame = useMutation(api.games.startGame);
   const joinGame = useMutation(api.games.joinGame);
 
@@ -76,6 +78,20 @@ export default function Game() {
       <div>
         <h2>Voting Phase</h2>
         <VotingScreen game={game} />
+      </div>
+    )}
+
+    {game?.status === "round_stats" && (
+      <div>
+        <h2>Results of Round {game.currentRound}</h2>
+        <RoundStats game={game} />
+      </div>
+    )}
+
+    {game?.status === "final_stats" && (
+      <div>
+        <h2>Final Results</h2>
+        <FinalStats game={game} />
       </div>
     )}
 
