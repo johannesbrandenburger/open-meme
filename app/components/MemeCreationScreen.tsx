@@ -3,50 +3,53 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
 import { FunctionReference, FunctionReturnType } from "convex/server";
-import { toast } from "sonner";
 
-/**
- * A custom hook to debounce a Convex mutation. This encapsulates the
- * timeout logic, making the component that uses it cleaner.
- * @param mutation The Convex mutation function to debounce.
- * @param delay The debounce delay in milliseconds.
- */
-function useDebouncedMutation<T extends FunctionReference<"mutation">>(mutation: T, delay: number) {
-  const mutationFn = useMutation(mutation);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const debouncedMutation = useCallback(
-    (args: any) => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-      timeoutRef.current = setTimeout(() => {
-        // Autosave is a background task; we'll log errors but not show UI.
-        mutationFn(args).catch(error => {
-          console.error("Autosave failed:", error);
-        });
-      }, delay);
-    },
-    [mutationFn, delay]
-  );
-
-  // Cleanup the timeout when the component unmounts
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
-
-  return debouncedMutation;
+interface MemeCreationScreenProps {
+  game: NonNullable<FunctionReturnType<typeof api.games.getGameStateForPlayer>>;
 }
 
+export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
 
+  const meme = useQuery(api.memes.getOwnMeme, { gameId: game._id })
+  const updateMeme = useMutation(api.memes.updateMeme).withOptimisticUpdate(
+    (localStore, args) => {
+      const { memeId, texts } = args;
+      const currentValue = localStore.getQuery(api.memes.getOwnMeme, { gameId: game._id });
+      if (currentValue !== undefined) {
+        localStore.setQuery(api.memes.getOwnMeme, { gameId: game._id }, {
+          ...currentValue,
+          texts: texts,
+        });
+      }
+    }
+  )
+  const submitMeme = useMutation(api.memes.submitMeme);
+  const nextShuffle = useMutation(api.memes.nextShuffle);
 
-export function MemeCreationScreen() {
-  
+  if (!meme) return <div>Loading...</div>;
+  if (meme?.isSubmitted) return <div>Already submitted your meme! Let's wait for the other players to finish.</div>
+
   return (<>
-    
+    <MemeCanvas template={meme.templates[meme.templateIndex]} texts={meme.texts} />
+    <br />
+    <button onClick={() => nextShuffle({ memeId: meme._id })}>Next Shuffle</button>
+    <br />
+    {meme.texts.map((text, index) => (
+      <input
+        key={index}
+        type="text"
+        value={text}
+        placeholder={`Text for identifier ${index + 1}`}
+        onChange={(e) => {
+          const newTexts = [...meme.texts];
+          newTexts[index] = e.target.value;
+          updateMeme({ memeId: meme._id, texts: newTexts });
+        }}
+      />
+    ))}
+    <br />
+    <button onClick={() => submitMeme({ memeId: meme._id, texts: meme.texts })}>
+      Submit Meme
+    </button>
   </>)
 }

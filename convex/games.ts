@@ -108,7 +108,7 @@ export const startGame = mutation({
       game.players.map(async (playerId) => {
         await Promise.all(
           Array.from({ length: ROUNDS }).map(async (_, index) => {
-            const templates = templatesJson.sort(() => 0.5 - Math.random()).slice(0, MEMES_PER_ROUND * ROUNDS);
+            const templates = templatesJson.sort(() => 0.5 - Math.random()).slice(0, MEMES_PER_ROUND);
             const meme = {
               gameId: game._id,
               playerId: playerId,
