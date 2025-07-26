@@ -17,7 +17,7 @@ export const getGameStateForPlayer = query({
 
     // Check if the user is part of the game
     if (!game.players.includes(userId)) {
-      throw new Error("You are not part of this game");
+      return null;
     }
 
     // if is voting, provide the current meme for the user
