@@ -40,6 +40,14 @@ export const createGame = mutation({
       votingMemes: [],
       players: [userId],
       createdAt: Date.now(),
+      config: {
+        rounds: ROUNDS,
+        memesPerRound: MEMES_PER_ROUND,
+        creationTime: CREATION_TIME,
+        voteTime: VOTE_TIME,
+        roundStatsTime: ROUND_STATS_TIME,
+        finalStatsTime: FINAL_STATS_TIME,
+      },
     });
 
     return gameId;

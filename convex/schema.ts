@@ -45,6 +45,15 @@ const applicationTables = {
     createdAt: v.number(),
     startedAt: v.optional(v.number()),
 
+    config: v.object({
+      rounds: v.number(),
+      memesPerRound: v.number(),
+      creationTime: v.number(),
+      voteTime: v.number(),
+      roundStatsTime: v.number(),
+      finalStatsTime: v.number(),
+    }),
+
   }).index("by_status", ["status"]),
 
   memes: defineTable({
@@ -70,7 +79,8 @@ const applicationTables = {
     score: v.union(v.literal(1), v.literal(-1), v.literal(0)),
     createdAt: v.number(),
   }).index("by_game_round", ["gameId", "round"])
-  .index("by_game_round_user", ["gameId", "round", "userId"]),
+  .index("by_game_round_user", ["gameId", "round", "userId"])
+  .index("by_game_round_user_meme", ["gameId", "round", "userId", "memeId"]),
 };
 
 export default defineSchema({
