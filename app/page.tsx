@@ -6,11 +6,15 @@ import { useConvexAuth, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { SignIn } from "./components/SignIn";
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-label";
 
 export default function App() {
   const router = useRouter();
   const { isLoading, isAuthenticated } = useConvexAuth();
-  const { signOut  } = useAuthActions();
+  const { signOut } = useAuthActions();
 
   const createGame = useMutation(api.games.createGame);
 
@@ -40,13 +44,14 @@ export default function App() {
 
   return (
     <div>
-      <h1>Welcome to Open Meme</h1>
-      <button onClick={handleCreateGame}>Create New Game</button>
-      <button onClick={() => {
-        void signOut().then(() => {
-          router.push("/");
-        })
-      }}>Sign Out</button>
+      <Card className="w-full max-w-sm">
+        <Button variant="default" onClick={handleCreateGame}>Create New Game</Button>
+        <Button variant="destructive" onClick={() => {
+          void signOut().then(() => {
+            router.push("/");
+          })
+        }}>Sign Out</Button>
+      </Card>
     </div>
   );
 }
