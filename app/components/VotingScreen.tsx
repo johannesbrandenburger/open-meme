@@ -14,7 +14,7 @@ interface VotingScreenProps {
 export function VotingScreen({ game }: VotingScreenProps) {
   const [votingScore, setVotingScore] = useState<number | null>(null);
 
-  const vote = useQuery(api.voting.userVote, { gameId: game._id, round: game.currentRound });
+  const vote = useQuery(api.voting.userVote, { gameId: game._id });
   const submitVote = useMutation(api.voting.submitVote);
 
   const memeId = game.currentVotingMeme?._id;

@@ -8,18 +8,26 @@ import { ROUND_STATS_TIME, VOTE_TIME } from "./games";
 export const userVote = query({
   args: {
     gameId: v.id("games"),
-    round: v.number(),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) throw new Error("User not authenticated");
     const { gameId } = args;
+    const game = await ctx.db.get(gameId);
+    if (!game) throw new Error("Game not found");
+    if (!game.players.includes(userId)) {
+      throw new Error("You are not a player in this game");
+    }
+
+    const round = game.currentRound;
+    const currentVotingMeme = game.votingMemes[game.votingMemeNo - 1];
 
     const vote = await ctx.db.query("votes")
-      .withIndex("by_game_round_user", (q) => q
+      .withIndex("by_game_round_user_meme", (q) => q
         .eq("gameId", gameId)
-        .eq("round", args.round)
-        .eq("userId", userId))
+        .eq("round", round)
+        .eq("userId", userId)
+        .eq("memeId", currentVotingMeme))
       .first();
     return vote;
   }
