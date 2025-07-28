@@ -16,7 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Clock, Users, Play, Home, Crown, Timer } from "lucide-react";
+import { Clock, Users, Play, Home, Crown, Timer, Share2, Copy } from "lucide-react";
 
 export default function Game() {
   const params = useParams();
@@ -26,6 +26,7 @@ export default function Game() {
   const startGame = useMutation(api.games.startGame);
   const joinGame = useMutation(api.games.joinGame);
   const [isStarting, setIsStarting] = useState(false);
+  const [isCopying, setIsCopying] = useState(false);
 
   useEffect(() => {
     if (!gameId) {
@@ -91,6 +92,43 @@ export default function Game() {
     }
   };
 
+  const copyGameUrl = async () => {
+    setIsCopying(true);
+    try {
+      const url = window.location.href;
+      
+      // Try modern clipboard API first
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(url);
+        toast.success("Game URL copied to clipboard!");
+      } else {
+        // Fallback for older browsers and iPhone Safari
+        const textArea = document.createElement("textarea");
+        textArea.value = url;
+        textArea.style.position = "absolute";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+          document.execCommand('copy');
+          toast.success("Game URL copied to clipboard!");
+        } catch (err) {
+          toast.error("Failed to copy URL. Please copy manually from the address bar.");
+        } finally {
+          document.body.removeChild(textArea);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to copy URL:", error);
+      toast.error("Failed to copy URL");
+    } finally {
+      setIsCopying(false);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 px-2 sm:px-4">
       {/* Game Header */}
@@ -137,25 +175,47 @@ export default function Game() {
             <p className="text-white/80 text-sm sm:text-base">Get ready for some meme magic!</p>
           </CardHeader>
           <CardContent className="space-y-4 sm:space-y-6">
-            {game.isHost && (
+            <div className="space-y-3">
+              {game.isHost && (
+                <Button
+                  onClick={handleStartGame}
+                  disabled={isStarting}
+                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 font-semibold py-3 h-12 sm:h-auto shadow-lg"
+                >
+                  {isStarting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
+                      Starting Game...
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4 mr-2" />
+                      Start Game 
+                      {/* {game.players.length < 2 && "(Need 2+ players)"} */}
+                    </>
+                  )}
+                </Button>
+              )}
+
               <Button
-                onClick={handleStartGame}
-                disabled={isStarting}
-                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 font-semibold py-3 h-12 sm:h-auto shadow-lg"
+                onClick={copyGameUrl}
+                disabled={isCopying}
+                variant="outline"
+                className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm py-3 h-12 sm:h-auto"
               >
-                {isStarting ? (
+                {isCopying ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
-                    Starting Game...
+                    Copying...
                   </>
                 ) : (
                   <>
-                    <Play className="w-4 h-4 mr-2" />
-                    Start Game {game.players.length < 2 && "(Need 2+ players)"}
+                    <Share2 className="w-4 h-4 mr-2" />
+                    Share Game Link
                   </>
                 )}
               </Button>
-            )}
+            </div>
 
             {!game.isHost && (
               <div className="text-center py-4">
