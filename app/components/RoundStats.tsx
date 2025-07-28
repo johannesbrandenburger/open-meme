@@ -1,8 +1,7 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
-import { FunctionReference, FunctionReturnType } from "convex/server";
+import { FunctionReturnType } from "convex/server";
 
 interface RoundStatsProps {
   game: Exclude<NonNullable<FunctionReturnType<typeof api.gamestate.getGameStateForPlayer>>, "GAME_NOT_FOUND">;

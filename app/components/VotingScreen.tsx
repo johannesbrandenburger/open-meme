@@ -1,9 +1,7 @@
-import { useState, useEffect, useCallback, useRef } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
-import { FunctionReference, FunctionReturnType } from "convex/server";
-import { Id } from "@/convex/_generated/dataModel";
+import { FunctionReturnType } from "convex/server";
 
 interface VotingScreenProps {
   game: Exclude<NonNullable<FunctionReturnType<typeof api.gamestate.getGameStateForPlayer>>, "GAME_NOT_FOUND">;
