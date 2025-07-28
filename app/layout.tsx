@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en">
-        <body className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
+        <body className="min-h-screen bg-linear-to-br from-purple-400 via-pink-500 to-red-500">
           <ConvexClientProvider>
             {children}
             <Toaster 
