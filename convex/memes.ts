@@ -1,268 +1,155 @@
 import { v } from "convex/values";
 import { query, mutation, action } from "./_generated/server";
 import templatesJson from "./templates.json";
-import { CREATION_TIME, VOTING_TIME_PER_MEME } from "./games";
+import { CREATION_TIME, VOTE_TIME } from "./games";
 import { internal } from "./_generated/api";
+import { getAuthUserId } from "@convex-dev/auth/server";
 
-export const getMemeTemplate = (templateName: string) => {
-  const template = templatesJson.find(
-    (t) => t.name === templateName
-  );
-  if (!template) {
-    throw new Error(`Template ${templateName} not found`);
-  }
-  return {
-    name: template.name,
-    imgUrl: template.imgUrl,
-    text: template.text,
-  };
-}
-
-export const saveMeme = mutation({
+export const getMeme = query({
   args: {
-    gameId: v.string(),
-    playerId: v.string(),
-    templateName: v.string(),
-    texts: v.array(v.string()),
+    playerId: v.id("users"),
+    gameId: v.id("games"),
+    round: v.number(),
   },
-  returns: v.object({ success: v.boolean() }),
   handler: async (ctx, args) => {
-    // Get current game to check round
-    const game = await ctx.db
-      .query("games")
-      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("User not authenticated");
+    const { playerId, gameId, round } = args;
+    const meme = await ctx.db.query("memes")
+      .withIndex("by_game_player_round", (q) => q
+        .eq("gameId", gameId)
+        .eq("playerId", playerId)
+        .eq("round", round))
       .first();
 
-    if (!game) {
-      throw new Error("Game not found");
+    if (!meme) {
+      throw new Error("Meme not found");
     }
+    return meme;
+  }
+});
 
-    // Check if player already has a meme for this round
-    const existingMeme = await ctx.db
-      .query("memes")
-      .withIndex("by_game_player_round", (q) =>
-        q.eq("gameId", args.gameId)
-          .eq("playerId", args.playerId)
-          .eq("round", game.currentRound)
-      )
-      .first();
-
-    if (existingMeme) {
-      // Don't update if already submitted
-      if (existingMeme.submitted) {
-        throw new Error("Meme already submitted and cannot be modified");
-      }
-
-      // Update existing meme (autosave)
-      await ctx.db.patch(existingMeme._id, {
-        templateName: args.templateName,
-        texts: args.texts,
-      });
-    } else {
-      // Create new meme (autosave)
-      await ctx.db.insert("memes", {
-        gameId: args.gameId,
-        playerId: args.playerId,
-        round: game.currentRound,
-        templateName: args.templateName,
-        texts: args.texts,
-        score: 0,
-        submitted: false,
-        createdAt: Date.now(),
-      });
-    }
-
-    return { success: true };
+export const getOwnMeme = query({
+  args: {
+    gameId: v.id("games")
   },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("User not authenticated");
+    const { gameId } = args;
+    const game = await ctx.db.get(gameId);
+    if (!game) throw new Error("Game not found");
+    const meme = await ctx.db.query("memes")
+      .withIndex("by_game_player_round", (q) => q
+        .eq("gameId", gameId)
+        .eq("playerId", userId)
+        .eq("round", game.currentRound))
+      .first();
+
+    if (!meme) {
+      throw new Error("Meme not found");
+    }
+    return meme;
+  }
+});
+
+export const nextShuffle = mutation({
+  args: {
+    memeId: v.id("memes"),
+  },
+  handler: async (ctx, args) => {
+    const { memeId } = args;
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("User not authenticated");
+    
+    const meme = await ctx.db.get(memeId);
+    if (!meme) {
+      throw new Error("Meme not found");
+    }
+    if (meme.playerId !== userId) {
+      throw new Error("You can only shuffle your own memes");
+    }
+
+    const currTemplateIndex = meme.templateIndex;
+    const newTemplateIndex = (currTemplateIndex + 1) % meme.templates.length;
+    await ctx.db.patch(memeId, {
+      templateIndex: newTemplateIndex,
+      texts: meme.templates[newTemplateIndex]?.text?.map(_ => "") || [] as string[], // Default empty texts (can be filled with examples later)
+    });
+  }
 });
 
 export const submitMeme = mutation({
   args: {
-    gameId: v.string(),
-    playerId: v.string(),
+    memeId: v.id("memes"),
+    texts: v.array(v.string()),
   },
-  returns: v.object({ success: v.boolean() }),
   handler: async (ctx, args) => {
-    // Get current game to check round
-    const game = await ctx.db
-      .query("games")
-      .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
-      .first();
+    const { memeId, texts } = args;
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("User not authenticated");
 
+    const meme = await ctx.db.get(memeId);
+    if (!meme) {
+      throw new Error("Meme not found");
+    }
+    if (meme.playerId !== userId) {
+      throw new Error("You can only submit your own memes");
+    }
+
+    await ctx.db.patch(memeId, {
+      texts,
+      isSubmitted: true,
+      createdAt: Date.now(),
+    });
+
+
+    // if now every player has submitted their meme, we can start the voting
+    const game = await ctx.db.get(meme.gameId);
     if (!game) {
       throw new Error("Game not found");
     }
-
-    // Get the player's meme for this round
-    const existingMeme = await ctx.db
-      .query("memes")
-      .withIndex("by_game_player_round", (q) =>
-        q.eq("gameId", args.gameId)
-          .eq("playerId", args.playerId)
-          .eq("round", game.currentRound)
-      )
-      .first();
-
-    if (!existingMeme) {
-      throw new Error("No meme found to submit");
-    }
-
-    if (existingMeme.submitted) {
-      throw new Error("Meme already submitted");
-    }
-
-    // Mark as submitted
-    await ctx.db.patch(existingMeme._id, {
-      submitted: true,
-    });
-
-    // NEW: Check if all players have submitted and advance early if so
-    if (game.status === "creating") {
-      const players = await ctx.db
-        .query("players")
-        .withIndex("by_game_id", (q) => q.eq("gameId", args.gameId))
-        .collect();
-
-      const memes = await ctx.db
-        .query("memes")
-        .withIndex("by_game_and_round", (q) =>
-          q.eq("gameId", args.gameId).eq("round", game.currentRound)
-        )
-        .collect();
-
-      const submittedCount = memes.filter((m) => m.submitted).length;
-
-      if (submittedCount === players.length) {
-        // All submitted - advance to voting (duplicated from autoProgressGame for creating case)
-        const now = Date.now();
-
-        if (memes.length === 0) {
-          // No memes created, skip to next round or end game
-          if (game.currentRound < game.totalRounds) {
-            await ctx.db.patch(game._id, {
-              status: "creating",
-              currentRound: game.currentRound + 1,
-              phaseEndTime: now + CREATION_TIME,
-              lastProgressTime: now,
-            });
-
-            await ctx.scheduler.runAfter(CREATION_TIME, internal.games.autoProgressGame, {
-              gameId: args.gameId,
-              expectedPhaseEndTime: now + CREATION_TIME,
-            });
-          } else {
-            await ctx.db.patch(game._id, {
-              status: "finished",
-              phaseEndTime: undefined,
-              lastProgressTime: now,
-            });
-          }
-        } else {
-          const votingEndTime = now + (VOTING_TIME_PER_MEME * memes.length);
-          await ctx.db.patch(game._id, {
-            status: "voting",
-            votingMemeIndex: 0,
-            phaseEndTime: votingEndTime,
-            lastProgressTime: now,
-          });
-
-          // Schedule progression through each meme
-          for (let i = 0; i < memes.length; i++) {
-            const memeEndTime = now + (VOTING_TIME_PER_MEME * (i + 1));
-            await ctx.scheduler.runAfter(VOTING_TIME_PER_MEME * (i + 1), internal.games.progressVotingMeme, {
-              gameId: args.gameId,
-              memeIndex: i,
-              expectedTime: memeEndTime,
-            });
-          }
-        }
-      }
-    }
-
-    return { success: true };
-  },
-});
-
-export const getPlayerMeme = query({
-  args: {
-    gameId: v.string(),
-    playerId: v.string(),
-    round: v.number(),
-  },
-  returns: v.union(
-    v.object({
-      _id: v.id("memes"),
-      _creationTime: v.number(),
-      gameId: v.string(),
-      playerId: v.string(),
-      round: v.number(),
-      templateName: v.string(),
-      texts: v.array(v.string()),
-      score: v.number(),
-      submitted: v.boolean(),
-      createdAt: v.number(),
-    }),
-    v.null()
-  ),
-  handler: async (ctx, args) => {
-    return await ctx.db
-      .query("memes")
-      .withIndex("by_game_player_round", (q) =>
-        q.eq("gameId", args.gameId)
-          .eq("playerId", args.playerId)
-          .eq("round", args.round)
-      )
-      .first();
-  },
-});
-
-export const getRoundMemes = query({
-  args: {
-    gameId: v.string(),
-    round: v.number(),
-  },
-  handler: async (ctx, args) => {
-    const memes = await ctx.db
-      .query("memes")
-      .withIndex("by_game_and_round", (q) =>
-        q.eq("gameId", args.gameId).eq("round", args.round)
-      )
+    const memesOfCurrentRound = await ctx.db.query("memes")
+      .withIndex("by_game_round", (q) => q
+        .eq("gameId", game._id)
+        .eq("round", game.currentRound))
       .collect();
-
-    // enrich memes with template data
-    const enrichedMemes = memes.map((meme) => {
-      const template = getMemeTemplate(meme.templateName);
-      return {
-        ...meme,
-        template: template,
-      };
-    });
-
-    // Shuffle memes for voting
-    return enrichedMemes.sort(() => Math.random() - 0.5);
-  },
+    const allSubmitted = memesOfCurrentRound.every(m => m.isSubmitted);
+    if (allSubmitted) {
+      const submittedMemes = memesOfCurrentRound.filter(meme => meme.isSubmitted);
+      const votingMemes = submittedMemes.sort(() => 0.5 - Math.random()).map(meme => meme._id);
+      await ctx.db.patch(game._id, {
+        status: "voting",
+        timeLeft: VOTE_TIME,
+        votingMemeNo: 1,
+        votingMemes: votingMemes,
+      });
+    }
+  }
 });
 
-export const getAllGameMemes = query({
+// just for auto save
+export const updateMeme = mutation({
   args: {
-    gameId: v.string(),
+    memeId: v.id("memes"),
+    texts: v.array(v.string()),
   },
   handler: async (ctx, args) => {
-    // Since there's no direct by_game_id index, we can use by_game_and_round and just collect all memes
-    const memes = await ctx.db
-      .query("memes")
-      .withIndex("by_game_and_round", (q) => q.eq("gameId", args.gameId))
-      .collect();
+    const { memeId, texts } = args;
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("User not authenticated");
 
-    // enrich memes with template data
-    const enrichedMemes = memes.map((meme) => {
-      const template = getMemeTemplate(meme.templateName);
-      return {
-        ...meme,
-        template: template,
-      };
+    const meme = await ctx.db.get(memeId);
+    if (!meme) {
+      throw new Error("Meme not found");
+    }
+    if (meme.playerId !== userId) {
+      throw new Error("You can only update your own memes");
+    }
+
+    await ctx.db.patch(memeId, {
+      texts,
+      createdAt: Date.now(),
     });
-
-    return enrichedMemes;
-  },
+  }
 });

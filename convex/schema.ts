@@ -2,117 +2,75 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 import { authTables } from "@convex-dev/auth/server";
 
-/*
-    "text": [
-      {
-        "style": "upper",
-        "color": "white",
-        "font": "thick",
-        "anchor_x": 0,
-        "anchor_y": 0,
-        "angle": 0,
-        "scale_x": 1,
-        "scale_y": 0.2,
-        "align": "center",
-        "start": 0,
-        "stop": 1
-      },
-      {
-        "style": "upper",
-        "color": "white",
-        "font": "thick",
-        "anchor_x": 0,
-        "anchor_y": 0.8,
-        "angle": 0,
-        "scale_x": 1,
-        "scale_y": 0.2,
-        "align": "center",
-        "start": 0,
-        "stop": 1
-      }
-    ],
-    "example": [
-      "",
-      "aliens"
-    ]
-*/
+const templateType = v.object({
+  name: v.string(),
+  imgUrl: v.string(),
+  source: v.union(v.string(), v.null()),
+  text: v.array(v.object({
+    style: v.string(),
+    color: v.string(),
+    font: v.string(),
+    anchor_x: v.number(),
+    anchor_y: v.number(),
+    angle: v.number(),
+    scale_x: v.number(),
+    scale_y: v.number(),
+    align: v.string(),
+    start: v.number(),
+    stop: v.number(),
+  })),
+  example: v.array(v.string()),
+});
 
 const applicationTables = {
   games: defineTable({
-    gameId: v.string(),
-    hostId: v.string(),
+    hostId: v.id("users"),
     status: v.union(
       v.literal("waiting"),
       v.literal("creating"),
       v.literal("voting"),
-      v.literal("results"),
-      v.literal("finished")
+      v.literal("round_stats"),
+      v.literal("final_stats"),
+      v.literal("ended")
     ),
+
+    timeLeft: v.number(),
+
     currentRound: v.number(),
     totalRounds: v.number(),
-    currentMemeIndex: v.optional(v.number()),
-    phaseEndTime: v.optional(v.number()), // Server timestamp when current phase ends
-    votingMemeIndex: v.optional(v.number()), // Current meme being voted on
-    createdAt: v.number(),
-    lastProgressTime: v.optional(v.number()), // Track when game was last progressed
-  }).index("by_game_id", ["gameId"])
-    .index("by_status", ["status"]),
+    votingMemeNo: v.number(),
+    votingMemes: v.array(v.id("memes")),
+    players: v.array(v.id("users")),
 
-  players: defineTable({
-    gameId: v.string(),
-    playerId: v.string(),
-    nickname: v.string(),
-    totalScore: v.number(),
-    isHost: v.boolean(),
-    joinedAt: v.number(),
-  }).index("by_game_id", ["gameId"])
-    .index("by_player_id", ["playerId"]),
+    createdAt: v.number(),
+    startedAt: v.optional(v.number()),
+
+  }).index("by_status", ["status"]),
 
   memes: defineTable({
-    gameId: v.string(),
-    playerId: v.string(),
+    gameId: v.id("games"),
+    playerId: v.id("users"),
     round: v.number(),
-    templateName: v.string(),
+
+    templateIndex: v.number(),
     texts: v.array(v.string()),
-    score: v.number(),
-    submitted: v.boolean(),
+    templates: v.array(templateType), // 5 random templates for the player to choose from
+
+    isSubmitted: v.boolean(),
     createdAt: v.number(),
-  }).index("by_game_and_round", ["gameId", "round"])
-    .index("by_game_player_round", ["gameId", "playerId", "round"]),
+  }).index("by_game_player_round", ["gameId", "playerId", "round"])
+  .index("by_game_round", ["gameId", "round"])
+  .index("by_game", ["gameId"]),
 
   votes: defineTable({
-    gameId: v.string(),
+    userId: v.id("users"),
     round: v.number(),
-    voterId: v.string(),
+    gameId: v.id("games"),
     memeId: v.id("memes"),
-    vote: v.union(v.literal(1), v.literal(-1), v.literal(0)),
+    score: v.union(v.literal(1), v.literal(-1), v.literal(0)),
     createdAt: v.number(),
   }).index("by_game_round", ["gameId", "round"])
-    .index("by_voter_meme", ["voterId", "memeId"]),
-
-  gameTemplates: defineTable({
-    gameId: v.string(),
-    playerId: v.string(),
-    name: v.string(),
-    imgUrl: v.string(),
-    source: v.union(v.string(), v.null()),
-    round: v.number(),
-    text: v.array(v.object({
-      style: v.string(),
-      color: v.string(),
-      font: v.string(),
-      anchor_x: v.number(),
-      anchor_y: v.number(),
-      angle: v.number(),
-      scale_x: v.number(),
-      scale_y: v.number(),
-      align: v.string(),
-      start: v.number(),
-      stop: v.number(),
-    })),
-    example: v.array(v.string()),
-  }).index("by_game_player", ["gameId", "playerId"])
-    .index("by_game_player_round", ["gameId", "playerId", "round"])
+  .index("by_game_round_user", ["gameId", "round", "userId"]),
 };
 
 export default defineSchema({

@@ -14,7 +14,10 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as auth from "../auth.js";
+import type * as crons from "../crons.js";
 import type * as games from "../games.js";
+import type * as gamestate from "../gamestate.js";
+import type * as gameticker from "../gameticker.js";
 import type * as http from "../http.js";
 import type * as memes from "../memes.js";
 import type * as voting from "../voting.js";
@@ -29,7 +32,10 @@ import type * as voting from "../voting.js";
  */
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  crons: typeof crons;
   games: typeof games;
+  gamestate: typeof gamestate;
+  gameticker: typeof gameticker;
   http: typeof http;
   memes: typeof memes;
   voting: typeof voting;

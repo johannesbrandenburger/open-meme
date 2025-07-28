@@ -1,184 +1,135 @@
-import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
-import { Id } from "../../convex/_generated/dataModel";
 import { FunctionReturnType } from "convex/server";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { ThumbsUp, ThumbsDown, SkipForward, Loader2, CheckCircle } from "lucide-react";
+import { useState } from "react";
 
 interface VotingScreenProps {
-  game: NonNullable<FunctionReturnType<typeof api.games.getGameState>>;
-  playerId: string;
+  game: Exclude<NonNullable<FunctionReturnType<typeof api.gamestate.getGameStateForPlayer>>, "GAME_NOT_FOUND">;
 }
 
-export function VotingScreen({ game, playerId }: VotingScreenProps) {
-  const [hasVotedOnCurrent, setHasVotedOnCurrent] = useState(false);
-  const [clientTimeLeft, setClientTimeLeft] = useState<number>(0);
+export function VotingScreen({ game }: VotingScreenProps) {
+  const [votingScore, setVotingScore] = useState<number | null>(null);
 
+  const vote = useQuery(api.voting.userVote, { gameId: game._id, round: game.currentRound });
   const submitVote = useMutation(api.voting.submitVote);
 
-  // Use server-controlled meme progression
-  const currentMeme = game.currentVotingMeme;
-  const allMemes = game.currentRoundMemes || [];
-  const currentMemeIndex = game.votingMemeIndex || 0;
-
-  const hasVoted = useQuery(api.voting.hasVoted,
-    currentMeme ? {
-      voterId: playerId,
-      memeId: currentMeme._id,
-    } : "skip"
-  );
-
-  // Update voted status when hasVoted query result changes
-  useEffect(() => {
-    setHasVotedOnCurrent(hasVoted || false);
-  }, [hasVoted]);
-
-  // Reset vote status when meme changes
-  useEffect(() => {
-    setHasVotedOnCurrent(false);
-  }, [currentMemeIndex]);
-
-  // Update client timer when server timer changes
-  useEffect(() => {
-    setClientTimeLeft(game.timeLeft);
-  }, [game.timeLeft]);
-
-  // Client-side countdown timer
-  useEffect(() => {
-    // Only start timer if we have time left
-    if (clientTimeLeft <= 0) return;
-
-    const timer = setInterval(() => {
-      setClientTimeLeft(prev => {
-        const newTime = Math.max(0, prev - 1);
-        return newTime;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [clientTimeLeft > 0]); // Restart timer when we transition from 0 to >0 time
-
-  const handleVote = async (vote: 1 | -1 | 0) => {
-    if (!currentMeme || hasVotedOnCurrent) return;
-
-    if (currentMeme.playerId === playerId) return; // Can't vote on own meme
-
-    try {
-      await submitVote({
-        gameId: game.gameId,
-        round: game.currentRound,
-        voterId: playerId,
-        memeId: currentMeme._id as Id<"memes">,
-        vote,
-      });
-      setHasVotedOnCurrent(true);
-    } catch (error) {
-      console.error("Failed to submit vote:", error);
-    }
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  if (!currentMeme || !currentMeme.template || allMemes.length === 0) {
+  const memeId = game.currentVotingMeme?._id;
+  const template = game.currentVotingMeme?.templates[game.currentVotingMeme?.templateIndex]
+  
+  if (!template || !memeId) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-white text-xl">Loading memes...</div>
+      <div className="text-center py-8">
+        <div className="flex items-center justify-center space-x-3 text-white">
+          <Loader2 className="w-5 h-5 animate-spin" />
+          <span>Loading next meme...</span>
+        </div>
       </div>
     );
   }
 
-  const isOwnMeme = currentMeme.playerId === playerId;
+  const handleVote = async (score: 1 | 0 | -1) => {
+    setVotingScore(score);
+    try {
+      await submitVote({ gameId: game._id, round: game.currentRound, memeId: memeId, score });
+    } catch (error) {
+      console.error("Failed to submit vote:", error);
+      setVotingScore(null);
+    }
+  };
 
   return (
-    <div className="min-h-screen p-4">
-      <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="bg-white rounded-t-2xl p-4 flex justify-between items-center">
-          <div>
-            <h2 className="text-xl font-bold text-gray-800">Vote on Memes</h2>
-            <p className="text-sm text-gray-600">
-              Meme {currentMemeIndex + 1} of {allMemes.length} • Round {game.currentRound}
-            </p>
+    <div className="space-y-6">
+      {/* Meme Display */}
+      <Card className="bg-white/5 border-white/10">
+        <CardContent className="pt-6">
+          <MemeCanvas template={template} texts={game.currentVotingMeme?.texts || []} />
+        </CardContent>
+      </Card>
+
+      {/* Voting Interface */}
+      {!game.isVotingOnOwnMeme && !vote ? (
+        <div className="space-y-4">
+          <div className="text-center">
+            <p className="text-white font-medium mb-4">How funny is this meme?</p>
           </div>
-          <div className="text-right">
-            <div className={`text-2xl font-bold ${clientTimeLeft <= 5 ? 'text-red-500' : 'text-blue-500'}`}>
-              {formatTime(clientTimeLeft)}
-            </div>
-            {isOwnMeme && (
-              <div className="text-sm text-purple-600 font-semibold">Your Meme</div>
-            )}
-            {hasVotedOnCurrent && !isOwnMeme && (
-              <div className="text-sm text-green-600 font-semibold">Voted!</div>
-            )}
-          </div>
-        </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3">
+            <Button
+              onClick={() => handleVote(1)}
+              disabled={votingScore !== null}
+              className="vote-button flex flex-col items-center justify-center h-16 sm:h-20 bg-gradient-to-br from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg transition-all duration-200"
+            >
+              {votingScore === 1 ? (
+                <Loader2 className="w-6 h-6 animate-spin" />
+              ) : (
+                <>
+                  <ThumbsUp className="w-6 h-6 mb-1" />
+                  <span className="text-sm font-medium">Funny!</span>
+                </>
+              )}
+            </Button>
 
-        {/* Meme Display */}
-        <div className="bg-white p-4">
-          <MemeCanvas template={currentMeme.template} texts={currentMeme.texts} />
-        </div>
+            <Button
+              onClick={() => handleVote(0)}
+              disabled={votingScore !== null}
+              className="vote-button flex flex-col items-center justify-center h-16 sm:h-20 bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm transition-all duration-200"
+              variant="outline"
+            >
+              {votingScore === 0 ? (
+                <Loader2 className="w-6 h-6 animate-spin" />
+              ) : (
+                <>
+                  <SkipForward className="w-6 h-6 mb-1" />
+                  <span className="text-sm font-medium">Meh</span>
+                </>
+              )}
+            </Button>
 
-        {/* Voting Buttons */}
-        <div className="bg-white rounded-b-2xl p-4">
-          {isOwnMeme ? (
-            <div className="text-center p-4 bg-purple-100 rounded-lg">
-              <p className="text-purple-700 font-semibold">This is your meme! Wait for others to vote.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-3 gap-3">
-              <button
-                onClick={() => handleVote(1)}
-                disabled={hasVotedOnCurrent || clientTimeLeft === 0}
-                className="flex flex-col items-center justify-center p-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <span className="text-sm font-semibold">Upvote</span>
-                <span className="text-xs opacity-80">+1 point</span>
-              </button>
-              <button
-                onClick={() => handleVote(0)}
-                disabled={hasVotedOnCurrent || clientTimeLeft === 0}
-                className="flex flex-col items-center justify-center p-4 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <span className="text-sm font-semibold">Skip</span>
-                <span className="text-xs opacity-80">0 points</span>
-              </button>
-
-              <button
-                onClick={() => handleVote(-1)}
-                disabled={hasVotedOnCurrent || clientTimeLeft === 0}
-                className="flex flex-col items-center justify-center p-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <span className="text-sm font-semibold">Downvote</span>
-                <span className="text-xs opacity-80">-1 point</span>
-              </button>
-            </div>
-          )}
-
-          {clientTimeLeft === 0 && (
-            <div className="text-center mt-3 p-2 bg-yellow-100 rounded">
-              <p className="text-yellow-700 text-sm">Time's up! Moving to next meme...</p>
-            </div>
-          )}
-        </div>
-
-        {/* Progress Indicator */}
-        <div className="mt-4 bg-white rounded-lg p-3">
-          <div className="flex justify-between text-sm text-gray-600 mb-2">
-            <span>Progress</span>
-            <span>{currentMemeIndex + 1} / {allMemes.length}</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${((currentMemeIndex + 1) / allMemes.length) * 100}%` }}
-            ></div>
+            <Button
+              onClick={() => handleVote(-1)}
+              disabled={votingScore !== null}
+              className="vote-button flex flex-col items-center justify-center h-16 sm:h-20 bg-gradient-to-br from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white border-0 shadow-lg transition-all duration-200"
+            >
+              {votingScore === -1 ? (
+                <Loader2 className="w-6 h-6 animate-spin" />
+              ) : (
+                <>
+                  <ThumbsDown className="w-6 h-6 mb-1" />
+                  <span className="text-sm font-medium">Not Funny</span>
+                </>
+              )}
+            </Button>
           </div>
         </div>
-      </div>
+      ) : game.isVotingOnOwnMeme ? (
+        <div className="text-center py-8 space-y-4">
+          <div className="text-blue-400 text-lg font-medium">🚫 This is Your Meme!</div>
+          <p className="text-white/80">You can't vote on your own creation.</p>
+          <div className="animate-pulse flex items-center justify-center space-x-2 text-white/60">
+            <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
+            <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+            <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+          </div>
+          <p className="text-white/60 text-sm">Waiting for others to vote...</p>
+        </div>
+      ) : (
+        <div className="text-center py-8 space-y-4">
+          <div className="flex items-center justify-center space-x-2 text-green-400 text-lg font-medium">
+            <CheckCircle className="w-6 h-6" />
+            <span>Vote Submitted!</span>
+          </div>
+          <p className="text-white/80">Waiting for other players to vote...</p>
+          <div className="animate-pulse flex items-center justify-center space-x-2 text-white/60">
+            <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
+            <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+            <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

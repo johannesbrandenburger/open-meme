@@ -1,331 +1,158 @@
-import { useState, useEffect, useCallback, useRef } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
-import { FunctionReference, FunctionReturnType } from "convex/server";
-import { toast } from "sonner";
-
-/**
- * A custom hook to debounce a Convex mutation. This encapsulates the
- * timeout logic, making the component that uses it cleaner.
- * @param mutation The Convex mutation function to debounce.
- * @param delay The debounce delay in milliseconds.
- */
-function useDebouncedMutation<T extends FunctionReference<"mutation">>(mutation: T, delay: number) {
-  const mutationFn = useMutation(mutation);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const debouncedMutation = useCallback(
-    (args: any) => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-      timeoutRef.current = setTimeout(() => {
-        // Autosave is a background task; we'll log errors but not show UI.
-        mutationFn(args).catch(error => {
-          console.error("Autosave failed:", error);
-        });
-      }, delay);
-    },
-    [mutationFn, delay]
-  );
-
-  // Cleanup the timeout when the component unmounts
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
-
-  return debouncedMutation;
-}
+import { FunctionReturnType } from "convex/server";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
+import { Shuffle, Send, Loader2 } from "lucide-react";
+import { useState } from "react";
 
 interface MemeCreationScreenProps {
-  game: NonNullable<FunctionReturnType<typeof api.games.getGameState>>;
-  playerId: string;
+  game: Exclude<NonNullable<FunctionReturnType<typeof api.gamestate.getGameStateForPlayer>>, "GAME_NOT_FOUND">;
 }
 
-export function MemeCreationScreen({ game, playerId }: MemeCreationScreenProps) {
-  // --- State Management ---
-
-  const [shufflesLeft, setShufflesLeft] = useState(5);
+export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [clientTimeLeft, setClientTimeLeft] = useState(game.timeLeft);
+  const [isShuffling, setIsShuffling] = useState(false);
 
-  // Core state for the meme being created. `null` indicates it's not yet initialized.
-  const [template, setTemplate] =
-    useState<typeof game.playerTemplates[0] | null>(null);
-  const [texts, setTexts] = useState<string[] | null>(null);
-  const [templateIndex, setTemplateIndex] = useState(0);
-
-  // Ref to prevent re-initializing state from the server within the same round.
-  // This is the key to preventing user input from being overwritten.
-  const hasInitialized = useRef(false);
-
-  // --- Convex Hooks ---
-
-  const existingMeme = useQuery(api.memes.getPlayerMeme, {
-    gameId: game.gameId,
-    playerId,
-    round: game.currentRound,
-  });
-
-  const saveMeme = useMutation(api.memes.saveMeme);
-  const submitMeme = useMutation(api.memes.submitMeme);
-  const debouncedSaveMeme = useDebouncedMutation(api.memes.saveMeme, 500);
-
-  // --- Effects ---
-
-  // Effect 1: Reset component state when the game round changes.
-  useEffect(() => {
-    hasInitialized.current = false;
-    setShufflesLeft(5);
-    setTexts(null); // Clear texts to show a loading state
-    setTemplate(null); // Clear template
-    setClientTimeLeft(game.timeLeft); // Re-sync timer with the server
-  }, [game.currentRound, game.timeLeft]);
-
-  // Effect 2: Initialize component state from server data.
-  // Runs once per round after data is loaded. It loads a saved meme or
-  // sets up a new one without overwriting active user input later.
-  useEffect(() => {
-    const templates = game.playerTemplates;
-    if (
-      hasInitialized.current ||
-      !templates ||
-      templates.length === 0 ||
-      existingMeme === undefined
-    ) {
-      return;
-    }
-
-    let initialTemplate: typeof templates[0];
-    let initialTexts: string[];
-    let initialTemplateIndex = 0;
-
-    if (existingMeme) {
-      // Player has a saved meme for this round; load it.
-      const savedIdx = templates.findIndex(
-        t => t.name === existingMeme.templateName
-      );
-      if (savedIdx !== -1) {
-        initialTemplateIndex = savedIdx;
-        initialTemplate = templates[savedIdx];
-      } else {
-        initialTemplate = templates[0]; // Fallback
+  const meme = useQuery(api.memes.getOwnMeme, { gameId: game._id })
+  const updateMeme = useMutation(api.memes.updateMeme).withOptimisticUpdate(
+    (localStore, args) => {
+      const { memeId, texts } = args;
+      const currentValue = localStore.getQuery(api.memes.getOwnMeme, { gameId: game._id });
+      if (currentValue !== undefined) {
+        localStore.setQuery(api.memes.getOwnMeme, { gameId: game._id }, {
+          ...currentValue,
+          texts: texts,
+        });
       }
-      initialTexts = existingMeme.texts;
-    } else {
-      // No saved meme; start with the first template.
-      initialTemplate = templates[0];
-      initialTexts =
-        initialTemplate.example ||
-        new Array(initialTemplate.text.length).fill("");
     }
+  )
+  const submitMeme = useMutation(api.memes.submitMeme);
+  const nextShuffle = useMutation(api.memes.nextShuffle);
 
-    setTemplate(initialTemplate);
-    setTemplateIndex(initialTemplateIndex);
-    setTexts(initialTexts);
-    hasInitialized.current = true; // Mark as initialized for this round
-  }, [game.playerTemplates, existingMeme, game.currentRound]);
-
-  // Effect 3: Client-side countdown timer for UI responsiveness.
-  useEffect(() => {
-    if (clientTimeLeft <= 0) return;
-    const timer = setInterval(() => {
-      setClientTimeLeft(prev => Math.max(0, prev - 1));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [clientTimeLeft]);
-
-  // Effect 4: Autosave user progress on text change.
-  useEffect(() => {
-    if (
-      !hasInitialized.current ||
-      !template ||
-      !texts ||
-      existingMeme?.submitted ||
-      texts.every(t => !t.trim())
-    ) {
-      return;
-    }
-
-    debouncedSaveMeme({
-      gameId: game.gameId,
-      playerId,
-      templateName: template.name,
-      texts,
-    });
-  }, [texts, template, game.gameId, playerId, debouncedSaveMeme, existingMeme]);
-
-  // --- Event Handlers ---
-
-  const handleTextChange = (index: number, value: string) => {
-    if (!texts || existingMeme?.submitted) return;
-    const newTexts = [...texts];
-    newTexts[index] = value;
-    setTexts(newTexts);
-  };
-
-  const handleShuffle = useCallback(() => {
-    if (
-      shufflesLeft <= 0 ||
-      existingMeme?.submitted ||
-      !game.playerTemplates
-    ) {
-      return;
-    }
-
-    setShufflesLeft(prev => prev - 1);
-    const nextIndex = (templateIndex + 1) % game.playerTemplates.length;
-    const nextTemplate = game.playerTemplates[nextIndex];
-
-    setTemplateIndex(nextIndex);
-    setTemplate(nextTemplate);
-    setTexts(
-      nextTemplate.example || new Array(nextTemplate.text.length).fill("")
-    );
-  }, [shufflesLeft, templateIndex, game.playerTemplates, existingMeme]);
-
-  const handleSubmitMeme = useCallback(async () => {
-    if (!template || !texts || existingMeme?.submitted) return;
-
-    setIsSubmitting(true);
-    try {
-      // Explicitly save final state before submitting to prevent race conditions.
-      await saveMeme({
-        gameId: game.gameId,
-        playerId,
-        templateName: template.name,
-        texts,
-      });
-
-      await submitMeme({ gameId: game.gameId, playerId });
-
-      toast.success("Meme submitted successfully!");
-    } catch (error) {
-      console.error("Failed to submit meme:", error);
-      toast.error("Failed to submit meme. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [template, texts, game.gameId, playerId, saveMeme, submitMeme, existingMeme]);
-
-  // --- Render Logic ---
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
-
-  // Show a loading state until the component is initialized.
-  if (!template || !texts) {
+  if (!meme) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-xl">Loading meme template...</div>
+      <div className="text-center py-8">
+        <div className="flex items-center justify-center space-x-3 text-white">
+          <Loader2 className="w-5 h-5 animate-spin" />
+          <span>Loading meme template...</span>
+        </div>
       </div>
     );
   }
 
-  const isTimeUp = clientTimeLeft === 0;
-  const isSubmitted = existingMeme?.submitted === true;
-  const canInteract = !isTimeUp && !isSubmitted;
-
-  return (
-    <div className="min-h-screen p-4">
-      <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="bg-white rounded-t-2xl p-4 flex justify-between items-center">
-          <div>
-            <h2 className="text-xl font-bold text-gray-800">
-              Create Your Meme
-            </h2>
-            <p className="text-sm text-gray-600">
-              Round {game.currentRound} of {game.totalRounds}
-            </p>
-          </div>
-          <div className="text-right">
-            <div
-              className={`text-2xl font-bold ${isTimeUp || clientTimeLeft <= 10
-                  ? "text-red-500"
-                  : "text-green-500"
-                }`}
-            >
-              {formatTime(clientTimeLeft)}
-            </div>
-            <div className="text-sm text-gray-600">
-              Shuffles: {shufflesLeft}
-            </div>
-          </div>
-        </div>
-
-        {/* Meme Canvas */}
-        <div className="bg-white p-4">
-          <MemeCanvas template={template} texts={texts} />
-        </div>
-
-        {/* Text Inputs */}
-        <div className="bg-white p-4 space-y-3">
-          {texts.map((text, index) => (
-            <input
-              key={index}
-              type="text"
-              value={text}
-              onChange={e => handleTextChange(index, e.target.value)}
-              onFocus={e => e.target.select()}
-              placeholder={`Text ${index + 1}`}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none disabled:bg-gray-100"
-              disabled={!canInteract}
-            />
-          ))}
-        </div>
-
-        {/* Actions */}
-        <div className="bg-white rounded-b-2xl p-4 space-y-3">
-          <button
-            onClick={handleShuffle}
-            disabled={!canInteract || shufflesLeft === 0}
-            className="w-full bg-yellow-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-yellow-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            🎲 Shuffle Template ({shufflesLeft} left)
-          </button>
-
-          {!isSubmitted ? (
-            <button
-              onClick={handleSubmitMeme}
-              disabled={
-                !canInteract || isSubmitting || texts.every(t => !t.trim())
-              }
-              className="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-green-600 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? "Submitting..." : "Submit Meme"}
-            </button>
-          ) : (
-            <div className="w-full bg-green-100 text-green-700 font-semibold py-3 px-6 rounded-lg text-center">
-              Meme Submitted! Waiting for other players...
-            </div>
-          )}
-
-          {isTimeUp && !isSubmitted && (
-            <div className="text-center p-4 bg-yellow-100 rounded-lg">
-              <p className="text-yellow-700 font-semibold">
-                Time's up! Your meme was auto-saved.
-              </p>
-            </div>
-          )}
-
-          {canInteract && (
-            <div className="text-center p-2 bg-blue-50 rounded-lg">
-              <p className="text-blue-600 text-sm">
-                💾 Auto-saving as you type...
-              </p>
-            </div>
-          )}
+  if (meme?.isSubmitted) {
+    return (
+      <div className="text-center py-8 space-y-4">
+        <div className="text-green-400 text-lg font-medium">✅ Meme Submitted!</div>
+        <p className="text-white/80">Waiting for other players to finish their masterpieces...</p>
+        <div className="animate-pulse flex items-center justify-center space-x-2 text-white/60">
+          <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
+          <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+          <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
         </div>
       </div>
+    );
+  }
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      await submitMeme({ memeId: meme._id, texts: meme.texts });
+    } catch (error) {
+      console.error("Failed to submit meme:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleShuffle = async () => {
+    setIsShuffling(true);
+    try {
+      await nextShuffle({ memeId: meme._id });
+    } catch (error) {
+      console.error("Failed to shuffle template:", error);
+    } finally {
+      setIsShuffling(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4 sm:space-y-6">
+      {/* Meme Preview */}
+      {/* <Card className="bg-white/5 border-white/10">
+        <CardContent className="pt-4 sm:pt-6"> */}
+          <MemeCanvas template={meme.templates[meme.templateIndex]} texts={meme.texts} />
+        {/* </CardContent> */}
+      {/* </Card> */}
+
+      {/* Template Shuffle */}
+      <div className="text-center">
+        <Button 
+          variant="outline"
+          onClick={handleShuffle}
+          disabled={isShuffling}
+          className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm w-full sm:w-auto"
+        >
+          {isShuffling ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Shuffling...
+            </>
+          ) : (
+            <>
+              <Shuffle className="w-4 h-4 mr-2" />
+              Try Different Template
+            </>
+          )}
+        </Button>
+      </div>
+
+      {/* Text Inputs */}
+      <div className="space-y-3 sm:space-y-4">
+        {meme.texts.map((text, index) => (
+          <div key={index} className="space-y-2">
+            <Label htmlFor={`text-${index}`} className="text-white font-medium text-sm sm:text-base">
+              Text {index + 1}
+            </Label>
+            <Input
+              id={`text-${index}`}
+              type="text"
+              value={text}
+              placeholder={`Enter text for position ${index + 1}`}
+              onChange={(e) => {
+                const newTexts = [...meme.texts];
+                newTexts[index] = e.target.value;
+                updateMeme({ memeId: meme._id, texts: newTexts });
+              }}
+              className="bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-white/50 focus:ring-white/25 backdrop-blur-sm h-12 text-base"
+              maxLength={100}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Submit Button */}
+      <Button 
+        onClick={handleSubmit}
+        disabled={isSubmitting || meme.texts.every(text => !text.trim())}
+        className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 font-semibold py-3 sm:py-3 h-12 sm:h-auto shadow-lg disabled:opacity-50"
+      >
+        {isSubmitting ? (
+          <>
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            Submitting Meme...
+          </>
+        ) : (
+          <>
+            <Send className="w-4 h-4 mr-2" />
+            Submit Meme
+          </>
+        )}
+      </Button>
     </div>
   );
 }
