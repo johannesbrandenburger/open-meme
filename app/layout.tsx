@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import ConvexClientProvider from "@/app/components/ConvexClientProvider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Open Meme",
@@ -20,8 +21,12 @@ export default function RootLayout({
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en">
-        <body>
-          <ConvexClientProvider>{children}</ConvexClientProvider>
+        <body className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
+          <ConvexClientProvider>
+            {children}
+            <Toaster 
+            />
+          </ConvexClientProvider>
         </body>
       </html>
     </ConvexAuthNextjsServerProvider>
