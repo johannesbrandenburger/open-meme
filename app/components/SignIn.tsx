@@ -1,47 +1,51 @@
 "use client";
 
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useQuery, useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
 import { toast } from "sonner";
+import { useState } from "react";
 
 export function SignIn() {
-    const createUser = useMutation(api.auth.createUser);
     const { signIn } = useAuthActions();
+    const [nickname, setNickname] = useState("");
+
+    const handleSignIn = async () => {
+        if (!nickname) {
+            toast.error("Nickname is required");
+            return;
+        }
+        void signIn("password", {
+            email: nickname,
+            // NOTE: this is just a workaround for anonymous users since the buildin anonymous provider does not yet meet our needs
+            // we don't really need authentication, just a short nickname to identify the user
+            // it must not be unique or secure
+            password: "THISISADUMMYPASSWORD2025",
+            flow: "signUp",
+        }).then(() => {
+            toast.success("Signed in successfully");
+        }).catch((error) => {
+            console.error("Sign in error:", error);
+            toast.error("Failed to sign in: " + error.message);
+        });
+    };
 
     return (
         <div>
             <div>
-                <form
-                    className="flex flex-col gap-2"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        const formData = new FormData(e.target as HTMLFormElement);
-                        void signIn("anonymous")
-                            .catch((error) => {
-                                toast.error(`Sign in failed: ${error.message}`);
-                                throw error;
-                            })
-                            .then(() => {
-                                createUser({
-                                    name: formData.get("name") as string,
-                                })
-                            });
-                    }}
+                <h1>Sign In</h1>
+                <input
+                    className="bg-background text-foreground rounded-md p-2 border-2 border-slate-200 dark:border-slate-800"
+                    type="text"
+                    name="name"
+                    placeholder="Nickname"
+                    value={nickname}
+                    onChange={(e) => setNickname(e.target.value)}
+                />
+                <button
+                    className="bg-foreground text-background rounded-md"
+                    onClick={handleSignIn}
                 >
-                    <input
-                        className="bg-background text-foreground rounded-md p-2 border-2 border-slate-200 dark:border-slate-800"
-                        type="text"
-                        name="name"
-                        placeholder="Nickname"
-                    />
-                    <button
-                        className="bg-foreground text-background rounded-md"
-                        type="submit"
-                    >
-                        Sign in
-                    </button>
-                </form>
+                    Sign in
+                </button>
 
             </div>
         </div>

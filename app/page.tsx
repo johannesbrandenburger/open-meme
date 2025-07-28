@@ -1,17 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useAction, useConvexAuth, useMutation } from "convex/react";
-import { SignIn } from "./components/SignIn";
+import { useConvexAuth, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { SignIn } from "./components/SignIn";
 
 export default function App() {
   const router = useRouter();
   const { isLoading, isAuthenticated } = useConvexAuth();
-  const { signOut } = useAuthActions();
+  const { signOut  } = useAuthActions();
 
   const createGame = useMutation(api.games.createGame);
 
@@ -45,11 +44,9 @@ export default function App() {
       <button onClick={handleCreateGame}>Create New Game</button>
       <button onClick={() => {
         void signOut().then(() => {
-          router.push("/signin");
+          router.push("/");
         })
       }}>Sign Out</button>
     </div>
   );
-
-
 }

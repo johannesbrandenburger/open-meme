@@ -1,42 +1,38 @@
 import { convexAuth, getAuthUserId } from "@convex-dev/auth/server";
 import { Password } from "@convex-dev/auth/providers/Password";
 import { Anonymous } from "@convex-dev/auth/providers/Anonymous";
-import { mutation, query } from "./_generated/server";
+import { mutation, MutationCtx, query } from "./_generated/server";
 import { v } from "convex/values";
 import { GenericQueryCtx } from "convex/server";
 
 export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
-  providers: [Anonymous],
-});
+  providers: [Password],
+  callbacks: {
+    async createOrUpdateUser(ctx: MutationCtx, args) {
 
-export const loggedInUser = query({
-  handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) {
-      return null;
-    }
-    const user = await ctx.db.get(userId);
-    if (!user) {
-      return null;
-    }
-    return user;
+      console.log("createOrUpdateUser called with args:", args);
+
+      const name = args.profile.email as string;
+      if (!name) {
+        throw new Error("Nickname is required");
+      }
+
+      // If the user already exists just update the nickname
+      if (args.existingUserId) {
+        await ctx.db.patch(args.existingUserId, { name: name });
+        return args.existingUserId;
+      }
+
+      // Otherwise create a new user
+      const newUserId = await ctx.db.insert("users", {
+        name: name,
+      });
+
+      if (!newUserId) {
+        throw new Error("Failed to create user");
+      }
+
+      return newUserId;
+    },
   },
-});
-
-export const createUser = mutation({
-  args: { name: v.string() },
-  handler: async (ctx, args) => {
-    const { name } = args;
-    const userId = await getAuthUserId(ctx);
-    if (!userId) {
-      throw new Error("User not authenticated");
-    }
-    const existingUser = await ctx.db.get(userId);
-    if (existingUser) {
-      throw new Error("User already exists");
-    }
-    await ctx.db.insert("users", {
-      name
-    });
-  }
 });

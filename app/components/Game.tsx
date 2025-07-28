@@ -39,7 +39,6 @@ export default function Game() {
     toast.error("Game probably does not exist anymore");
     return (<>
       <div>Game not found</div>
-      <button onClick={() => router.push("/")}>Go to Home</button>
     </>)
   }
 
@@ -50,7 +49,7 @@ export default function Game() {
     <p>Time Left: {game.timeLeft} seconds</p>
     <p>Round: {game.currentRound} of 3</p>
 
-    {game?.status === "waiting" && (
+    {game?.status === "waiting" && game.isHost && (
       <button
         onClick={async () => {
           try {
@@ -66,7 +65,24 @@ export default function Game() {
       </button>
     )}
 
+    {game?.status === "waiting" && !game.isHost && (
+      <div>
+        <p>Waiting for the host to start the game...</p>
+      </div>
+    )}
 
+    {game?.status === "waiting" && (
+      <div>
+        <h2>Players:</h2>
+        <ul>
+          {game.players.map((player) => (
+            <li key={player.id}>
+              {player.name} {player.id === game.currentPlayer ? "(You)" : ""}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
     {game?.status === "creating" && (
       <div>
         <h2>Creating Memes</h2>
@@ -95,5 +111,7 @@ export default function Game() {
       </div>
     )}
 
+    <br />
+    <button onClick={() => router.push("/")}>Go to Home</button>
   </>);
 }

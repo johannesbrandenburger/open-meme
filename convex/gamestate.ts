@@ -20,6 +20,15 @@ export const getGameStateForPlayer = query({
       return null;
     }
 
+    // fill the players
+    const players = await Promise.all(game.players.map(async (playerId) => {
+      const player = await ctx.db.get(playerId);
+      return {
+        id: playerId,
+        name: player?.name || "Unknown",
+      };
+    }));
+
     // if is voting, provide the current meme for the user
     let currentVotingMeme = undefined;
     let isVotingOnOwnMeme = false;
@@ -41,6 +50,8 @@ export const getGameStateForPlayer = query({
       currentPlayer: userId,
       currentVotingMeme,
       isVotingOnOwnMeme,
+      isHost: game.hostId === userId,
+      players,
     };
   }
 });

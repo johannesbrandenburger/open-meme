@@ -70,8 +70,7 @@ const applicationTables = {
     score: v.union(v.literal(1), v.literal(-1), v.literal(0)),
     createdAt: v.number(),
   }).index("by_game_round", ["gameId", "round"])
-  .index("by_game_round_user", ["gameId", "round", "userId"])
-
+  .index("by_game_round_user", ["gameId", "round", "userId"]),
 };
 
 export default defineSchema({
