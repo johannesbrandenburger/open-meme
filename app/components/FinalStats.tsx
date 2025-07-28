@@ -136,9 +136,7 @@ export function FinalStats({ game }: FinalStatsProps) {
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
-                <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-                  <MemeCanvas template={meme.template} texts={meme.texts} />
-                </div>
+                <MemeCanvas template={meme.template} texts={meme.texts} />
               </CardContent>
             </Card>
           ))}

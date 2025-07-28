@@ -41,7 +41,7 @@ export default function Game() {
   }, [gameId, joinGame, router]);
 
   if (!gameId) return <div>Error: Game ID is required</div>;
-  
+
   if (!game) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -56,7 +56,7 @@ export default function Game() {
       </div>
     );
   }
-  
+
   if (game == "GAME_NOT_FOUND") {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -66,7 +66,7 @@ export default function Game() {
           </CardHeader>
           <CardContent className="text-center space-y-4">
             <p className="text-white/80">This game probably doesn't exist anymore</p>
-            <Button 
+            <Button
               onClick={() => router.push("/")}
               className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0"
             >
@@ -96,7 +96,7 @@ export default function Game() {
     setIsCopying(true);
     try {
       const url = window.location.href;
-      
+
       // Try modern clipboard API first
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(url);
@@ -111,7 +111,7 @@ export default function Game() {
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
-        
+
         try {
           document.execCommand('copy');
           toast.success("Game URL copied to clipboard!");
@@ -141,7 +141,7 @@ export default function Game() {
                 {game.status.charAt(0).toUpperCase() + game.status.slice(1)}
               </Badge>
             </div>
-            
+
             <div className="flex items-center justify-between sm:justify-end space-x-4">
               {game.status !== "waiting" && (
                 <div className="flex items-center space-x-2 text-white">
@@ -149,17 +149,17 @@ export default function Game() {
                   <span className="font-medium text-sm sm:text-base">{game.timeLeft}s</span>
                 </div>
               )}
-              
+
               <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0 text-xs sm:text-sm">
                 Round {game.currentRound} / {ROUNDS}
               </Badge>
             </div>
           </div>
-          
+
           {game.status !== "waiting" && game.timeLeft > 0 && (
             <div className="mt-3 sm:mt-4">
-              <Progress 
-                value={(game.timeLeft / (game.status === "creating" ? 60 : 30)) * 100} 
+              <Progress
+                value={(game.timeLeft / game.totalTime) * 100}
                 className="h-2 bg-white/20"
               />
             </div>
@@ -190,7 +190,7 @@ export default function Game() {
                   ) : (
                     <>
                       <Play className="w-4 h-4 mr-2" />
-                      Start Game 
+                      Start Game
                       {/* {game.players.length < 2 && "(Need 2+ players)"} */}
                     </>
                   )}
@@ -233,8 +233,8 @@ export default function Game() {
               </div>
               <div className="space-y-2">
                 {game.players.map((player) => (
-                  <div 
-                    key={player.id} 
+                  <div
+                    key={player.id}
                     className="flex items-center justify-between p-3 bg-white/10 rounded-lg backdrop-blur-sm"
                   >
                     <span className="text-white font-medium text-sm sm:text-base truncate">{player.name}</span>
@@ -306,7 +306,7 @@ export default function Game() {
 
       {/* Navigation */}
       <div className="text-center pb-4">
-        <Button 
+        <Button
           variant="outline"
           onClick={() => router.push("/")}
           className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm w-full sm:w-auto"

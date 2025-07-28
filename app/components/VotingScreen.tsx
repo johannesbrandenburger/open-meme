@@ -4,7 +4,7 @@ import { MemeCanvas } from "./MemeCanvas";
 import { FunctionReturnType } from "convex/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ThumbsUp, ThumbsDown, SkipForward, Loader2, CheckCircle } from "lucide-react";
+import { ThumbsUp, ThumbsDown, SkipForward, Loader2, CheckCircle, Ban } from "lucide-react";
 import { useState } from "react";
 
 interface VotingScreenProps {
@@ -44,11 +44,11 @@ export function VotingScreen({ game }: VotingScreenProps) {
   return (
     <div className="space-y-6">
       {/* Meme Display */}
-      <Card className="bg-white/5 border-white/10">
-        <CardContent className="pt-6">
+      {/* <Card className="bg-white/5 border-white/10">
+        <CardContent className="pt-6"> */}
           <MemeCanvas template={template} texts={game.currentVotingMeme?.texts || []} />
-        </CardContent>
-      </Card>
+        {/* </CardContent>
+      </Card> */}
 
       {/* Voting Interface */}
       {!game.isVotingOnOwnMeme && !vote ? (
@@ -107,7 +107,10 @@ export function VotingScreen({ game }: VotingScreenProps) {
         </div>
       ) : game.isVotingOnOwnMeme ? (
         <div className="text-center py-8 space-y-4">
-          <div className="text-blue-400 text-lg font-medium">🚫 This is Your Meme!</div>
+          <div className="flex items-center justify-center space-x-2 text-white/80 text-lg font-medium">
+            <Ban className="w-6 h-6" />
+            <span>This is Your Meme!</span>
+          </div>
           <p className="text-white/80">You can't vote on your own creation.</p>
           <div className="animate-pulse flex items-center justify-center space-x-2 text-white/60">
             <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>

@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { query } from "./_generated/server";
+import { CREATION_TIME, FINAL_STATS_TIME, ROUND_STATS_TIME, VOTE_TIME } from "./games";
 
 
 export const getGameStateForPlayer = query({
@@ -45,6 +46,20 @@ export const getGameStateForPlayer = query({
       isVotingOnOwnMeme = currentVotingMeme.playerId === userId;
     }
 
+    // fill game.totalTime
+    let totalTime = 0;
+    if (game.status === "creating") {
+      totalTime = CREATION_TIME;
+    } else if (game.status === "voting") {
+      totalTime = VOTE_TIME;
+    } else if (game.status === "waiting") {
+      totalTime = Infinity; // Waiting state has no time limit
+    } else if (game.status === "round_stats") {
+      totalTime = ROUND_STATS_TIME;
+    } else if (game.status === "final_stats") {
+      totalTime = FINAL_STATS_TIME;
+    }
+
     return {
       ...game,
       currentPlayer: userId,
@@ -52,6 +67,7 @@ export const getGameStateForPlayer = query({
       isVotingOnOwnMeme,
       isHost: game.hostId === userId,
       players,
+      totalTime,
     };
   }
 });
