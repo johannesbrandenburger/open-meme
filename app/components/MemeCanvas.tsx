@@ -260,7 +260,7 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
     <div className="flex justify-center">
       <canvas
         ref={canvasRef}
-        className="border border-gray-300 rounded-lg shadow-lg max-w-full h-auto cursor-pointer"
+        className="border border-white/20 rounded-lg shadow-2xl max-w-full h-auto cursor-pointer transition-transform hover:scale-105 bg-white/5 backdrop-blur-sm"
         width={400}
         height={400}
         style={{ maxWidth: '100%', height: 'auto' }}

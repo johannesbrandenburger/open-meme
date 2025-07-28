@@ -20,10 +20,20 @@ export default function RootLayout({
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en">
-        <body className="">
+        <body className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 font-sans">
           <ConvexClientProvider>
-            {children}
+            <main className="min-h-screen p-4">
+              {children}
+            </main>
             <Toaster 
+              position="top-center"
+              toastOptions={{
+                style: {
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                },
+              }}
             />
           </ConvexClientProvider>
         </body>
