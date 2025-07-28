@@ -80,7 +80,8 @@ const applicationTables = {
     createdAt: v.number(),
   }).index("by_game_round", ["gameId", "round"])
   .index("by_game_round_user", ["gameId", "round", "userId"])
-  .index("by_game_round_user_meme", ["gameId", "round", "userId", "memeId"]),
+  .index("by_game_round_user_meme", ["gameId", "round", "userId", "memeId"])
+  .index("by_game_round_meme", ["gameId", "round", "memeId"])
 };
 
 export default defineSchema({

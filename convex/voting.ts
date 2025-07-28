@@ -57,10 +57,12 @@ export const submitVote = mutation({
 
     // Check if the user has already voted in this round
     const existingVote = await ctx.db.query("votes")
-      .withIndex("by_game_round_user", (q) => q
+      .withIndex("by_game_round_user_meme", (q) => q
         .eq("gameId", gameId)
         .eq("round", round)
-        .eq("userId", userId))
+        .eq("userId", userId)
+        .eq("memeId", memeId)
+      )
       .first();
 
     if (existingVote) {
@@ -79,9 +81,11 @@ export const submitVote = mutation({
 
     // Check if all players have voted
     const votes = await ctx.db.query("votes")
-      .withIndex("by_game_round", (q) => q
+      .withIndex("by_game_round_meme", (q) => q
         .eq("gameId", gameId)
-        .eq("round", round))
+        .eq("round", round)
+        .eq("memeId", memeId)
+      )
       .collect();
 
     if (votes.length === game.players.length - 1) { // -1 because the owner doesn't vote
