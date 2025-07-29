@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Open Meme",
   description: "The Open Source Meme Game",
   icons: {
-    icon: "/convex.svg",
+    icon: "/sticker.svg",
   },
 };
 
