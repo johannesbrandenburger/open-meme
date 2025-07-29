@@ -84,7 +84,7 @@ export default function Game() {
     setIsStarting(true);
     try {
       await startGame({ gameId });
-      toast.success("Game started!");
+      // toast.success("Game started!");
     } catch (error) {
       console.error("Failed to start game:", error);
       toast.error("Failed to start game");
@@ -131,12 +131,20 @@ export default function Game() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 px-2 sm:px-4">
+    <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
       {/* Game Header */}
       <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-xl">
         <CardContent className="">
           <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
             <div className="flex items-center space-x-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => router.push("/")}
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm p-2 h-8 w-8"
+              >
+                <Home className="w-4 h-4" />
+              </Button>
               <h1 className="text-xl sm:text-2xl font-bold text-white">OpenMeme</h1>
               <Badge variant="secondary" className="bg-white/20 text-white border-white/30 text-xs sm:text-sm">
                 {game.status.charAt(0).toUpperCase() + game.status.slice(1)}
@@ -173,7 +181,7 @@ export default function Game() {
         <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-xl">
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-lg sm:text-xl text-white">Waiting Room</CardTitle>
-            <p className="text-white/80 text-sm sm:text-base">Get ready for some meme magic!</p>
+            <p className="text-white/80 text-sm sm:text-base">Waiting for players to join...</p>
           </CardHeader>
           <CardContent className="space-y-4 sm:space-y-6">
             <div className="space-y-3">
@@ -254,10 +262,6 @@ export default function Game() {
 
       {game?.status === "creating" && (
         <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-xl">
-          <CardHeader className="text-center pb-4">
-            <CardTitle className="text-lg sm:text-xl text-white">Create Your Meme</CardTitle>
-            <p className="text-white/80 text-sm sm:text-base">Time to get creative!</p>
-          </CardHeader>
           <CardContent>
             <MemeCreationScreen game={game} />
           </CardContent>
@@ -300,17 +304,6 @@ export default function Game() {
         </Card>
       )}
 
-      {/* Navigation */}
-      <div className="text-center pb-4">
-        <Button
-          variant="outline"
-          onClick={() => router.push("/")}
-          className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm w-full sm:w-auto"
-        >
-          <Home className="w-4 h-4 mr-2" />
-          Back to Home
-        </Button>
-      </div>
     </div>
   );
 }

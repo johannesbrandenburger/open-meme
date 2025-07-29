@@ -12,4 +12,10 @@ const crons = cronJobs();
 //   internal.games.tickGames,
 // );
 
+crons.interval(
+  "deleteOutdated",
+  { hours: 1 }, // every hour
+  internal.cleanup.deleteOutdated,
+);
+
 export default crons;

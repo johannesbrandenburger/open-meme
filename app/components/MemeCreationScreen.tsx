@@ -118,9 +118,9 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
       <div className="space-y-3 sm:space-y-4">
         {meme.texts.map((text, index) => (
           <div key={index} className="space-y-2">
-            <Label htmlFor={`text-${index}`} className="text-white font-medium text-sm sm:text-base">
+            {/* <Label htmlFor={`text-${index}`} className="text-white font-medium text-sm sm:text-base">
               Text {index + 1}
-            </Label>
+            </Label> */}
             <Input
               id={`text-${index}`}
               type="text"

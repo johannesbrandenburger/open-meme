@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Open Meme",
   description: "The Open Source Meme Game",
   icons: {
-    icon: "/convex.svg",
+    icon: "/sticker.svg",
   },
 };
 
@@ -22,7 +22,7 @@ export default function RootLayout({
       <html lang="en">
         <body className="min-h-screen bg-gradient-to-br from-purple-500 via-pink-400 to-red-400 font-sans">
           <ConvexClientProvider>
-            <main className="min-h-screen p-4">
+            <main className="min-h-screen p-2 md:p-4">
               {children}
             </main>
             <Toaster 

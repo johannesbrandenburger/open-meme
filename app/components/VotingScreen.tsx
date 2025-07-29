@@ -6,20 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ThumbsUp, ThumbsDown, SkipForward, Loader2, CheckCircle, Ban } from "lucide-react";
 import { useState } from "react";
+import { useQueryWithStatus } from "@/lib/utils";
 
 interface VotingScreenProps {
   game: Exclude<NonNullable<FunctionReturnType<typeof api.gamestate.getGameStateForPlayer>>, "GAME_NOT_FOUND">;
 }
 
 export function VotingScreen({ game }: VotingScreenProps) {
-  const [votingScore, setVotingScore] = useState<number | null>(null);
-
-  const vote = useQuery(api.voting.userVote, { gameId: game._id });
+  const { status, data: vote, error, isSuccess, isPending, isError } = useQueryWithStatus(api.voting.userVote, { gameId: game._id });
   const submitVote = useMutation(api.voting.submitVote);
 
   const memeId = game.currentVotingMeme?._id;
   const template = game.currentVotingMeme?.templates[game.currentVotingMeme?.templateIndex]
-  
+
   if (!template || !memeId) {
     return (
       <div className="text-center py-8">
@@ -32,23 +31,13 @@ export function VotingScreen({ game }: VotingScreenProps) {
   }
 
   const handleVote = async (score: 1 | 0 | -1) => {
-    setVotingScore(score);
-    try {
-      await submitVote({ gameId: game._id, round: game.currentRound, memeId: memeId, score });
-    } catch (error) {
-      console.error("Failed to submit vote:", error);
-      setVotingScore(null);
-    }
+    submitVote({ gameId: game._id, round: game.currentRound, memeId: memeId, score });
   };
 
   return (
     <div className="space-y-6">
-      {/* Meme Display */}
-      {/* <Card className="bg-white/5 border-white/10">
-        <CardContent className="pt-6"> */}
-          <MemeCanvas template={template} texts={game.currentVotingMeme?.texts || []} />
-        {/* </CardContent>
-      </Card> */}
+
+      <MemeCanvas template={template} texts={game.currentVotingMeme?.texts || []} />
 
       {/* Voting Interface */}
       {!game.isVotingOnOwnMeme && !vote ? (
@@ -56,16 +45,14 @@ export function VotingScreen({ game }: VotingScreenProps) {
           <div className="text-center">
             <p className="text-white font-medium mb-4">How funny is this meme?</p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3">
             <Button
               onClick={() => handleVote(1)}
-              disabled={votingScore !== null}
+              disabled={isPending}
               className="vote-button flex flex-col items-center justify-center h-16 sm:h-20 bg-gradient-to-br from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg transition-all duration-200"
             >
-              {votingScore === 1 ? (
-                <Loader2 className="w-6 h-6 animate-spin" />
-              ) : (
+              {(
                 <>
                   <ThumbsUp className="w-6 h-6 mb-1" />
                   <span className="text-sm font-medium">Funny!</span>
@@ -75,13 +62,11 @@ export function VotingScreen({ game }: VotingScreenProps) {
 
             <Button
               onClick={() => handleVote(0)}
-              disabled={votingScore !== null}
+              disabled={isPending}
               className="vote-button flex flex-col items-center justify-center h-16 sm:h-20 bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm transition-all duration-200"
               variant="outline"
             >
-              {votingScore === 0 ? (
-                <Loader2 className="w-6 h-6 animate-spin" />
-              ) : (
+              {(
                 <>
                   <SkipForward className="w-6 h-6 mb-1" />
                   <span className="text-sm font-medium">Meh</span>
@@ -91,12 +76,10 @@ export function VotingScreen({ game }: VotingScreenProps) {
 
             <Button
               onClick={() => handleVote(-1)}
-              disabled={votingScore !== null}
+              disabled={isPending}
               className="vote-button flex flex-col items-center justify-center h-16 sm:h-20 bg-gradient-to-br from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white border-0 shadow-lg transition-all duration-200"
             >
-              {votingScore === -1 ? (
-                <Loader2 className="w-6 h-6 animate-spin" />
-              ) : (
+              {(
                 <>
                   <ThumbsDown className="w-6 h-6 mb-1" />
                   <span className="text-sm font-medium">Not Funny</span>
