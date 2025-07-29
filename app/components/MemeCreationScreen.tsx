@@ -132,7 +132,6 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
                 updateMeme({ memeId: meme._id, texts: newTexts });
               }}
               className="bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-white/50 focus:ring-white/25 backdrop-blur-sm h-12 text-base"
-              maxLength={100}
             />
           </div>
         ))}

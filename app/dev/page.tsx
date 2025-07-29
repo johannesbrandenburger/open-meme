@@ -5,19 +5,15 @@ import { useState, useRef, useEffect, Fragment } from "react";
 import { Stage, Layer, Rect, Circle, Text, Image, Transformer } from "react-konva";
 import useImage from "use-image";
 import type { Stage as KonvaStageType } from "konva/lib/Stage";
- 
+
 type MemeObject = {
   _id: string;
   imgUrl: string;
   texts: {
-    start: {
-      x: number;
-      y: number;
-    };
-    end: {
-      x: number;
-      y: number;
-    },
+    anchor_x: number;
+    anchor_y: number;
+    scale_x: number;
+    scale_y: number;
     text: string;
     color: "black" | "white";
     maxSize: number;
@@ -29,15 +25,19 @@ const dummyMeme: MemeObject = {
   imgUrl: "templates/aag.jpg",
   texts: [
     {
-      start: { x: 0, y: 0 },
-      end: { x: 1, y: 0.2 },
+      anchor_x: 0,
+      anchor_y: 0,
+      scale_x: 1,
+      scale_y: 0.2,
       text: "Hello World",
       color: "white",
       maxSize: 50,
     },
     {
-      start: { x: 0, y: 0.8 },
-      end: { x: 1, y: 1 },
+      anchor_x: 0,
+      anchor_y: 0.8,
+      scale_x: 1,
+      scale_y: 0.2,
       text: "Very long text that should wrapped and scaled in font size to not overflow its bounding box",
       color: "black",
       maxSize: 50,
@@ -134,8 +134,8 @@ export default function DevRoute() {
             y={0}
           />
           {texts.map((text, index) => {
-            const textWidth = (text.end.x - text.start.x) * WIDTH;
-            const textHeight = (text.end.y - text.start.y) * HEIGHT;
+            const textWidth = (text.scale_x) * WIDTH;
+            const textHeight = (text.scale_y) * HEIGHT;
             const optimalFontSize = calculateFitFontSize(text.text, textWidth, textHeight, text.maxSize);
             const optimalPlaceholderFontSize = calculateFitFontSize(`Text ${index + 1}`, textWidth, textHeight, 32);
 
@@ -146,8 +146,8 @@ export default function DevRoute() {
                   text={text.text}
                   fontSize={optimalFontSize}
                   fill={text.color}
-                  x={text.start.x * WIDTH}
-                  y={text.start.y * HEIGHT}
+                  x={text.anchor_x * WIDTH}
+                  y={text.anchor_y * HEIGHT}
                   width={textWidth}
                   height={textHeight}
                   align="center"
@@ -157,27 +157,11 @@ export default function DevRoute() {
                   strokeWidth={optimalFontSize * 0.06}
                   verticalAlign="middle"
                   draggable={false}
-                  onDragEnd={(e) => {
-
-                    // NOTE: maybe later we want to allow dragging text
-                    const newTexts = [...texts];
-                    const newStartX = e.target.x() / WIDTH;
-                    const newStartY = e.target.y() / HEIGHT;
-                    newTexts[index] = {
-                      ...newTexts[index],
-                      start: { x: newStartX, y: newStartY },
-                      end: {
-                        x: newStartX + (text.end.x - text.start.x),
-                        y: newStartY + (text.end.y - text.start.y),
-                      },
-                    };
-                    setTexts(newTexts);
-                  }}
                 />
                 {/* <Rect
                   key={`area-${index}`}
-                  x={text.start.x * WIDTH}
-                  y={text.start.y * HEIGHT}
+                  x={text.anchor_x * WIDTH}
+                  y={text.anchor_y * HEIGHT}
                   width={textWidth}
                   height={textHeight}
                   stroke="blue"
@@ -190,8 +174,8 @@ export default function DevRoute() {
                   text={`Text ${index + 1}`}
                   fontSize={optimalPlaceholderFontSize}
                   fill={text.color}
-                  x={text.start.x * WIDTH}
-                  y={text.start.y * HEIGHT}
+                  x={text.anchor_x * WIDTH}
+                  y={text.anchor_y * HEIGHT}
                   width={textWidth}
                   height={textHeight}
                   align="center"

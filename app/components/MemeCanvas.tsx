@@ -1,4 +1,10 @@
-import { useEffect, useRef, useCallback } from "react";
+"use client";
+
+import { Input } from "@/components/ui/input";
+import { useState, useRef, useEffect, Fragment } from "react";
+import { Stage, Layer, Rect, Circle, Text, Image, Transformer } from "react-konva";
+import useImage from "use-image";
+import type { Stage as KonvaStageType } from "konva/lib/Stage";
 
 // {
 //     "name": "Ancient Aliens Guy",
@@ -61,212 +67,150 @@ interface MemeCanvasProps {
 }
 
 export function MemeCanvas({ template, texts }: MemeCanvasProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Download function that will be called when the canvas is clicked
-  const downloadMeme = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    // Create a temporary link element
+  const [templateImage] = useImage("/" + template.imgUrl);
+  const konvaCanvasRef = useRef<KonvaStageType>(null);
+
+  const WIDTH = 500;
+  const HEIGHT = 500;
+
+  // Helper function to calculate font size that fits in the container with text wrapping
+  const calculateFitFontSize = (text: string, maxWidth: number, maxHeight: number, maxFontSize: number) => {
+
+    // Guard against server-side rendering
+    if (typeof document === 'undefined') {
+      return maxFontSize;
+    }
+
+    // Create a additional canvas element just to measure text dimensions
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return maxFontSize;
+
+    // Function to measure wrapped text dimensions
+    const measureWrappedText = (fontSize: number) => {
+      ctx.font = `bold ${fontSize}px Impact, Arial`;
+
+      const words = text.split(' ');
+      let lines = [''];
+      let currentLine = 0;
+
+      for (const word of words) {
+        const testLine = lines[currentLine] + (lines[currentLine] ? ' ' : '') + word;
+        const testWidth = ctx.measureText(testLine).width;
+
+        if (testWidth > maxWidth && lines[currentLine]) {
+          lines.push(word);
+          currentLine++;
+        } else {
+          lines[currentLine] = testLine;
+        }
+      }
+
+      const totalHeight = lines.length * fontSize * 1.2; // Line height multiplier
+      return { width: maxWidth, height: totalHeight, lines: lines.length };
+    };
+
+    // Binary search for the largest font size that fits
+    let low = 1;
+    let high = maxFontSize;
+    let fontSize = maxFontSize;
+
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      const { height } = measureWrappedText(mid);
+
+      if (height <= maxHeight) {
+        fontSize = mid;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+
+    return fontSize;
+  };
+
+  const downloadCanvas = () => {
+    // Guard against server-side rendering
+    if (typeof document === 'undefined' || !konvaCanvasRef.current) return;
+    const uri = konvaCanvasRef.current.toDataURL();
     const link = document.createElement('a');
-    
-    // Set the download filename - use template name or a default
-    const filename = `${template.name.replace(/\s+/g, '-').toLowerCase()}-meme.png`;
-    
-    // Convert canvas to data URL and set as link href
-    link.href = canvas.toDataURL('image/png');
-    link.download = filename;
-    
-    // Append to body, click, and remove
+    link.href = uri;
+    link.download = 'open-meme-export.png';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }, [template.name]);
-
-  // Helper function to find the best font size for text to fit container
-  const findBestFontSize = (ctx: CanvasRenderingContext2D, text: string, maxWidth: number, maxHeight: number, initialFontSize: number) => {
-    let fontSize = initialFontSize;
-    const minFontSize = 10; // Don't go smaller than this
-    const fontWeight = "bold"; // Assuming Impact-like font
-    const fontDecrement = 2; // How much to reduce font size in each iteration
-    
-    // Start with the initial font size and decrease until text fits or min font size reached
-    while (fontSize > minFontSize) {
-      ctx.font = `${fontWeight} ${fontSize}px Impact, Arial`;
-      
-      // Check if text fits width
-      const words = text.split(" ");
-      if (words.length === 0) return { fontSize, lines: [] };
-      
-      // Check if even a single word is too wide
-      for (const word of words) {
-        if (ctx.measureText(word).width > maxWidth) {
-          // If any single word is too wide, reduce font size immediately
-          fontSize -= fontDecrement;
-          continue;
-        }
-      }
-      
-      const lines = [];
-      let currentLine = words[0];
-      
-      for (let i = 1; i < words.length; i++) {
-        const word = words[i];
-        const width = ctx.measureText(currentLine + " " + word).width;
-        if (width < maxWidth) {
-          currentLine += " " + word;
-        } else {
-          lines.push(currentLine);
-          currentLine = word;
-        }
-      }
-      lines.push(currentLine);
-      
-      // Calculate total height needed
-      const lineHeight = fontSize * 1.2;
-      const totalHeight = lines.length * lineHeight;
-      
-      // Add more restrictive condition - use 90% of max height as a safety margin
-      if (totalHeight <= maxHeight * 0.9) {
-        return { fontSize, lines };
-      }
-      
-      // Reduce font size and try again
-      fontSize -= fontDecrement;
-    }
-    
-    // Return minimum font size if we get here
-    ctx.font = `${fontWeight} ${minFontSize}px Impact, Arial`;
-    // Even at minimum font size, ensure we wrap the text properly
-    return { fontSize: minFontSize, lines: wrapText(ctx, text, maxWidth) };
-  };
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    // Clear canvas
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Load and draw the meme template
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-
-    img.src = `/${template.imgUrl}`;
-
-    img.onload = () => {
-      // Calculate aspect ratio and set canvas dimensions
-      const maxWidth = 400;
-      const maxHeight = 400;
-      const aspectRatio = img.width / img.height;
-      
-      let canvasWidth, canvasHeight;
-      
-      if (aspectRatio > 1) {
-        // Image is wider than it is tall
-        canvasWidth = Math.min(maxWidth, img.width);
-        canvasHeight = canvasWidth / aspectRatio;
-      } else {
-        // Image is taller than it is wide or square
-        canvasHeight = Math.min(maxHeight, img.height);
-        canvasWidth = canvasHeight * aspectRatio;
-      }
-      
-      canvas.width = canvasWidth;
-      canvas.height = canvasHeight;
-      ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
-
-      // Draw text overlays using template configuration
-      template.text.forEach((textConfig, index) => {
-        const text = texts[index];
-        if (text && text.trim()) {
-          // Set up text styling based on template config
-          ctx.fillStyle = textConfig.color;
-          ctx.strokeStyle = textConfig.color === "black" ? "white" : "black";
-          ctx.lineWidth = 2;
-          
-          // Calculate initial font size based on template config
-          const initialFontSize = Math.round(24 * textConfig.scale_y * 5);
-          
-          // Calculate the maximum width and height available for this text area
-          const maxWidth = canvasWidth * textConfig.scale_x * 0.95; // 95% to leave some margin
-          const maxHeight = canvasHeight * textConfig.scale_y * 0.95; // 95% to leave some margin
-          
-          // Set text alignment
-          ctx.textAlign = textConfig.align as CanvasTextAlign;
-          ctx.textBaseline = "middle";
-
-          // Calculate position based on anchor points and actual canvas size
-          const x = textConfig.anchor_x * canvasWidth + (canvasWidth * textConfig.scale_x / 2);
-          const textAreaHeight = canvasHeight * textConfig.scale_y;
-          const y = textConfig.anchor_y * canvasHeight + (textAreaHeight / 2);
-
-          // Apply text transformation
-          const processedText = textConfig.style === "upper" ? text.toUpperCase() : text;
-          
-          // Find the best font size and get wrapped lines
-          const { fontSize, lines } = findBestFontSize(
-            ctx, 
-            processedText, 
-            maxWidth, 
-            maxHeight, 
-            initialFontSize
-          );
-          
-          // Update font with best size
-          const fontWeight = textConfig.font === "thick" ? "bold" : "normal";
-          ctx.font = `${fontWeight} ${fontSize}px Impact, Arial`;
-
-          // Draw each line
-          lines.forEach((line, lineIndex) => {
-            // Center the text block vertically
-            const lineHeight = fontSize * 1.2;
-            const totalTextHeight = lines.length * lineHeight;
-            const startY = y - (totalTextHeight / 2) + (fontSize / 2);
-            const lineY = startY + (lineIndex * lineHeight);
-            ctx.strokeText(line, x, lineY);
-            ctx.fillText(line, x, lineY);
-          });
-        }
-      });
-    };
-  }, [template, texts]);
-
-  // Helper function to wrap text
-  const wrapText = (ctx: CanvasRenderingContext2D, text: string, maxWidth: number) => {
-    const words = text.split(" ");
-    const lines = [];
-    let currentLine = words[0];
-
-    for (let i = 1; i < words.length; i++) {
-      const word = words[i];
-      const width = ctx.measureText(currentLine + " " + word).width;
-      if (width < maxWidth) {
-        currentLine += " " + word;
-      } else {
-        lines.push(currentLine);
-        currentLine = word;
-      }
-    }
-    lines.push(currentLine);
-    return lines;
   };
 
   return (
-    <div className="flex justify-center">
-      <canvas
-        ref={canvasRef}
-        className="border border-white/20 rounded-lg shadow-2xl max-w-full h-auto cursor-pointer transition-transform hover:scale-105 bg-white/5 backdrop-blur-sm"
-        width={400}
-        height={400}
-        style={{ maxWidth: '100%', height: 'auto' }}
-        onClick={downloadMeme}
-        title="Click to download meme"
-      />
-    </div>
+      <Stage width={WIDTH} height={HEIGHT} ref={konvaCanvasRef} onClick={() => downloadCanvas()}>
+        <Layer>
+          <Image
+            image={templateImage}
+            width={WIDTH}
+            height={HEIGHT}
+            x={0}
+            y={0}
+          />
+          {template.text.map((text, index) => {
+            const textWidth = (text.scale_x) * WIDTH;
+            const textHeight = (text.scale_y) * HEIGHT;
+            const optimalFontSize = calculateFitFontSize(texts[index], textWidth, textHeight, 32);
+            const optimalPlaceholderFontSize = calculateFitFontSize(`Text ${index + 1}`, textWidth, textHeight, 32);
+
+            return (
+              <Fragment key={index}>
+                <Text
+                  key={`text-${index}`}
+                  text={texts[index]}
+                  fontSize={optimalFontSize}
+                  fill={text.color}
+                  x={text.anchor_x * WIDTH}
+                  y={text.anchor_y * HEIGHT}
+                  width={textWidth}
+                  height={textHeight}
+                  align="center"
+                  fontFamily="Impact, Arial"
+                  fontStyle="bold"
+                  stroke={text.color === "white" ? "black" : "white"}
+                  strokeWidth={optimalFontSize * 0.06}
+                  verticalAlign="middle"
+                  draggable={false}
+                />
+                {/* <Rect
+                  key={`area-${index}`}
+                  x={text.anchor_x * WIDTH}
+                  y={text.anchor_y * HEIGHT}
+                  width={textWidth}
+                  height={textHeight}
+                  stroke="blue"
+                  strokeWidth={2}
+                  dash={[5, 5]}
+                  visible={displayHelpers}
+                /> */}
+                <Text
+                  key={`placeholder-${index}`}
+                  text={`Text ${index + 1}`}
+                  fontSize={optimalPlaceholderFontSize}
+                  fill={text.color}
+                  x={text.anchor_x * WIDTH}
+                  y={text.anchor_y * HEIGHT}
+                  width={textWidth}
+                  height={textHeight}
+                  align="center"
+                  fontFamily="Impact, Arial"
+                  fontStyle="bold"
+                  stroke={text.color === "white" ? "black" : "white"}
+                  strokeWidth={optimalPlaceholderFontSize * 0.06}
+                  verticalAlign="middle"
+                  draggable={false}
+                  visible={texts[index] === ""}
+                />
+              </Fragment>
+            );
+          })}
+        </Layer>
+      </Stage>
   );
 }
