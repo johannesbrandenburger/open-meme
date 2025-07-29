@@ -14,6 +14,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as auth from "../auth.js";
+import type * as cleanup from "../cleanup.js";
 import type * as crons from "../crons.js";
 import type * as games from "../games.js";
 import type * as gamestate from "../gamestate.js";
@@ -32,6 +33,7 @@ import type * as voting from "../voting.js";
  */
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  cleanup: typeof cleanup;
   crons: typeof crons;
   games: typeof games;
   gamestate: typeof gamestate;

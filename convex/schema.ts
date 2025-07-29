@@ -54,7 +54,8 @@ const applicationTables = {
       finalStatsTime: v.number(),
     }),
 
-  }).index("by_status", ["status"]),
+  }).index("by_status", ["status"])
+  ,
 
   memes: defineTable({
     gameId: v.id("games"),
@@ -68,8 +69,8 @@ const applicationTables = {
     isSubmitted: v.boolean(),
     createdAt: v.number(),
   }).index("by_game_player_round", ["gameId", "playerId", "round"])
-  .index("by_game_round", ["gameId", "round"])
-  .index("by_game", ["gameId"]),
+    .index("by_game_round", ["gameId", "round"])
+    .index("by_game", ["gameId"]),
 
   votes: defineTable({
     userId: v.id("users"),
@@ -79,9 +80,9 @@ const applicationTables = {
     score: v.union(v.literal(1), v.literal(-1), v.literal(0)),
     createdAt: v.number(),
   }).index("by_game_round", ["gameId", "round"])
-  .index("by_game_round_user", ["gameId", "round", "userId"])
-  .index("by_game_round_user_meme", ["gameId", "round", "userId", "memeId"])
-  .index("by_game_round_meme", ["gameId", "round", "memeId"])
+    .index("by_game_round_user", ["gameId", "round", "userId"])
+    .index("by_game_round_user_meme", ["gameId", "round", "userId", "memeId"])
+    .index("by_game_round_meme", ["gameId", "round", "memeId"])
 };
 
 export default defineSchema({
