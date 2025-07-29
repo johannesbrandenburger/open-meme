@@ -1,0 +1,134 @@
+import { useMutation, useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { MemeCanvas } from "./MemeCanvas";
+import { FunctionReturnType } from "convex/server";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Trophy, Crown, Medal, Star, PartyPopper, Loader2, Home } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Slider } from "@/components/ui/slider"
+
+interface GameConfigProps {
+  game: Exclude<NonNullable<FunctionReturnType<typeof api.gamestate.getGameStateForPlayer>>, "GAME_NOT_FOUND">;
+}
+
+export function GameConfig({ game }: GameConfigProps) {
+  const updateGame = useMutation(api.games.updateGame).withOptimisticUpdate(
+    (localStore, args) => {
+      const { gameId, config } = args;
+      const currentGame = localStore.getQuery(api.gamestate.getGameStateForPlayer, { gameId });
+      if (currentGame) {
+        if (currentGame == "GAME_NOT_FOUND") return;
+        localStore.setQuery(api.gamestate.getGameStateForPlayer, { gameId }, {
+          ...currentGame,
+          config: {
+            ...currentGame.config,
+            ...config,
+          },
+        });
+      }
+    }
+  );
+  
+
+  return (
+    <div className="space-y-8">
+      <Card className="bg-white/5 border-white/10">
+        <CardContent className="space-y-6">
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-white font-medium">Total Rounds</span>
+                <span className="text-white/70 min-w-[2rem] text-right">{game.config.rounds}</span>
+              </div>
+              <Slider
+                value={[game.config.rounds]}
+                onValueChange={(value) => updateGame({ gameId: game._id, config: { ...game.config, rounds: value[0] } })}
+                min={1}
+                max={10}
+                step={1}
+                className="w-full"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-white font-medium">Memes Per Round (to shuffle)</span>
+                <span className="text-white/70 min-w-[2rem] text-right">{game.config.memesPerRound}</span>
+              </div>
+              <Slider
+                value={[game.config.memesPerRound]}
+                onValueChange={(value) => updateGame({ gameId: game._id, config: { ...game.config, memesPerRound: value[0] } })}
+                min={1}
+                max={10}
+                step={1}
+                className="w-full"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-white font-medium">Creation Time (seconds)</span>
+                <span className="text-white/70 min-w-[2rem] text-right">{game.config.creationTime}</span>
+              </div>
+              <Slider
+                value={[game.config.creationTime]}
+                onValueChange={(value) => updateGame({ gameId: game._id, config: { ...game.config, creationTime: value[0] } })}
+                min={30}
+                max={120}
+                step={1}
+                className="w-full"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-white font-medium">Vote Time (seconds)</span>
+                <span className="text-white/70 min-w-[2rem] text-right">{game.config.voteTime}</span>
+              </div>
+              <Slider
+                value={[game.config.voteTime]}
+                onValueChange={(value) => updateGame({ gameId: game._id, config: { ...game.config, voteTime: value[0] } })}
+                min={10}
+                max={60}
+                step={1}
+                className="w-full"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-white font-medium">Round Stats Time (seconds)</span>
+                <span className="text-white/70 min-w-[2rem] text-right">{game.config.roundStatsTime}</span>
+              </div>
+              <Slider
+                value={[game.config.roundStatsTime]}
+                onValueChange={(value) => updateGame({ gameId: game._id, config: { ...game.config, roundStatsTime: value[0] } })}
+                min={5}
+                max={30}
+                step={1}
+                className="w-full"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-white font-medium">Final Stats Time (seconds)</span>
+                <span className="text-white/70 min-w-[2rem] text-right">{game.config.finalStatsTime}</span>
+              </div>
+              <Slider
+                value={[game.config.finalStatsTime]}
+                onValueChange={(value) => updateGame({ gameId: game._id, config: { ...game.config, finalStatsTime: value[0] } })}
+                min={5}
+                max={30}
+                step={1}
+                className="w-full"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

@@ -6,13 +6,14 @@ import { CREATION_TIME, FINAL_STATS_TIME, ROUND_STATS_TIME, VOTE_TIME } from "./
 
 export const getGameStateForPlayer = query({
   args: {
-    gameId: v.id("games"),
+    gameId: v.optional(v.id("games")), // NOTE: this is optional since the query is used with a URL param (not there when initializing the query)
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) throw new Error("User not authenticated");
 
     const { gameId } = args;
+    if (!gameId) return null;
     const game = await ctx.db.get(gameId);
     if (!game) return "GAME_NOT_FOUND"; // NOTE: Magic string (not nice, but works for now)
 

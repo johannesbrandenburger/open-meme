@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Clock, Users, Play, Home, Crown, Timer, Share2, Copy } from "lucide-react";
+import { GameConfig } from "./GameConfig";
 
 export default function Game() {
   const params = useParams();
@@ -217,13 +218,8 @@ export default function Game() {
               </Button>
             </div>
 
-            {!game.isHost && (
-              <div className="text-center py-4">
-                <div className="animate-pulse flex items-center justify-center space-x-2 text-white/80">
-                  <Timer className="w-5 h-5" />
-                  <span className="text-sm sm:text-base">Waiting for the host to start the game...</span>
-                </div>
-              </div>
+            {game.isHost && (
+              <GameConfig game={game} />
             )}
 
             <div className="space-y-3">

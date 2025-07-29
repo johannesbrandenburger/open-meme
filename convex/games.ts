@@ -40,6 +40,14 @@ export const createGame = mutation({
       votingMemes: [],
       players: [userId],
       createdAt: Date.now(),
+      config: {
+        rounds: ROUNDS,
+        memesPerRound: MEMES_PER_ROUND,
+        creationTime: CREATION_TIME,
+        voteTime: VOTE_TIME,
+        roundStatsTime: ROUND_STATS_TIME,
+        finalStatsTime: FINAL_STATS_TIME,
+      },
     });
 
     return gameId;
@@ -80,6 +88,49 @@ export const joinGame = mutation({
     });
   }
 })
+
+export const updateGame = mutation({
+  args: {
+    gameId: v.id("games"),
+    config: v.object({
+      rounds: v.number(),
+      memesPerRound: v.number(),
+      creationTime: v.number(),
+      voteTime: v.number(),
+      roundStatsTime: v.number(),
+      finalStatsTime: v.number(),
+    }),
+  },
+  handler: async (ctx, args) => {
+    const { gameId, config } = args;
+
+    // Get the authenticated user
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    // Check if the game exists and the user is the host
+    const game = await ctx.db.get(gameId);
+    if (!game) {
+      throw new Error("Game not found");
+    }
+    if (game.hostId !== userId) {
+      throw new Error("Only the host can edit the game");
+    }
+    if (game.status !== "waiting") {
+      throw new Error("Cannot edit game - game has already started");
+    }
+
+    // Update game configuration
+    await ctx.db.patch(game._id, {
+      config: {
+        ...game.config,
+        ...config,
+      },
+    });
+  }
+});
 
 export const startGame = mutation({
   args: {
