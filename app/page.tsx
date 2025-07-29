@@ -48,7 +48,7 @@ export default function App() {
   const handleCreateGame = async () => {
     setIsCreating(true);
     try {
-      toast("Creating new game...", { icon: "⏳" });
+      // toast("Creating new game...", { icon: "⏳" });
       const newGameId = await createGame();
       if (!newGameId) {
         toast.error("Failed to create game");
