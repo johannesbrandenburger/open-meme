@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User, Zap } from "lucide-react";
+import { User, Sticker } from "lucide-react";
 
 export function SignIn() {
     const { signIn } = useAuthActions();
@@ -50,7 +50,7 @@ export function SignIn() {
             <Card className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
                 <CardHeader className="text-center space-y-4">
                     <div className="mx-auto w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                        <Zap className="w-10 h-10 text-white" />
+                        <Sticker className="w-10 h-10 text-white" />
                     </div>
                     <div>
                         <CardTitle className="text-3xl font-bold text-white mb-2">Welcome!</CardTitle>

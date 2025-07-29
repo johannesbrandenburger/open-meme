@@ -9,7 +9,7 @@ import { SignIn } from "./components/SignIn";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Plus, LogOut, Zap, Loader2, MessageSquareQuote, Sticker } from "lucide-react";
+import { Plus, LogOut, Loader2, MessageSquareQuote, Sticker } from "lucide-react";
 import { useState } from "react";
 
 export default function App() {
