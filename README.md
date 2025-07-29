@@ -9,7 +9,7 @@ Each round, players are given a random meme template and a short time to add the
 
 -   Frontend: React
 -   Backend: Convex (This project primarily exists to explore and utilize Convex!), Next.js
--   Styling: Tailwind CSS
+-   Styling: Tailwind CSS, Shadcn UI
 
 **Contribution to Meme Source:**
 
