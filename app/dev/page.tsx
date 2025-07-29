@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { useState, useRef, useEffect, Fragment } from "react";
 import { Stage, Layer, Rect, Circle, Text, Image, Transformer } from "react-konva";
 import useImage from "use-image";
 
@@ -36,7 +37,7 @@ const dummyMeme: MemeObject = {
     {
       start: { x: 0, y: 0.8 },
       end: { x: 1, y: 1 },
-      text: "Initializing Konva",
+      text: "Very long text that should wrapped and scaled in font size to not overflow its bounding box",
       color: "black",
       maxSize: 50,
     }
@@ -44,63 +45,172 @@ const dummyMeme: MemeObject = {
 };
 
 export default function DevRoute() {
-
   const [templateImage] = useImage(dummyMeme.imgUrl);
   const [texts, setTexts] = useState(dummyMeme.texts);
+  const [displayHelpers, setDisplayHelpers] = useState(true);
 
   const WIDTH = 500;
   const HEIGHT = 500;
 
-  return (
-    <Stage width={WIDTH} height={HEIGHT}>
-      <Layer>
-        <Image
-          image={templateImage}
-          width={WIDTH}
-          height={HEIGHT}
-          x={0}
-          y={0}
-        />
-        {texts.map((text, index) => (
-          <Text
-            key={index}
-            text={text.text}
-            fontSize={text.maxSize}
-            fill={text.color}
-            x={text.start.x * WIDTH}
-            y={text.start.y * HEIGHT}
-            width={(text.end.x - text.start.x) * WIDTH}
-            height={(text.end.y - text.start.y) * HEIGHT}
-            align="center"
-            draggable
-            fontFamily="Impact, Arial"
-            fontStyle="bold"
-            stroke={text.color === "white" ? "black" : "white"}
-            strokeWidth={2}
-            verticalAlign="middle"
-            textAlign="center"
-            onDragEnd={(e) => {
-              const newTexts = [...texts];
-              const newStartX = e.target.x() / WIDTH;
-              const newStartY = e.target.y() / HEIGHT;
+  // Helper function to calculate font size that fits in the container with text wrapping
+  const calculateFitFontSize = (text: string, maxWidth: number, maxHeight: number, maxFontSize: number) => {
 
-              newTexts[index] = {
-                ...newTexts[index],
-                start: {
-                  x: newStartX,
-                  y: newStartY,
-                },
-                end: {
-                  x: newStartX + (text.end.x - text.start.x),
-                  y: newStartY + (text.end.y - text.start.y),
-                },
-              };
-              console.log(`Text position updated: ${text.text}`, newTexts[index]);
-              setTexts(newTexts);
-            }}
+    // Guard against server-side rendering
+    if (typeof document === 'undefined') {
+      return maxFontSize;
+    }
+
+    // Create a additional canvas element just to measure text dimensions
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return maxFontSize;
+
+    // Function to measure wrapped text dimensions
+    const measureWrappedText = (fontSize: number) => {
+      ctx.font = `bold ${fontSize}px Impact, Arial`;
+
+      const words = text.split(' ');
+      let lines = [''];
+      let currentLine = 0;
+
+      for (const word of words) {
+        const testLine = lines[currentLine] + (lines[currentLine] ? ' ' : '') + word;
+        const testWidth = ctx.measureText(testLine).width;
+
+        if (testWidth > maxWidth && lines[currentLine]) {
+          lines.push(word);
+          currentLine++;
+        } else {
+          lines[currentLine] = testLine;
+        }
+      }
+
+      const totalHeight = lines.length * fontSize * 1.2; // Line height multiplier
+      return { width: maxWidth, height: totalHeight, lines: lines.length };
+    };
+
+    // Binary search for the largest font size that fits
+    let low = 1;
+    let high = maxFontSize;
+    let fontSize = maxFontSize;
+
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      const { height } = measureWrappedText(mid);
+
+      if (height <= maxHeight) {
+        fontSize = mid;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+
+    return fontSize;
+  };
+
+  return (
+    <>
+      <Stage width={WIDTH} height={HEIGHT}>
+        <Layer>
+          <Image
+            image={templateImage}
+            width={WIDTH}
+            height={HEIGHT}
+            x={0}
+            y={0}
           />
-        ))}
-      </Layer>
-    </Stage>
+          {texts.map((text, index) => {
+            const textWidth = (text.end.x - text.start.x) * WIDTH;
+            const textHeight = (text.end.y - text.start.y) * HEIGHT;
+            const optimalFontSize = calculateFitFontSize(text.text, textWidth, textHeight, text.maxSize);
+            const optimalPlaceholderFontSize = calculateFitFontSize(`Text ${index + 1}`, textWidth, textHeight, 32);
+
+            return (
+              <Fragment key={index}>
+                <Text
+                  key={`text-${index}`}
+                  text={text.text}
+                  fontSize={optimalFontSize}
+                  fill={text.color}
+                  x={text.start.x * WIDTH}
+                  y={text.start.y * HEIGHT}
+                  width={textWidth}
+                  height={textHeight}
+                  align="center"
+                  fontFamily="Impact, Arial"
+                  fontStyle="bold"
+                  stroke={text.color === "white" ? "black" : "white"}
+                  strokeWidth={optimalFontSize * 0.06}
+                  verticalAlign="middle"
+                  draggable={false}
+                  onDragEnd={(e) => {
+
+                    // NOTE: maybe later we want to allow dragging text
+                    const newTexts = [...texts];
+                    const newStartX = e.target.x() / WIDTH;
+                    const newStartY = e.target.y() / HEIGHT;
+                    newTexts[index] = {
+                      ...newTexts[index],
+                      start: { x: newStartX, y: newStartY },
+                      end: {
+                        x: newStartX + (text.end.x - text.start.x),
+                        y: newStartY + (text.end.y - text.start.y),
+                      },
+                    };
+                    setTexts(newTexts);
+                  }}
+                />
+                {/* <Rect
+                  key={`area-${index}`}
+                  x={text.start.x * WIDTH}
+                  y={text.start.y * HEIGHT}
+                  width={textWidth}
+                  height={textHeight}
+                  stroke="blue"
+                  strokeWidth={2}
+                  dash={[5, 5]}
+                  visible={displayHelpers}
+                /> */}
+                <Text
+                  key={`placeholder-${index}`}
+                  text={`Text ${index + 1}`}
+                  fontSize={optimalPlaceholderFontSize}
+                  fill={text.color}
+                  x={text.start.x * WIDTH}
+                  y={text.start.y * HEIGHT}
+                  width={textWidth}
+                  height={textHeight}
+                  align="center"
+                  fontFamily="Impact, Arial"
+                  fontStyle="bold"
+                  stroke={text.color === "white" ? "black" : "white"}
+                  strokeWidth={optimalPlaceholderFontSize * 0.06}
+                  verticalAlign="middle"
+                  draggable={false}
+                  visible={displayHelpers && text.text === ""}
+                />
+              </Fragment>
+            );
+          })}
+        </Layer>
+      </Stage>
+      {texts.map((text, index) => (
+        <Input
+          className="mt-2"
+          key={index}
+          value={text.text}
+          onChange={(e) => {
+            const newTexts = [...texts];
+            newTexts[index] = {
+              ...newTexts[index],
+              text: e.target.value,
+            };
+            setTexts(newTexts);
+          }}
+          placeholder={`Text ${index + 1}`}
+        />
+      ))}
+    </>
   );
 }
