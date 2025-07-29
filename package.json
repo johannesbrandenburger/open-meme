@@ -23,6 +23,7 @@
     "clsx": "^2.1.1",
     "convex": "^1.25.4",
     "convex-helpers": "^0.1.100",
+    "konva": "^9.3.22",
     "lucide-react": "^0.532.0",
     "next": "15.4.4",
     "postcss": "^8.5.6",

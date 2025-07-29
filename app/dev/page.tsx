@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { useState, useRef, useEffect, Fragment } from "react";
 import { Stage, Layer, Rect, Circle, Text, Image, Transformer } from "react-konva";
 import useImage from "use-image";
-
+import type { Stage as KonvaStageType } from "konva/lib/Stage";
+ 
 type MemeObject = {
   _id: string;
   imgUrl: string;
@@ -47,7 +48,7 @@ const dummyMeme: MemeObject = {
 export default function DevRoute() {
   const [templateImage] = useImage(dummyMeme.imgUrl);
   const [texts, setTexts] = useState(dummyMeme.texts);
-  const [displayHelpers, setDisplayHelpers] = useState(true);
+  const konvaCanvasRef = useRef<KonvaStageType>(null);
 
   const WIDTH = 500;
   const HEIGHT = 500;
@@ -109,9 +110,21 @@ export default function DevRoute() {
     return fontSize;
   };
 
+  const downloadCanvas = () => {
+    // Guard against server-side rendering
+    if (typeof document === 'undefined' || !konvaCanvasRef.current) return;
+    const uri = konvaCanvasRef.current.toDataURL();
+    const link = document.createElement('a');
+    link.href = uri;
+    link.download = 'open-meme-export.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
-      <Stage width={WIDTH} height={HEIGHT}>
+      <Stage width={WIDTH} height={HEIGHT} ref={konvaCanvasRef} onClick={() => downloadCanvas()}>
         <Layer>
           <Image
             image={templateImage}
@@ -188,7 +201,7 @@ export default function DevRoute() {
                   strokeWidth={optimalPlaceholderFontSize * 0.06}
                   verticalAlign="middle"
                   draggable={false}
-                  visible={displayHelpers && text.text === ""}
+                  visible={text.text === ""}
                 />
               </Fragment>
             );
