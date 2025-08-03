@@ -2,8 +2,6 @@ import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { ROUND_STATS_TIME, VOTE_TIME } from "./games";
-
 
 export const userVote = query({
   args: {
@@ -93,14 +91,14 @@ export const submitVote = mutation({
       if (game.votingMemeNo < game.players.length) {
         // Move to next meme voting phase
         await ctx.db.patch(game._id, {
-          timeLeft: VOTE_TIME,
+          timeLeft: game.config.voteTime,
           votingMemeNo: game.votingMemeNo + 1,
         });
       } else {
         // Move to round stats phase
         await ctx.db.patch(game._id, {
           status: "round_stats",
-          timeLeft: ROUND_STATS_TIME,
+          timeLeft: game.config.roundStatsTime,
         });
       }
     }

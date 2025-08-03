@@ -7,7 +7,6 @@ import { api } from "@/convex/_generated/api";
 import { useConvexAuth, useMutation, useQuery } from "convex/react";
 import { Id } from "@/convex/_generated/dataModel";
 import { MemeCreationScreen } from "@/app/components/MemeCreationScreen";
-import { ROUNDS } from "@/convex/games";
 import { VotingScreen } from "@/app/components/VotingScreen";
 import { SignIn } from "@/app/components/SignIn";
 import { RoundStats } from "./RoundStats";
@@ -132,7 +131,7 @@ export default function Game() {
               )}
 
               <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0 text-xs sm:text-sm">
-                Round {game.currentRound} / {ROUNDS}
+                Round {game.currentRound} / {game.config.rounds}
               </Badge>
             </div>
           </div>
