@@ -62,17 +62,60 @@ interface MemeCanvasProps {
       stop: number;
     }[];
   };
-
   texts: string[];
+  className?: string;
+  showPlaceholder?: boolean;
 }
 
-export function MemeCanvas({ template, texts }: MemeCanvasProps) {
-
+export function MemeCanvas({ template, texts, className, showPlaceholder = false }: MemeCanvasProps) {
   const [templateImage] = useImage("/" + template.imgUrl);
   const konvaCanvasRef = useRef<KonvaStageType>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(400);
+  const [canvasDimensions, setCanvasDimensions] = useState({ width: 400, height: 400 });
 
-  const WIDTH = 500;
-  const HEIGHT = 500;
+  // Track container width for responsive scaling
+  useEffect(() => {
+    const updateContainerWidth = () => {
+      if (containerRef.current) {
+        const width = containerRef.current.offsetWidth;
+        setContainerWidth(Math.min(width, 500)); // Cap at 500px max
+      }
+    };
+
+    updateContainerWidth();
+    window.addEventListener('resize', updateContainerWidth);
+    return () => window.removeEventListener('resize', updateContainerWidth);
+  }, []);
+
+  // Calculate canvas dimensions based on image aspect ratio and container width
+  useEffect(() => {
+    if (templateImage && containerWidth) {
+      const aspectRatio = templateImage.width / templateImage.height;
+      const maxWidth = containerWidth;
+      const maxHeight = 500; // Maximum height constraint
+
+      let width, height;
+
+      if (aspectRatio > 1) {
+        // Image is wider than it is tall
+        width = Math.min(maxWidth, templateImage.width);
+        height = width / aspectRatio;
+      } else {
+        // Image is taller than it is wide or square
+        height = Math.min(maxHeight, templateImage.height);
+        width = height * aspectRatio;
+
+        // Ensure width doesn't exceed container
+        if (width > maxWidth) {
+          width = maxWidth;
+          height = width / aspectRatio;
+        }
+      }
+
+      setCanvasDimensions({ width, height });
+    }
+  }, [templateImage, containerWidth]);
 
   // Helper function to calculate font size that fits in the container with text wrapping
   const calculateFitFontSize = (text: string, maxWidth: number, maxHeight: number, maxFontSize: number) => {
@@ -84,6 +127,11 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
 
     // Create a additional canvas element just to measure text dimensions
     const canvas = document.createElement('canvas');
+
+    // set the canvas size to the same as the konva canvas
+    canvas.width = canvasDimensions.width;
+    canvas.height = canvasDimensions.height;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return maxFontSize;
 
@@ -144,18 +192,25 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
   };
 
   return (
-      <Stage width={WIDTH} height={HEIGHT} ref={konvaCanvasRef} onClick={() => downloadCanvas()}>
+    <div ref={containerRef} className={`flex items-center justify-center w-full ${className || ''}`}>
+      <Stage
+        width={canvasDimensions.width}
+        height={canvasDimensions.height}
+        ref={konvaCanvasRef}
+        onClick={() => downloadCanvas()}
+        className="max-w-full h-auto cursor-pointer transition-transform hover:scale-105 border border-white/20 rounded-lg shadow-2xl bg-white/5 backdrop-blur-sm"
+      >
         <Layer>
           <Image
             image={templateImage}
-            width={WIDTH}
-            height={HEIGHT}
+            width={canvasDimensions.width}
+            height={canvasDimensions.height}
             x={0}
             y={0}
           />
           {template.text.map((text, index) => {
-            const textWidth = (text.scale_x) * WIDTH;
-            const textHeight = (text.scale_y) * HEIGHT;
+            const textWidth = (text.scale_x) * canvasDimensions.width;
+            const textHeight = (text.scale_y) * canvasDimensions.height;
             const optimalFontSize = calculateFitFontSize(texts[index], textWidth, textHeight, 32);
             const optimalPlaceholderFontSize = calculateFitFontSize(`Text ${index + 1}`, textWidth, textHeight, 32);
 
@@ -166,8 +221,8 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
                   text={texts[index]}
                   fontSize={optimalFontSize}
                   fill={text.color}
-                  x={text.anchor_x * WIDTH}
-                  y={text.anchor_y * HEIGHT}
+                  x={text.anchor_x * canvasDimensions.width}
+                  y={text.anchor_y * canvasDimensions.height}
                   width={textWidth}
                   height={textHeight}
                   align="center"
@@ -178,24 +233,13 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
                   verticalAlign="middle"
                   draggable={false}
                 />
-                {/* <Rect
-                  key={`area-${index}`}
-                  x={text.anchor_x * WIDTH}
-                  y={text.anchor_y * HEIGHT}
-                  width={textWidth}
-                  height={textHeight}
-                  stroke="blue"
-                  strokeWidth={2}
-                  dash={[5, 5]}
-                  visible={displayHelpers}
-                /> */}
                 <Text
                   key={`placeholder-${index}`}
                   text={`Text ${index + 1}`}
                   fontSize={optimalPlaceholderFontSize}
                   fill={text.color}
-                  x={text.anchor_x * WIDTH}
-                  y={text.anchor_y * HEIGHT}
+                  x={text.anchor_x * canvasDimensions.width}
+                  y={text.anchor_y * canvasDimensions.height}
                   width={textWidth}
                   height={textHeight}
                   align="center"
@@ -205,12 +249,13 @@ export function MemeCanvas({ template, texts }: MemeCanvasProps) {
                   strokeWidth={optimalPlaceholderFontSize * 0.06}
                   verticalAlign="middle"
                   draggable={false}
-                  visible={texts[index] === ""}
+                  visible={texts[index] === "" && showPlaceholder}
                 />
               </Fragment>
             );
           })}
         </Layer>
       </Stage>
+    </div>
   );
 }
