@@ -22,8 +22,9 @@ export const getGameStateForPlayer = query({
       return null;
     }
 
-    // fill the players
-    const players = await Promise.all(game.players.map(async (playerId) => {
+    // fill the players - filter out any null/undefined player IDs
+    const validPlayerIds = game.players.filter(playerId => playerId != null);
+    const players = await Promise.all(validPlayerIds.map(async (playerId) => {
       const player = await ctx.db.get(playerId);
       return {
         id: playerId,
