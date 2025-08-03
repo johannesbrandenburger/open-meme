@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ThumbsUp, ThumbsDown, SkipForward, Loader2, CheckCircle, Ban } from "lucide-react";
 import { useState } from "react";
 import { useQueryWithStatus } from "@/lib/utils";
+import { ActionButton } from "@/components/ui/action-button";
 
 interface VotingScreenProps {
   game: Exclude<NonNullable<FunctionReturnType<typeof api.gamestate.getGameStateForPlayer>>, "GAME_NOT_FOUND">;
@@ -31,7 +32,7 @@ export function VotingScreen({ game }: VotingScreenProps) {
   }
 
   const handleVote = async (score: 1 | 0 | -1) => {
-    submitVote({ gameId: game._id, round: game.currentRound, memeId: memeId, score });
+    await submitVote({ gameId: game._id, round: game.currentRound, memeId: memeId, score });
   };
 
   return (
@@ -47,45 +48,93 @@ export function VotingScreen({ game }: VotingScreenProps) {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3">
-            <Button
-              onClick={() => handleVote(1)}
-              disabled={isPending}
+            <ActionButton
+              onAction={() => handleVote(1)}
               className="vote-button flex flex-col items-center justify-center h-16 sm:h-20 bg-gradient-to-br from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg transition-all duration-200"
-            >
-              {(
+              label={
                 <>
                   <ThumbsUp className="w-6 h-6 mb-1" />
                   <span className="text-sm font-medium">Funny!</span>
                 </>
-              )}
-            </Button>
+              }
+              loadingLabel={
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin mb-1" />
+                  <span className="text-sm font-medium">Voting...</span>
+                </>
+              }
+              failedLabel={
+                <>
+                  <ThumbsUp className="w-6 h-6 mb-1" />
+                  <span className="text-sm font-medium">Failed</span>
+                </>
+              }
+              succeededLabel={
+                <>
+                  <CheckCircle className="w-6 h-6 mb-1" />
+                  <span className="text-sm font-medium">Voted!</span>
+                </>
+              }
+            />
 
-            <Button
-              onClick={() => handleVote(0)}
-              disabled={isPending}
+            <ActionButton
+              onAction={() => handleVote(0)}
               className="vote-button flex flex-col items-center justify-center h-16 sm:h-20 bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm transition-all duration-200"
               variant="outline"
-            >
-              {(
+              label={
                 <>
                   <SkipForward className="w-6 h-6 mb-1" />
                   <span className="text-sm font-medium">Meh</span>
                 </>
-              )}
-            </Button>
+              }
+              loadingLabel={
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin mb-1" />
+                  <span className="text-sm font-medium">Voting...</span>
+                </>
+              }
+              failedLabel={
+                <>
+                  <SkipForward className="w-6 h-6 mb-1" />
+                  <span className="text-sm font-medium">Failed</span>
+                </>
+              }
+              succeededLabel={
+                <>
+                  <CheckCircle className="w-6 h-6 mb-1" />
+                  <span className="text-sm font-medium">Voted!</span>
+                </>
+              }
+            />
 
-            <Button
-              onClick={() => handleVote(-1)}
-              disabled={isPending}
+            <ActionButton
+              onAction={() => handleVote(-1)}
               className="vote-button flex flex-col items-center justify-center h-16 sm:h-20 bg-gradient-to-br from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white border-0 shadow-lg transition-all duration-200"
-            >
-              {(
+              label={
                 <>
                   <ThumbsDown className="w-6 h-6 mb-1" />
                   <span className="text-sm font-medium">Not Funny</span>
                 </>
-              )}
-            </Button>
+              }
+              loadingLabel={
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin mb-1" />
+                  <span className="text-sm font-medium">Voting...</span>
+                </>
+              }
+              failedLabel={
+                <>
+                  <ThumbsDown className="w-6 h-6 mb-1" />
+                  <span className="text-sm font-medium">Failed</span>
+                </>
+              }
+              succeededLabel={
+                <>
+                  <CheckCircle className="w-6 h-6 mb-1" />
+                  <span className="text-sm font-medium">Voted!</span>
+                </>
+              }
+            />
           </div>
         </div>
       ) : game.isVotingOnOwnMeme ? (

@@ -16,8 +16,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Clock, Users, Play, Home, Crown, Timer, Share2, Copy } from "lucide-react";
+import { Clock, Users, Play, Home, Crown, Timer, Share2, Copy, Loader2, TriangleAlert, Check } from "lucide-react";
 import { GameConfig } from "./GameConfig";
+import { ActionButton } from "@/components/ui/action-button";
 
 export default function Game() {
   const params = useParams();
@@ -26,8 +27,6 @@ export default function Game() {
   const game = useQuery(api.gamestate.getGameStateForPlayer, { gameId });
   const startGame = useMutation(api.games.startGame);
   const joinGame = useMutation(api.games.joinGame);
-  const [isStarting, setIsStarting] = useState(false);
-  const [isCopying, setIsCopying] = useState(false);
 
   useEffect(() => {
     if (!gameId) {
@@ -81,52 +80,25 @@ export default function Game() {
   }
 
   const handleStartGame = async () => {
-    setIsStarting(true);
-    try {
-      await startGame({ gameId });
-      // toast.success("Game started!");
-    } catch (error) {
-      console.error("Failed to start game:", error);
-      toast.error("Failed to start game");
-    } finally {
-      setIsStarting(false);
-    }
+    await startGame({ gameId });
   };
 
   const copyGameUrl = async () => {
-    setIsCopying(true);
-    try {
-      const url = window.location.href;
+    const url = window.location.href;
 
-      // Try modern clipboard API first
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(url);
-        toast.success("Game URL copied to clipboard!");
-      } else {
-        // Fallback for older browsers and iPhone Safari
-        const textArea = document.createElement("textarea");
-        textArea.value = url;
-        textArea.style.position = "absolute";
-        textArea.style.left = "-999999px";
-        textArea.style.top = "-999999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-
-        try {
-          document.execCommand('copy');
-          toast.success("Game URL copied to clipboard!");
-        } catch (err) {
-          toast.error("Failed to copy URL. Please copy manually from the address bar.");
-        } finally {
-          document.body.removeChild(textArea);
-        }
-      }
-    } catch (error) {
-      console.error("Failed to copy URL:", error);
-      toast.error("Failed to copy URL");
-    } finally {
-      setIsCopying(false);
+    // Try modern clipboard API first
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(url);
+    } else {
+      // Fallback for older browsers and iPhone Safari
+      const textArea = document.createElement("textarea");
+      textArea.value = url;
+      textArea.style.position = "absolute";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
     }
   };
 
@@ -186,44 +158,25 @@ export default function Game() {
           <CardContent className="space-y-4 sm:space-y-6">
             <div className="space-y-3">
               {game.isHost && (
-                <Button
-                  onClick={handleStartGame}
-                  disabled={isStarting}
-                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 font-semibold py-3 h-12 sm:h-auto shadow-lg"
-                >
-                  {isStarting ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
-                      Starting Game...
-                    </>
-                  ) : (
-                    <>
-                      <Play className="w-4 h-4 mr-2" />
-                      Start Game
-                      {/* {game.players.length < 2 && "(Need 2+ players)"} */}
-                    </>
-                  )}
-                </Button>
+                <ActionButton
+                  variant="default"
+                  onAction={handleStartGame}
+                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 font-semibold h-12 py-3 shadow-lg"
+                  label={<> <Play /> <span>Start Game</span> </>}
+                  loadingLabel={<> <Loader2 className="animate-spin" /> <span>Starting Game...</span> </>}
+                  failedLabel={<> <TriangleAlert /> <span>Failed to start game</span> </>}
+                  succeededLabel={<> <Check /> <span>Game started</span> </>}
+                />
               )}
-
-              <Button
-                onClick={copyGameUrl}
-                disabled={isCopying}
+              <ActionButton
                 variant="outline"
+                onAction={copyGameUrl}
                 className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm py-3 h-12 sm:h-auto"
-              >
-                {isCopying ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
-                    Copying...
-                  </>
-                ) : (
-                  <>
-                    <Share2 className="w-4 h-4 mr-2" />
-                    Share Game Link
-                  </>
-                )}
-              </Button>
+                label={<> <Share2 /> <span>Share Game Link</span> </>}
+                loadingLabel={<> <Loader2 className="animate-spin" /> <span>Copying...</span> </>}
+                failedLabel={<> <TriangleAlert /> <span>Failed to copy link</span> </>}
+                succeededLabel={<> <Check /> <span>Game URL copied to clipboard</span> </>}
+              />
             </div>
 
             {game.isHost && (
