@@ -2,23 +2,59 @@
 
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useConvexAuth, useMutation } from "convex/react";
+import { ReactMutation, useConvexAuth, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { SignIn } from "./components/SignIn";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Plus, LogOut, Loader2, MessageSquareQuote, Sticker } from "lucide-react";
+import { Plus, LogOut, Loader2, MessageSquareQuote, Sticker, TriangleAlert, Check } from "lucide-react";
 import { useState } from "react";
+import { FunctionReference } from "convex/server";
+import { ActionButton } from "@/components/ui/action-button";
+
+// export function useMutation<Mutation extends FunctionReference<"mutation">>(
+//   mutation: Mutation,
+// ): ReactMutation<Mutation> {
+
+
+export function useMutationWithMoreInfo<Mutation extends FunctionReference<"mutation">>(
+  mutation: Mutation,
+) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const mut = useMutation(mutation);
+  const wrappedMutation = async (...args: Parameters<ReactMutation<Mutation>>) => {
+    setIsLoading(true);
+    let result;
+    try {
+      result = await mut(...args);
+    } catch (error) {
+      setIsError(true);
+      console.error("Mutation error:", error);
+      return;
+    } finally {
+      setIsLoading(false);
+    }
+    if (!result) {
+      setIsError(true);
+      console.error("Mutation returned no result");
+      return;
+    }
+    return result;
+  };
+  return [wrappedMutation, isLoading, isError] as const;
+}
 
 export default function App() {
   const router = useRouter();
   const { isLoading, isAuthenticated } = useConvexAuth();
   const { signOut } = useAuthActions();
-  const [isCreating, setIsCreating] = useState(false);
 
-  const createGame = useMutation(api.games.createGame);
+  // const [isCreating, setIsCreating] = useState(false);
+  // const createGame = useMutation(api.games.createGame);
+  const [createGame, isCreating, creationFailed] = useMutationWithMoreInfo(api.games.createGame);
 
   const navigateToGame = (newGameId: string) => {
     router.push(`/game/${newGameId}`);
@@ -37,7 +73,6 @@ export default function App() {
         </Card>
       </div>
     );
-    // MessageSquareQuote PartyPopper
   }
 
   if (!isAuthenticated) {
@@ -45,20 +80,11 @@ export default function App() {
   }
 
   const handleCreateGame = async () => {
-    setIsCreating(true);
-    try {
-      // toast("Creating new game...", { icon: "⏳" });
-      const newGameId = await createGame();
-      if (!newGameId) {
-        toast.error("Failed to create game");
-        return;
-      }
-      navigateToGame(newGameId);
-    } catch (error) {
-      toast.error("Failed to create game");
-    } finally {
-      setIsCreating(false);
+    const newGameId = await createGame();
+    if (!newGameId) {
+      throw new Error("Failed to create game");
     }
+    navigateToGame(newGameId);
   };
 
   return (
@@ -69,27 +95,17 @@ export default function App() {
             <Sticker className="w-8 h-8 text-white" />
           </div>
           <CardTitle className="text-2xl font-bold text-white">OpenMeme</CardTitle>
-          {/* <p className="text-white/80 text-sm">Create hilarious memes with friends!</p> */}
         </CardHeader>
         <CardContent className="space-y-4">
-          <Button
+          <ActionButton
             variant="default"
-            onClick={handleCreateGame}
-            disabled={isCreating}
+            onAction={handleCreateGame}
             className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 font-semibold py-3 shadow-lg"
-          >
-            {isCreating ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
-                Creating Game...
-              </>
-            ) : (
-              <>
-                <Plus className="w-4 h-4 mr-2" />
-                Create New Game
-              </>
-            )}
-          </Button>
+            label={<> <Plus /> <span>Create New Game</span> </>}
+            loadingLabel={<> <Loader2 className="animate-spin" /> <span>Creating Game...</span> </>}
+            failedLabel={<> <TriangleAlert /> <span>Failed to create game</span> </>}
+            succeededLabel={<> <Check /> <span>Game created</span> </>}
+          />
           <Button
             variant="outline"
             onClick={() => {
@@ -99,7 +115,7 @@ export default function App() {
             }}
             className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm"
           >
-            <LogOut className="w-4 h-4 mr-2" />
+            <LogOut className="" />
             Sign Out
           </Button>
         </CardContent>
