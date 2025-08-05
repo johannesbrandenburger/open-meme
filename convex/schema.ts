@@ -37,7 +37,6 @@ const applicationTables = {
     timeLeft: v.number(),
 
     currentRound: v.number(),
-    totalRounds: v.number(),
     votingMemeNo: v.number(),
     votingMemes: v.array(v.id("memes")),
     players: v.array(v.id("users")),

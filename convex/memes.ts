@@ -1,7 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation, action } from "./_generated/server";
 import templatesJson from "./templates.json";
-import { CREATION_TIME, VOTE_TIME } from "./games";
 import { internal } from "./_generated/api";
 import { getAuthUserId } from "@convex-dev/auth/server";
 
@@ -120,7 +119,7 @@ export const submitMeme = mutation({
       const votingMemes = submittedMemes.sort(() => 0.5 - Math.random()).map(meme => meme._id);
       await ctx.db.patch(game._id, {
         status: "voting",
-        timeLeft: VOTE_TIME,
+        timeLeft: game.config.voteTime,
         votingMemeNo: 1,
         votingMemes: votingMemes,
       });

@@ -1,12 +1,7 @@
-import { useMutation, useQuery } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import { MemeCanvas } from "./MemeCanvas";
 import { FunctionReturnType } from "convex/server";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Trophy, Crown, Medal, Star, PartyPopper, Loader2, Home } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider"
 
 interface GameConfigProps {

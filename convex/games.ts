@@ -8,12 +8,12 @@ import { GenericMutationCtx, GenericQueryCtx } from "convex/server";
 
 
 // constants
-export const ROUNDS = 3; // Total number of rounds in a game
-export const CREATION_TIME = 90; // Time for meme creation in seconds
-export const VOTE_TIME = 20; // Time for voting in seconds (one meme)
-export const ROUND_STATS_TIME = 10; // Time for round stats in seconds
-export const FINAL_STATS_TIME = 10; // Time for final stats in seconds
-export const MEMES_PER_ROUND = 5; // Number of memes per round the user can choose from
+const ROUNDS = 3; // Total number of rounds in a game
+const CREATION_TIME = 90; // Time for meme creation in seconds
+const VOTE_TIME = 20; // Time for voting in seconds (one meme)
+const ROUND_STATS_TIME = 10; // Time for round stats in seconds
+const FINAL_STATS_TIME = 10; // Time for final stats in seconds
+const MEMES_PER_ROUND = 5; // Number of memes per round the user can choose from
 
 export const createGame = mutation({
   args: {},
@@ -35,7 +35,6 @@ export const createGame = mutation({
       status: "waiting",
       timeLeft: 0,
       currentRound: 0,
-      totalRounds: ROUNDS,
       votingMemeNo: 0,
       votingMemes: [],
       players: [userId],
@@ -161,8 +160,8 @@ export const startGame = mutation({
     await Promise.all(
       game.players.map(async (playerId) => {
         await Promise.all(
-          Array.from({ length: ROUNDS }).map(async (_, index) => {
-            const templates = templatesJson.sort(() => 0.5 - Math.random()).slice(0, MEMES_PER_ROUND);
+          Array.from({ length: game.config.rounds }).map(async (_, index) => {
+            const templates = templatesJson.sort(() => 0.5 - Math.random()).slice(0, game.config.memesPerRound);
             const meme = {
               gameId: game._id,
               playerId: playerId,

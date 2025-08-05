@@ -3,7 +3,6 @@ import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { DataModel, Id } from "./_generated/dataModel";
 import { internalMutation } from "./_generated/server";
-import { VOTE_TIME, ROUND_STATS_TIME, CREATION_TIME, FINAL_STATS_TIME } from "./games";
 
 export const tickWrapper = internalMutation({
   args: {
@@ -36,7 +35,7 @@ export const tickOneGame = async (ctx: GenericMutationCtx<DataModel>, gameId: Id
       const votingMemes = submittedMemes.sort(() => 0.5 - Math.random()).map(meme => meme._id);
       await ctx.db.patch(game._id, {
         status: "voting",
-        timeLeft: VOTE_TIME,
+        timeLeft: game.config.voteTime,
         votingMemeNo: 1,
         votingMemes: votingMemes,
       });
@@ -47,7 +46,7 @@ export const tickOneGame = async (ctx: GenericMutationCtx<DataModel>, gameId: Id
       if (game.votingMemeNo < game.players.length) {
         // Move to next meme voting phase
         await ctx.db.patch(game._id, {
-          timeLeft: VOTE_TIME,
+          timeLeft: game.config.voteTime,
           votingMemeNo: game.votingMemeNo + 1,
         });
       }
@@ -56,7 +55,7 @@ export const tickOneGame = async (ctx: GenericMutationCtx<DataModel>, gameId: Id
         // Move to round stats phase
         await ctx.db.patch(game._id, {
           status: "round_stats",
-          timeLeft: ROUND_STATS_TIME,
+          timeLeft: game.config.roundStatsTime,
         });
       }
 
@@ -64,11 +63,11 @@ export const tickOneGame = async (ctx: GenericMutationCtx<DataModel>, gameId: Id
 
     else if (game.status === "round_stats") {
 
-      if (game.currentRound < game.totalRounds) {
+      if (game.currentRound < game.config.rounds) {
         // Move to next round
         await ctx.db.patch(game._id, {
           status: "creating",
-          timeLeft: CREATION_TIME,
+          timeLeft: game.config.creationTime,
           currentRound: game.currentRound + 1,
         });
       }
@@ -77,7 +76,7 @@ export const tickOneGame = async (ctx: GenericMutationCtx<DataModel>, gameId: Id
         // Move to final stats phase
         await ctx.db.patch(game._id, {
           status: "final_stats",
-          timeLeft: FINAL_STATS_TIME,
+          timeLeft: game.config.finalStatsTime,
         });
       }
     }

@@ -1,8 +1,6 @@
 import { v } from "convex/values";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { query } from "./_generated/server";
-import { CREATION_TIME, FINAL_STATS_TIME, ROUND_STATS_TIME, VOTE_TIME } from "./games";
-
 
 export const getGameStateForPlayer = query({
   args: {
@@ -22,8 +20,9 @@ export const getGameStateForPlayer = query({
       return null;
     }
 
-    // fill the players
-    const players = await Promise.all(game.players.map(async (playerId) => {
+    // fill the players - filter out any null/undefined player IDs
+    const validPlayerIds = game.players.filter(playerId => playerId != null);
+    const players = await Promise.all(validPlayerIds.map(async (playerId) => {
       const player = await ctx.db.get(playerId);
       return {
         id: playerId,
@@ -50,15 +49,15 @@ export const getGameStateForPlayer = query({
     // fill game.totalTime
     let totalTime = 0;
     if (game.status === "creating") {
-      totalTime = CREATION_TIME;
+      totalTime = game.config.creationTime;
     } else if (game.status === "voting") {
-      totalTime = VOTE_TIME;
+      totalTime = game.config.voteTime;
     } else if (game.status === "waiting") {
       totalTime = Infinity; // Waiting state has no time limit
     } else if (game.status === "round_stats") {
-      totalTime = ROUND_STATS_TIME;
+      totalTime = game.config.roundStatsTime;
     } else if (game.status === "final_stats") {
-      totalTime = FINAL_STATS_TIME;
+      totalTime = game.config.finalStatsTime;
     }
 
     return {

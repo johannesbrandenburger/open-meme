@@ -2,21 +2,15 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
 import { FunctionReturnType } from "convex/server";
-import { Button } from "@/components/ui/button";
+import { ActionButton } from "@/components/ui/action-button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
 import { Shuffle, Send, Loader2, CheckCircle } from "lucide-react";
-import { useState } from "react";
 
 interface MemeCreationScreenProps {
   game: Exclude<NonNullable<FunctionReturnType<typeof api.gamestate.getGameStateForPlayer>>, "GAME_NOT_FOUND">;
 }
 
 export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isShuffling, setIsShuffling] = useState(false);
-
   const meme = useQuery(api.memes.getOwnMeme, { gameId: game._id })
   const updateMeme = useMutation(api.memes.updateMeme).withOptimisticUpdate(
     (localStore, args) => {
@@ -62,24 +56,20 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
   }
 
   const handleSubmit = async () => {
-    setIsSubmitting(true);
     try {
       await submitMeme({ memeId: meme._id, texts: meme.texts });
     } catch (error) {
       console.error("Failed to submit meme:", error);
-    } finally {
-      setIsSubmitting(false);
+      throw error; // Re-throw so ActionButton can handle the failed state
     }
   };
 
   const handleShuffle = async () => {
-    setIsShuffling(true);
     try {
       await nextShuffle({ memeId: meme._id });
     } catch (error) {
       console.error("Failed to shuffle template:", error);
-    } finally {
-      setIsShuffling(false);
+      throw error; // Re-throw so ActionButton can handle the failed state
     }
   };
 
@@ -94,24 +84,35 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
 
       {/* Template Shuffle */}
       <div className="text-center">
-        <Button
+        <ActionButton
           variant="outline"
-          onClick={handleShuffle}
-          disabled={isShuffling}
+          onAction={handleShuffle}
           className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm w-full sm:w-auto"
-        >
-          {isShuffling ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Shuffling...
-            </>
-          ) : (
+          label={
             <>
               <Shuffle className="w-4 h-4 mr-2" />
               Try Different Template
             </>
-          )}
-        </Button>
+          }
+          loadingLabel={
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Shuffling...
+            </>
+          }
+          failedLabel={
+            <>
+              <Shuffle className="w-4 h-4 mr-2" />
+              Try Again
+            </>
+          }
+          succeededLabel={
+            <>
+              <CheckCircle className="w-4 h-4 mr-2" />
+              Template Changed!
+            </>
+          }
+        />
       </div>
 
       {/* Text Inputs */}
@@ -132,30 +133,41 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
                 updateMeme({ memeId: meme._id, texts: newTexts });
               }}
               className="bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-white/50 focus:ring-white/25 backdrop-blur-sm h-12 text-base"
-              maxLength={100}
             />
           </div>
         ))}
       </div>
 
       {/* Submit Button */}
-      <Button
-        onClick={handleSubmit}
-        disabled={isSubmitting || meme.texts.every(text => !text.trim())}
+      <ActionButton
+        onAction={handleSubmit}
+        disabled={meme.texts.every(text => !text.trim())}
         className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 font-semibold py-3 sm:py-3 h-12 sm:h-auto shadow-lg disabled:opacity-50"
-      >
-        {isSubmitting ? (
-          <>
-            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            Submitting Meme...
-          </>
-        ) : (
+        label={
           <>
             <Send className="w-4 h-4 mr-2" />
             Submit Meme
           </>
-        )}
-      </Button>
+        }
+        loadingLabel={
+          <>
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            Submitting Meme...
+          </>
+        }
+        failedLabel={
+          <>
+            <Send className="w-4 h-4 mr-2" />
+            Try Again
+          </>
+        }
+        succeededLabel={
+          <>
+            <CheckCircle className="w-4 h-4 mr-2" />
+            Meme Submitted!
+          </>
+        }
+      />
     </div>
   );
 }

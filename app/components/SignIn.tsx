@@ -4,15 +4,14 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User, Sticker } from "lucide-react";
+import { User, Sticker, Loader2 } from "lucide-react";
+import { ActionButton } from "@/components/ui/action-button";
 
 export function SignIn() {
     const { signIn } = useAuthActions();
     const [nickname, setNickname] = useState("");
-    const [isSigningIn, setIsSigningIn] = useState(false);
 
     const handleSignIn = async () => {
         if (!nickname.trim()) {
@@ -20,7 +19,6 @@ export function SignIn() {
             return;
         }
         
-        setIsSigningIn(true);
         try {
             await signIn("password", {
                 email: nickname.trim(),
@@ -34,13 +32,12 @@ export function SignIn() {
         } catch (error: any) {
             console.error("Sign in error:", error);
             toast.error("Failed to sign in: " + error.message);
-        } finally {
-            setIsSigningIn(false);
+            throw error; // Re-throw so ActionButton can handle the failed state
         }
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' && nickname.trim() && !isSigningIn) {
+        if (e.key === 'Enter' && nickname.trim()) {
             handleSignIn();
         }
     };
@@ -71,26 +68,25 @@ export function SignIn() {
                                 value={nickname}
                                 onChange={(e) => setNickname(e.target.value)}
                                 onKeyPress={handleKeyPress}
-                                disabled={isSigningIn}
                                 className="pl-10 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-white/50 focus:ring-white/25 backdrop-blur-sm"
                                 maxLength={20}
                             />
                         </div>
                     </div>
-                    <Button
-                        onClick={handleSignIn}
-                        disabled={!nickname.trim() || isSigningIn}
+                    <ActionButton
+                        onAction={handleSignIn}
+                        disabled={!nickname.trim()}
                         className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0 font-semibold py-3 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {isSigningIn ? (
+                        label="Join Game"
+                        loadingLabel={
                             <>
-                                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
+                                <Loader2 className="w-4 h-4 animate-spin mr-2" />
                                 Joining...
                             </>
-                        ) : (
-                            "Join Game"
-                        )}
-                    </Button>
+                        }
+                        failedLabel="Try Again"
+                        succeededLabel="Joined!"
+                    />
                 </CardContent>
             </Card>
         </div>
