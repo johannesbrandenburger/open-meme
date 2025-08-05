@@ -13,47 +13,14 @@ import { Plus, LogOut, Loader2, MessageSquareQuote, Sticker, TriangleAlert, Chec
 import { useState } from "react";
 import { FunctionReference } from "convex/server";
 import { ActionButton } from "@/components/ui/action-button";
-
-// export function useMutation<Mutation extends FunctionReference<"mutation">>(
-//   mutation: Mutation,
-// ): ReactMutation<Mutation> {
-
-
-export function useMutationWithMoreInfo<Mutation extends FunctionReference<"mutation">>(
-  mutation: Mutation,
-) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const mut = useMutation(mutation);
-  const wrappedMutation = async (...args: Parameters<ReactMutation<Mutation>>) => {
-    setIsLoading(true);
-    let result;
-    try {
-      result = await mut(...args);
-    } catch (error) {
-      setIsError(true);
-      console.error("Mutation error:", error);
-      return;
-    } finally {
-      setIsLoading(false);
-    }
-    if (!result) {
-      setIsError(true);
-      console.error("Mutation returned no result");
-      return;
-    }
-    return result;
-  };
-  return [wrappedMutation, isLoading, isError] as const;
-}
+import { useMutationWithMoreInfo } from "@/lib/utils";
 
 export default function App() {
   const router = useRouter();
   const { isLoading, isAuthenticated } = useConvexAuth();
   const { signOut } = useAuthActions();
 
-  // const [isCreating, setIsCreating] = useState(false);
-  // const createGame = useMutation(api.games.createGame);
+  // more info is not really needed here anymore since it is handled by the ActionButton component
   const [createGame, isCreating, creationFailed] = useMutationWithMoreInfo(api.games.createGame);
 
   const navigateToGame = (newGameId: string) => {
