@@ -1,11 +1,8 @@
-import { useQuery, useMutation } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
 import { FunctionReturnType } from "convex/server";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { ThumbsUp, ThumbsDown, SkipForward, Loader2, CheckCircle, Ban } from "lucide-react";
-import { useState } from "react";
 import { useQueryWithStatus } from "@/lib/utils";
 import { ActionButton } from "@/components/ui/action-button";
 
