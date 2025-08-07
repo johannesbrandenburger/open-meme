@@ -75,14 +75,8 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Meme Preview */}
-      {/* <Card className="bg-white/5 border-white/10">
-        <CardContent className="pt-4 sm:pt-6"> */}
       <MemeCanvas template={meme.templates[meme.templateIndex]} texts={meme.texts} />
-      {/* </CardContent> */}
-      {/* </Card> */}
 
-      {/* Template Shuffle */}
       <div className="text-center">
         <ActionButton
           variant="outline"
@@ -119,9 +113,6 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
       <div className="space-y-3 sm:space-y-4">
         {meme.texts.map((text, index) => (
           <div key={index} className="space-y-2">
-            {/* <Label htmlFor={`text-${index}`} className="text-white font-medium text-sm sm:text-base">
-              Text {index + 1}
-            </Label> */}
             <Input
               id={`text-${index}`}
               type="text"
