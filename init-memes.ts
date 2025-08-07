@@ -81,7 +81,7 @@ import { parse } from 'yaml'
     const configPath = path.join(templatePath, "config.yml");
     
     // Check for supported image formats
-    const supportedFormats = ['jpg', 'png'];
+    const supportedFormats = ['jpg', 'png', 'gif'];
     let imgPath = '';
     let imgFormat = '';
     

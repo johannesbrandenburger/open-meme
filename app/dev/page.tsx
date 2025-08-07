@@ -41,6 +41,40 @@ const dummyMeme = {
   ]
 };
 
+const dummyMeme2 = {
+  _id: "dummy-id",
+  name: "Dummy Meme",
+  "imgUrl": "templates/buzz.gif",
+  "text": [
+    {
+      "style": "upper",
+      "color": "white",
+      "font": "thick",
+      "anchor_x": 0,
+      "anchor_y": 0,
+      "angle": 0,
+      "scale_x": 1,
+      "scale_y": 0.2,
+      "align": "center",
+      "start": 0.05,
+      "stop": 1
+    },
+    {
+      "style": "upper",
+      "color": "white",
+      "font": "thick",
+      "anchor_x": 0,
+      "anchor_y": 0.8,
+      "angle": 0,
+      "scale_x": 1,
+      "scale_y": 0.2,
+      "align": "center",
+      "start": 0.5,
+      "stop": 1
+    }
+  ],
+};
+
 export default function DevRoute() {
 
   const texts: string[] = [
@@ -50,6 +84,7 @@ export default function DevRoute() {
   return (
     <div className="space-y-4 sm:space-y-6">
       <MemeCanvas template={dummyMeme} texts={texts} />
+      <MemeCanvas template={dummyMeme2} texts={texts} />
     </div>
   )
 }
