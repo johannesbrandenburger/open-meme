@@ -58,14 +58,14 @@ export default function App() {
     <div className="flex items-center justify-center min-h-screen p-3">
       <Card className="w-full max-w-md mx-auto shadow-lg">
         <CardHeader className="text-center space-y-2">
-          <div className="mx-auto w-14 h-14 rounded-full flex items-center justify-center mb-2 bg-[radial-gradient(circle_at_30%_30%,theme(colors.primary/60),transparent_60%),radial-gradient(circle_at_70%_70%,theme(colors.accent/50),transparent_60%)]">
+          <div className="mx-auto w-14 h-14 rounded-full flex items-center justify-center mb-2 bg-[radial-gradient(circle_at_30%_30%,color-mix(in_oklab,var(--color-primary)_60%,transparent),transparent_60%),radial-gradient(circle_at_70%_70%,color-mix(in_oklab,var(--color-accent)_50%,transparent),transparent_60%)]">
             <Sticker className="w-7 h-7 text-primary-foreground" />
           </div>
           <CardTitle className="text-2xl font-bold">OpenMeme</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <ActionButton
-            variant="default"
+            variant="gradient"
             onAction={handleCreateGame}
             className="w-full font-semibold h-11"
             label={<> <Plus /> <span>Create New Game</span> </>}

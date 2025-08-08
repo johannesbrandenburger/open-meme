@@ -46,7 +46,7 @@ export function SignIn() {
         <div className="flex items-center justify-center min-h-screen p-3">
             <Card className="w-full max-w-md mx-auto">
                 <CardHeader className="text-center space-y-3">
-                    <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center bg-[radial-gradient(circle_at_30%_30%,theme(colors.primary/60),transparent_60%),radial-gradient(circle_at_70%_70%,theme(colors.accent/50),transparent_60%)]">
+                    <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center bg-[radial-gradient(circle_at_30%_30%,color-mix(in_oklab,var(--color-primary)_60%,transparent),transparent_60%),radial-gradient(circle_at_70%_70%,color-mix(in_oklab,var(--color-accent)_50%,transparent),transparent_60%)]">
                         <Sticker className="w-8 h-8 text-primary-foreground" />
                     </div>
                     <div>

@@ -20,7 +20,7 @@ const badgeVariants = cva(
         glass:
           "border-border/60 bg-[color-mix(in_oklab,white_8%,transparent)] text-foreground",
         gradient:
-          "border-0 text-white bg-[linear-gradient(90deg,theme(colors.primary),theme(colors.accent))]",
+          "border-0 text-white bg-[linear-gradient(90deg,var(--color-primary),var(--color-accent))]",
       },
     },
     defaultVariants: {

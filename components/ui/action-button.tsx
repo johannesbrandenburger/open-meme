@@ -50,6 +50,8 @@ type ActionButtonProps = Omit<
  */
 export function ActionButton(props: ActionButtonProps) {
   const {
+  // default to gradient variant for strong visual CTA unless caller overrides
+  variant = "gradient",
     state: controlledState,
     defaultState = "ready",
     onAction,
@@ -87,7 +89,7 @@ export function ActionButton(props: ActionButtonProps) {
 
     onClick,
     className,
-    ...buttonProps
+  ...buttonProps
   } = props;
 
   const isControlled = controlledState !== undefined;
@@ -178,6 +180,7 @@ export function ActionButton(props: ActionButtonProps) {
     <Button
       {...buttonProps}
       onClick={handleClick}
+  variant={variant as any}
       className={cn("gap-2", className)}
       disabled={disableButton || buttonProps.disabled}
       aria-busy={busy || undefined}

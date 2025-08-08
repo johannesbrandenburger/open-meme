@@ -10,13 +10,15 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "text-primary-foreground shadow-sm bg-[linear-gradient(180deg,theme(colors.primary/90),theme(colors.primary/75))] hover:bg-[linear-gradient(180deg,theme(colors.primary),theme(colors.primary/85))]",
+          "text-primary-foreground shadow-sm bg-[linear-gradient(180deg,color-mix(in_oklab,var(--color-primary)_90%,transparent),color-mix(in_oklab,var(--color-primary)_75%,transparent))] hover:bg-[linear-gradient(180deg,var(--color-primary),color-mix(in_oklab,var(--color-primary)_85%,transparent))]",
+        gradient:
+          "relative overflow-hidden text-white border-0 shadow-sm bg-transparent before:content-[''] before:absolute before:inset-0 before:bg-[linear-gradient(90deg,var(--color-primary),var(--color-accent))] hover:before:opacity-95",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
           "border bg-[color-mix(in_oklab,white_6%,transparent)] shadow-xs hover:bg-[color-mix(in_oklab,white_10%,transparent)] hover:text-accent-foreground dark:bg-input/30 dark:border-input/70",
         secondary:
-          "bg-[linear-gradient(180deg,theme(colors.secondary/90),theme(colors.secondary/65))] text-secondary-foreground shadow-sm hover:bg-[linear-gradient(180deg,theme(colors.secondary),theme(colors.secondary/80))]",
+          "bg-[linear-gradient(180deg,color-mix(in_oklab,var(--color-secondary)_90%,transparent),color-mix(in_oklab,var(--color-secondary)_65%,transparent))] text-secondary-foreground shadow-sm hover:bg-[linear-gradient(180deg,var(--color-secondary),color-mix(in_oklab,var(--color-secondary)_80%,transparent))]",
         ghost:
           "hover:bg-accent/20 hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",

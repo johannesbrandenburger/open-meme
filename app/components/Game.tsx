@@ -155,7 +155,7 @@ export default function Game() {
             <div className="space-y-3">
               {game.isHost && (
                 <ActionButton
-                  variant="default"
+                  variant="gradient"
                   onAction={handleStartGame}
                   className="w-full font-semibold h-11"
                   label={<> <Play /> <span>Start Game</span> </>}

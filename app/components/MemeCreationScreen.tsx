@@ -131,6 +131,7 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
 
       {/* Submit Button */}
       <ActionButton
+        variant="gradient"
         onAction={handleSubmit}
         disabled={meme.texts.every(text => !text.trim())}
         className="w-full font-semibold h-12 sm:h-auto"
