@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./Globals.css";
+import "./globals.css";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import ConvexClientProvider from "@/app/components/ConvexClientProvider";
 import { Toaster } from "sonner";
