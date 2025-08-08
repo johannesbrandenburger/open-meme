@@ -46,7 +46,7 @@ export function VotingScreen({ game }: VotingScreenProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3">
             <ActionButton
-              variant="gradient"
+              variant="gradientSuccess"
               onAction={() => handleVote(1)}
               className="vote-button flex flex-col items-center justify-center h-16 sm:h-20 shadow-lg transition-all duration-200"
               label={
@@ -106,7 +106,7 @@ export function VotingScreen({ game }: VotingScreenProps) {
             />
 
             <ActionButton
-              variant="gradient"
+              variant="gradientDanger"
               onAction={() => handleVote(-1)}
               className="vote-button flex flex-col items-center justify-center h-16 sm:h-20 shadow-lg transition-all duration-200"
               label={
