@@ -43,24 +43,24 @@ export function SignIn() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen p-4">
-            <Card className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
-                <CardHeader className="text-center space-y-4">
-                    <div className="mx-auto w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                        <Sticker className="w-10 h-10 text-white" />
+        <div className="flex items-center justify-center min-h-screen p-3">
+            <Card className="w-full max-w-md mx-auto">
+                <CardHeader className="text-center space-y-3">
+                    <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center bg-[radial-gradient(circle_at_30%_30%,theme(colors.primary/60),transparent_60%),radial-gradient(circle_at_70%_70%,theme(colors.accent/50),transparent_60%)]">
+                        <Sticker className="w-8 h-8 text-primary-foreground" />
                     </div>
                     <div>
-                        <CardTitle className="text-3xl font-bold text-white mb-2">Welcome!</CardTitle>
-                        <p className="text-white/80">Enter your nickname to start creating memes</p>
+                        <CardTitle className="text-2xl font-bold mb-1">Welcome!</CardTitle>
+                        <p className="text-muted-foreground">Enter your nickname to start creating memes</p>
                     </div>
                 </CardHeader>
-                <CardContent className="space-y-6">
+                <CardContent className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="nickname" className="text-white font-medium">
+                        <Label htmlFor="nickname" className="font-medium">
                             Nickname
                         </Label>
                         <div className="relative">
-                            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 w-4 h-4" />
+                            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
                             <Input
                                 id="nickname"
                                 type="text"
@@ -68,7 +68,7 @@ export function SignIn() {
                                 value={nickname}
                                 onChange={(e) => setNickname(e.target.value)}
                                 onKeyPress={handleKeyPress}
-                                className="pl-10 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-white/50 focus:ring-white/25 backdrop-blur-sm"
+                                className="pl-10"
                                 maxLength={20}
                             />
                         </div>
@@ -76,7 +76,7 @@ export function SignIn() {
                     <ActionButton
                         onAction={handleSignIn}
                         disabled={!nickname.trim()}
-                        className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0 font-semibold py-3 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full font-semibold h-11 disabled:opacity-50 disabled:cursor-not-allowed"
                         label="Join Game"
                         loadingLabel={
                             <>

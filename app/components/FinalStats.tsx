@@ -19,7 +19,7 @@ export function FinalStats({ game }: FinalStatsProps) {
   if (!finalStats) {
     return (
       <div className="text-center py-8">
-        <div className="flex items-center justify-center space-x-3 text-white">
+        <div className="flex items-center justify-center space-x-3">
           <Loader2 className="w-5 h-5 animate-spin" />
           <span>Loading final results...</span>
         </div>
@@ -35,23 +35,23 @@ export function FinalStats({ game }: FinalStatsProps) {
       case 0: return <Crown className="w-6 h-6 text-yellow-400" />;
       case 1: return <Trophy className="w-6 h-6 text-gray-400" />;
       case 2: return <Medal className="w-6 h-6 text-amber-600" />;
-      default: return <Star className="w-6 h-6 text-white/60" />;
+  default: return <Star className="w-6 h-6 text-muted-foreground" />;
     }
   };
 
   const getPlayerRankBadgeColor = (index: number) => {
     switch (index) {
-      case 0: return "bg-gradient-to-r from-yellow-400 to-orange-500";
-      case 1: return "bg-gradient-to-r from-gray-400 to-gray-500";
-      case 2: return "bg-gradient-to-r from-amber-600 to-amber-700";
-      default: return "bg-white/20";
+  case 0: return "bg-yellow-500/20 text-yellow-300";
+  case 1: return "bg-gray-500/20 text-gray-300";
+  case 2: return "bg-amber-600/20 text-amber-300";
+  default: return "bg-muted text-foreground";
     }
   };
 
   return (
     <div className="space-y-8">
       {/* Winner Celebration */}
-      <Card className="bg-gradient-to-r from-yellow-400/20 to-orange-500/20 border-yellow-400/30">
+      <Card>
         <CardContent className="pt-6 text-center">
           <div className="flex justify-center mb-4">
             <div className="animate-bounce">
@@ -59,14 +59,14 @@ export function FinalStats({ game }: FinalStatsProps) {
             </div>
           </div>
           <h2 className="text-3xl font-bold text-yellow-400 mb-2">🎉 Game Over! 🎉</h2>
-          <div className="text-2xl font-semibold text-white mb-1">
+          <div className="text-2xl font-semibold mb-1">
             Winner: {winner.nickname}
           </div>
           <p className="text-yellow-200">
             {winner.totalScore} {winner.totalScore === 1 ? 'point' : 'points'}
           </p>
           {winner.playerId === game.currentPlayer && (
-            <Badge className="mt-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 font-semibold px-4 py-2">
+            <Badge className="mt-3 border-0 font-semibold px-4 py-2">
               🏆 You Won! 🏆
             </Badge>
           )}
@@ -74,34 +74,34 @@ export function FinalStats({ game }: FinalStatsProps) {
       </Card>
 
       {/* Final Leaderboard */}
-      <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+    <Card>
         <CardHeader>
-          <CardTitle className="text-xl text-white text-center">Final Leaderboard</CardTitle>
+      <CardTitle className="text-xl text-center">Final Leaderboard</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {sortedPlayers.map((player, index) => (
             <div 
               key={player.playerId} 
-              className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10"
+        className="flex items-center justify-between p-4 rounded-lg bg-card/60"
             >
               <div className="flex items-center space-x-4">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-muted">
                   {getPlayerRankIcon(index)}
                 </div>
                 <div>
-                  <div className="font-semibold text-white">
+          <div className="font-semibold">
                     {player.nickname}
                     {player.playerId === game.currentPlayer && (
-                      <span className="text-blue-400 text-sm ml-2">(You)</span>
+            <span className="text-blue-400 text-sm ml-2">(You)</span>
                     )}
                   </div>
-                  <div className="text-white/60 text-sm">
+          <div className="text-muted-foreground text-sm">
                     Rank #{index + 1}
                   </div>
                 </div>
               </div>
               
-              <Badge className={`${getPlayerRankBadgeColor(index)} text-white border-0 font-semibold`}>
+        <Badge className={`${getPlayerRankBadgeColor(index)} border-0 font-semibold`}>
                 {player.totalScore} {player.totalScore === 1 ? 'point' : 'points'}
               </Badge>
             </div>
@@ -110,27 +110,27 @@ export function FinalStats({ game }: FinalStatsProps) {
       </Card>
 
       {/* All Memes Gallery */}
-      <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-xl text-white text-center">Meme Gallery</CardTitle>
-          <p className="text-white/80 text-center">All the hilarious memes from this game!</p>
+          <CardTitle className="text-xl text-center">Meme Gallery</CardTitle>
+          <p className="text-muted-foreground text-center">All the hilarious memes from this game!</p>
         </CardHeader>
         <CardContent className="space-y-4">
           {finalStats.memes
             .sort((a, b) => b.score - a.score)
             .map((meme, index) => (
-            <Card key={meme._id} className="bg-white/5 border-white/10">
+            <Card key={meme._id} className="bg-card/60">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <span className="text-white font-medium">{meme.nickname}</span>
+                    <span className="font-medium">{meme.nickname}</span>
                     {meme.playerId === game.currentPlayer && (
                       <Badge variant="outline" className="border-blue-400 text-blue-400 text-xs">
                         Your Meme
                       </Badge>
                     )}
                   </div>
-                  <Badge className="bg-white/20 text-white border-white/30">
+                  <Badge className="bg-muted border-0">
                     {meme.score} {meme.score === 1 ? 'point' : 'points'}
                   </Badge>
                 </div>
@@ -145,10 +145,7 @@ export function FinalStats({ game }: FinalStatsProps) {
 
       {/* Navigation */}
       <div className="text-center">
-        <Button 
-          onClick={() => router.push("/")}
-          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0 font-semibold px-8 py-3"
-        >
+        <Button onClick={() => router.push("/")} className="font-semibold px-8 py-3">
           <Home className="w-4 h-4 mr-2" />
           Play Again
         </Button>

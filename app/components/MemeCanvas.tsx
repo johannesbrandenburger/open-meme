@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, Fragment } from "react";
-import { Stage, Layer, Text, Image } from "react-konva";
+import { Stage, Layer, Text, Image as KonvaImage } from "react-konva";
 import useImage from "use-image";
 import type { Stage as KonvaStageType } from "konva/lib/Stage";
 
@@ -181,10 +181,10 @@ export function MemeCanvas({
         height={canvasDimensions.height}
         ref={konvaCanvasRef}
         onClick={downloadCanvas}
-        className="max-w-full h-auto cursor-pointer transition-transform hover:scale-105 border border-white/20 rounded-lg shadow-2xl bg-white/5 backdrop-blur-sm"
+        className="max-w-full h-auto cursor-pointer transition-transform hover:scale-105 border border-border/60 rounded-lg shadow-lg bg-card"
       >
         <Layer>
-          <Image
+          <KonvaImage
             image={templateImage}
             width={canvasDimensions.width}
             height={canvasDimensions.height}

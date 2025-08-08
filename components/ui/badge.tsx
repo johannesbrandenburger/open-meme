@@ -16,7 +16,11 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
-          "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+          "text-foreground [a&]:hover:bg-accent/30 [a&]:hover:text-accent-foreground",
+        glass:
+          "border-border/60 bg-[color-mix(in_oklab,white_8%,transparent)] text-foreground",
+        gradient:
+          "border-0 text-white bg-[linear-gradient(90deg,theme(colors.primary),theme(colors.accent))]",
       },
     },
     defaultVariants: {

@@ -29,12 +29,12 @@ export default function App() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Card className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-lg border-white/20">
-          <CardContent className="">
+      <div className="flex items-center justify-center min-h-screen p-3">
+        <Card className="w-full max-w-md mx-auto">
+          <CardContent>
             <div className="flex items-center justify-center space-x-3">
-              <Loader2 className="w-6 h-6 animate-spin text-white" />
-              <span className="text-white">Loading...</span>
+              <Loader2 className="w-6 h-6 animate-spin text-foreground" />
+              <span>Loading...</span>
             </div>
           </CardContent>
         </Card>
@@ -55,19 +55,19 @@ export default function App() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <Card className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
+    <div className="flex items-center justify-center min-h-screen p-3">
+      <Card className="w-full max-w-md mx-auto shadow-lg">
         <CardHeader className="text-center space-y-2">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mb-4">
-            <Sticker className="w-8 h-8 text-white" />
+          <div className="mx-auto w-14 h-14 rounded-full flex items-center justify-center mb-2 bg-[radial-gradient(circle_at_30%_30%,theme(colors.primary/60),transparent_60%),radial-gradient(circle_at_70%_70%,theme(colors.accent/50),transparent_60%)]">
+            <Sticker className="w-7 h-7 text-primary-foreground" />
           </div>
-          <CardTitle className="text-2xl font-bold text-white">OpenMeme</CardTitle>
+          <CardTitle className="text-2xl font-bold">OpenMeme</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-3">
           <ActionButton
             variant="default"
             onAction={handleCreateGame}
-            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 font-semibold py-3 shadow-lg"
+            className="w-full font-semibold h-11"
             label={<> <Plus /> <span>Create New Game</span> </>}
             loadingLabel={<> <Loader2 className="animate-spin" /> <span>Creating Game...</span> </>}
             failedLabel={<> <TriangleAlert /> <span>Failed to create game</span> </>}
@@ -80,7 +80,7 @@ export default function App() {
                 router.push("/");
               })
             }}
-            className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm"
+            className="w-full"
           >
             <LogOut className="" />
             Sign Out
