@@ -29,6 +29,8 @@ interface MemeCanvasProps {
 }
 
 // Helper: calculate font size once for a reference size
+// Handles both spaced text and long unbroken strings by wrapping at character
+// boundaries (preferring spaces when available), and constrains both width and height.
 const calculateBaseFontSize = (
   text: string,
   maxWidth: number,
@@ -41,45 +43,82 @@ const calculateBaseFontSize = (
   const ctx = canvas.getContext("2d");
   if (!ctx) return maxFontSize;
 
-  const measureWrappedText = (fontSize: number) => {
+  const measure = (fontSize: number) => {
     ctx.font = `bold ${fontSize}px Impact, Arial`;
-    const words = text.split(" ");
-    let lines: string[] = [""];
-    let currentLine = 0;
 
-    for (const word of words) {
-      const testLine =
-        lines[currentLine] + (lines[currentLine] ? " " : "") + word;
-      const testWidth = ctx.measureText(testLine).width;
+    // Greedy line breaking that prefers spaces but falls back to character wrap
+    const lines: string[] = [];
+    let start = 0;
+    const n = text.length;
 
-      if (testWidth > maxWidth && lines[currentLine]) {
-        lines.push(word);
-        currentLine++;
-      } else {
-        lines[currentLine] = testLine;
+    while (start < n) {
+      let end = start;
+      let lastBreakAtSpace = -1;
+      let lineWidth = 0;
+      let maxLineWidth = 0;
+
+      while (end < n) {
+        const ch = text[end];
+        if (ch === "\n") {
+          // Explicit newline: break here
+          end++; // include the newline in consumed range
+          break;
+        }
+
+        const next = text.slice(start, end + 1);
+        const w = ctx.measureText(next).width;
+        maxLineWidth = Math.max(maxLineWidth, w);
+
+        if (w > maxWidth) {
+          // If we can break at a space within this line, do so; otherwise break at char
+          if (lastBreakAtSpace > start) {
+            end = lastBreakAtSpace + 1; // break after space
+          }
+          break;
+        }
+
+        if (ch === " ") lastBreakAtSpace = end;
+        lineWidth = w;
+        end++;
       }
+
+      if (end === start) {
+        // Single character wider than maxWidth; force consume one char to avoid infinite loop
+        end = start + 1;
+      }
+
+      const line = text.slice(start, end).replace(/\n$/u, "");
+      lines.push(line);
+      start = end;
     }
 
-    return lines.length * fontSize * 1.2; // height
+    const totalHeight = lines.length * fontSize * 1.2; // match Konva lineHeight
+    // Compute max used width for safety
+    const maxUsedWidth = lines.reduce((acc, l) => {
+      const w = ctx.measureText(l).width;
+      return Math.max(acc, w);
+    }, 0);
+
+    return { height: totalHeight, width: maxUsedWidth };
   };
 
   let low = 1;
   let high = maxFontSize;
-  let fontSize = maxFontSize;
+  let best = 1;
 
   while (low <= high) {
     const mid = Math.floor((low + high) / 2);
-    const height = measureWrappedText(mid);
+    const { height, width } = measure(mid);
 
-    if (height <= maxHeight) {
-      fontSize = mid;
+    if (height <= maxHeight && width <= maxWidth) {
+      best = mid;
       low = mid + 1;
     } else {
       high = mid - 1;
     }
   }
 
-  return fontSize;
+  return best;
 };
 
 export function MemeCanvas({
@@ -212,6 +251,8 @@ export function MemeCanvas({
                   width={t.scale_x * canvasDimensions.width}
                   height={t.scale_y * canvasDimensions.height}
                   align="center"
+                  lineHeight={1.2}
+                  wrap="char"
                   fontFamily="Impact, Arial"
                   fontStyle="bold"
                   stroke={t.color === "white" ? "black" : "white"}
@@ -229,6 +270,8 @@ export function MemeCanvas({
                     width={t.scale_x * canvasDimensions.width}
                     height={t.scale_y * canvasDimensions.height}
                     align="center"
+                    lineHeight={1.2}
+                    wrap="char"
                     fontFamily="Impact, Arial"
                     fontStyle="bold"
                     stroke={t.color === "white" ? "black" : "white"}
