@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default:
           "text-primary-foreground shadow-sm bg-[linear-gradient(180deg,color-mix(in_oklab,var(--color-primary)_90%,transparent),color-mix(in_oklab,var(--color-primary)_75%,transparent))] hover:bg-[linear-gradient(180deg,var(--color-primary),color-mix(in_oklab,var(--color-primary)_85%,transparent))]",
         gradient:
-          "relative overflow-hidden text-white border-0 shadow-sm bg-transparent before:content-[''] before:absolute before:inset-0 before:bg-[linear-gradient(90deg,var(--color-primary),var(--color-accent))] hover:before:opacity-95",
+          "relative isolate z-0 overflow-hidden text-white border-0 shadow-sm bg-transparent before:content-[''] before:absolute before:inset-0 before:-z-10 before:pointer-events-none before:bg-[linear-gradient(90deg,var(--color-primary),var(--color-accent))] hover:before:opacity-95",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
