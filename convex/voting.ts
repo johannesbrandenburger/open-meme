@@ -19,6 +19,9 @@ export const userVote = query({
 
     const round = game.currentRound;
     const currentVotingMeme = game.votingMemes[game.votingMemeNo - 1];
+    if (!currentVotingMeme) {
+      return null;
+    }
 
     const vote = await ctx.db.query("votes")
       .withIndex("by_game_round_user_meme", (q) => q
@@ -88,7 +91,7 @@ export const submitVote = mutation({
 
     if (votes.length === game.players.length - 1) { // -1 because the owner doesn't vote
 
-      if (game.votingMemeNo < game.players.length) {
+      if (game.votingMemeNo < game.votingMemes.length) {
         // Move to next meme voting phase
         await ctx.db.patch(game._id, {
           timeLeft: game.config.voteTime,

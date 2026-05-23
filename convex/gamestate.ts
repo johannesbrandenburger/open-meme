@@ -37,13 +37,12 @@ export const getGameStateForPlayer = query({
 
       // Get the current meme for voting
       const currentVotingMemeId = game.votingMemes[game.votingMemeNo - 1];
-      currentVotingMeme = await ctx.db.get(currentVotingMemeId);
-      if (!currentVotingMeme) {
-        throw new Error("Voting meme not found");
+      if (currentVotingMemeId) {
+        currentVotingMeme = await ctx.db.get(currentVotingMemeId);
       }
 
       // Check if the user is voting on their own meme
-      isVotingOnOwnMeme = currentVotingMeme.playerId === userId;
+      isVotingOnOwnMeme = currentVotingMeme?.playerId === userId;
     }
 
     // fill game.totalTime
