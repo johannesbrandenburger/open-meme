@@ -9,7 +9,7 @@
     "predev": "convex dev --until-success && convex dev --once --run-sh \"node setup.mjs --once\" && convex dashboard",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "update-memes": "node init-memes.ts"
   },
   "dependencies": {
@@ -25,7 +25,7 @@
     "convex-helpers": "^0.1.100",
     "konva": "^9.3.22",
     "lucide-react": "^0.532.0",
-    "next": "15.4.4",
+    "next": "^16.2.6",
     "postcss": "^8.5.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -45,7 +45,7 @@
     "autoprefixer": "~10.4.21",
     "dotenv": "^17.2.1",
     "eslint": "^9.32.0",
-    "eslint-config-next": "15.4.4",
+    "eslint-config-next": "^16.2.6",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.6.2",
     "tailwindcss": "^4.1.11",
