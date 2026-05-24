@@ -1,10 +1,5 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { useState, useRef, useEffect, Fragment } from "react";
-import { Stage, Layer, Rect, Circle, Text, Image, Transformer } from "react-konva";
-import useImage from "use-image";
-import type { Stage as KonvaStageType } from "konva/lib/Stage";
 import { MemeCanvas } from "../components/MemeCanvas";
 
 const dummyMeme = {
@@ -45,7 +40,7 @@ export default function DevRoute() {
 
   const texts: string[] = [
     "Hello World",
-    "Very long text that should wrapped and scaled in font size to not overflow its bounding box",
+    "Verylongtextthatshouldwrappedandscaledinfontsizetonotoverflowitsboundingbox",
   ]
   return (
     <div className="space-y-4 sm:space-y-6">

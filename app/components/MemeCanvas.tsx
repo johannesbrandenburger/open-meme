@@ -44,20 +44,43 @@ const calculateBaseFontSize = (
 
   const measureWrappedText = (fontSize: number) => {
     ctx.font = `bold ${fontSize}px Impact, Arial`;
-    const words = text.split(" ");
-    let lines: string[] = [""];
-    let currentLine = 0;
+    const words = text.trim().split(/\s+/).filter(Boolean);
+    const lines: string[] = [""];
+
+    const pushToken = (token: string, separator = "") => {
+      const currentLine = lines[lines.length - 1];
+      const testLine = currentLine + (currentLine ? separator : "") + token;
+
+      if (ctx.measureText(testLine).width <= maxWidth) {
+        lines[lines.length - 1] = testLine;
+        return;
+      }
+
+      if (currentLine) {
+        lines.push("");
+      }
+
+      let charLine = lines[lines.length - 1];
+
+      for (const char of token) {
+        const testCharLine = charLine + char;
+
+        if (ctx.measureText(testCharLine).width > maxWidth && charLine) {
+          lines[lines.length - 1] = charLine;
+          lines.push(char);
+          charLine = char;
+        } else {
+          charLine = testCharLine;
+          lines[lines.length - 1] = charLine;
+        }
+      }
+    };
 
     for (const word of words) {
-      const testLine =
-        lines[currentLine] + (lines[currentLine] ? " " : "") + word;
-      const testWidth = ctx.measureText(testLine).width;
-
-      if (testWidth > maxWidth && lines[currentLine]) {
-        lines.push(word);
-        currentLine++;
+      if (ctx.measureText(word).width > maxWidth) {
+        pushToken(word);
       } else {
-        lines[currentLine] = testLine;
+        pushToken(word, " ");
       }
     }
 
@@ -202,6 +225,7 @@ export function MemeCanvas({
               baseFontSizes[i] !== undefined
                 ? baseFontSizes[i] * scaleFactor
                 : 16;
+            const hasLongToken = texts[i]?.split(/\s+/).some((token) => token.length > 18);
 
             return (
               <Fragment key={i}>
@@ -232,6 +256,7 @@ export function MemeCanvas({
                   stroke={t.color === "white" ? "black" : "white"}
                   strokeWidth={fontSize * 0.06}
                   verticalAlign="middle"
+                  wrap={hasLongToken ? "char" : "word"}
                   draggable={false}
                 />
                 {showPlaceholder && !texts[i] && (
@@ -250,6 +275,7 @@ export function MemeCanvas({
                     stroke={t.color === "white" ? "black" : "white"}
                     strokeWidth={fontSize * 0.06}
                     verticalAlign="middle"
+                    wrap="word"
                     draggable={false}
                   />
                 )}
