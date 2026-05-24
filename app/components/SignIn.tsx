@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User, Sticker, Loader2 } from "lucide-react";
+import { User, Sticker, Loader2, TriangleAlert, Check } from "lucide-react";
 import { ActionButton } from "@/components/ui/action-button";
 
 export function SignIn() {
@@ -43,24 +43,24 @@ export function SignIn() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen p-4">
-            <Card className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
+        <div className="flex min-h-screen items-center justify-center">
+            <Card className="w-full max-w-md border-border/80 shadow-lg">
                 <CardHeader className="text-center space-y-4">
-                    <div className="mx-auto w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
-                        <Sticker className="w-10 h-10 text-white" />
+                    <div className="mx-auto flex size-20 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
+                        <Sticker className="size-10" />
                     </div>
                     <div>
-                        <CardTitle className="text-3xl font-bold text-white mb-2">Welcome!</CardTitle>
-                        <p className="text-white/80">Enter your nickname to start creating memes</p>
+                        <CardTitle className="mb-2 text-3xl font-semibold">Welcome to OpenMeme</CardTitle>
+                        <p className="text-sm text-muted-foreground">Pick a nickname to join the table.</p>
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <div className="space-y-2">
-                        <Label htmlFor="nickname" className="text-white font-medium">
+                        <Label htmlFor="nickname" className="font-medium">
                             Nickname
                         </Label>
                         <div className="relative">
-                            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 w-4 h-4" />
+                            <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                                 id="nickname"
                                 type="text"
@@ -68,7 +68,7 @@ export function SignIn() {
                                 value={nickname}
                                 onChange={(e) => setNickname(e.target.value)}
                                 onKeyPress={handleKeyPress}
-                                className="pl-10 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-white/50 focus:ring-white/25 backdrop-blur-sm"
+                                className="h-11 pl-10"
                                 maxLength={20}
                             />
                         </div>
@@ -76,16 +76,26 @@ export function SignIn() {
                     <ActionButton
                         onAction={handleSignIn}
                         disabled={!nickname.trim()}
-                        className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0 font-semibold py-3 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                        label="Join Game"
+                        className="h-11 w-full font-semibold shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+                        label="Join"
                         loadingLabel={
                             <>
-                                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                                <Loader2 className="animate-spin" />
                                 Joining...
                             </>
                         }
-                        failedLabel="Try Again"
-                        succeededLabel="Joined!"
+                        failedLabel={
+                            <>
+                                <TriangleAlert />
+                                Try Again
+                            </>
+                        }
+                        succeededLabel={
+                            <>
+                                <Check />
+                                Joined
+                            </>
+                        }
                     />
                 </CardContent>
             </Card>

@@ -29,9 +29,9 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
 
   if (!meme) {
     return (
-      <div className="text-center py-8">
-        <div className="flex items-center justify-center space-x-3 text-white">
-          <Loader2 className="w-5 h-5 animate-spin" />
+      <div className="py-8 text-center">
+        <div className="flex items-center justify-center gap-3 text-muted-foreground">
+          <Loader2 className="size-5 animate-spin text-primary" />
           <span>Loading meme template...</span>
         </div>
       </div>
@@ -40,16 +40,16 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
 
   if (meme?.isSubmitted) {
     return (
-      <div className="text-center py-8 space-y-4">
-        <div className="flex items-center justify-center space-x-2 text-green-400 text-lg font-medium">
+      <div className="space-y-4 py-8 text-center">
+        <div className="flex items-center justify-center gap-2 text-lg font-medium text-emerald-700">
           <CheckCircle className="w-6 h-6" />
           <span>Meme Submitted!</span>
         </div>
-        <p className="text-white/80">Waiting for other players to finish their masterpieces...</p>
-        <div className="animate-pulse flex items-center justify-center space-x-2 text-white/60">
-          <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
-          <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-          <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+        <p className="text-muted-foreground">Waiting for other players to finish their masterpieces...</p>
+        <div className="flex animate-pulse items-center justify-center gap-2">
+          <div className="size-2 animate-bounce rounded-full bg-primary/50"></div>
+          <div className="size-2 animate-bounce rounded-full bg-primary/50" style={{ animationDelay: '0.1s' }}></div>
+          <div className="size-2 animate-bounce rounded-full bg-primary/50" style={{ animationDelay: '0.2s' }}></div>
         </div>
       </div>
     );
@@ -81,28 +81,28 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
         <ActionButton
           variant="outline"
           onAction={handleShuffle}
-          className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm w-full sm:w-auto"
+          className="w-full sm:w-auto"
           label={
             <>
-              <Shuffle className="w-4 h-4 mr-2" />
+              <Shuffle className="w-4 h-4" />
               Try Different Template
             </>
           }
           loadingLabel={
             <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              <Loader2 className="w-4 h-4 animate-spin" />
               Shuffling...
             </>
           }
           failedLabel={
             <>
-              <Shuffle className="w-4 h-4 mr-2" />
+              <Shuffle className="w-4 h-4" />
               Try Again
             </>
           }
           succeededLabel={
             <>
-              <CheckCircle className="w-4 h-4 mr-2" />
+              <CheckCircle className="w-4 h-4" />
               Template Changed!
             </>
           }
@@ -123,7 +123,7 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
                 newTexts[index] = e.target.value;
                 updateMeme({ memeId: meme._id, texts: newTexts });
               }}
-              className="bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-white/50 focus:ring-white/25 backdrop-blur-sm h-12 text-base"
+              className="h-12 text-base"
             />
           </div>
         ))}
@@ -133,28 +133,28 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
       <ActionButton
         onAction={handleSubmit}
         disabled={meme.texts.every(text => !text.trim())}
-        className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 font-semibold py-3 sm:py-3 h-12 sm:h-auto shadow-lg disabled:opacity-50"
+        className="h-12 w-full font-semibold shadow-sm disabled:opacity-50"
         label={
           <>
-            <Send className="w-4 h-4 mr-2" />
+            <Send className="w-4 h-4" />
             Submit Meme
           </>
         }
         loadingLabel={
           <>
-            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin" />
             Submitting Meme...
           </>
         }
         failedLabel={
           <>
-            <Send className="w-4 h-4 mr-2" />
+            <Send className="w-4 h-4" />
             Try Again
           </>
         }
         succeededLabel={
           <>
-            <CheckCircle className="w-4 h-4 mr-2" />
+            <CheckCircle className="w-4 h-4" />
             Meme Submitted!
           </>
         }

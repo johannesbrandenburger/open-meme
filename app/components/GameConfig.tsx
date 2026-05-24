@@ -29,13 +29,13 @@ export function GameConfig({ game }: GameConfigProps) {
 
   return (
     <div className="space-y-8">
-      <Card className="bg-white/5 border-white/10">
+      <Card className="border-border bg-muted/30 shadow-none">
         <CardContent className="space-y-6">
           <div className="space-y-6">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-white font-medium">Total Rounds</span>
-                <span className="text-white/70 min-w-[2rem] text-right">{game.config.rounds}</span>
+                <span className="font-medium">Total Rounds</span>
+                <span className="min-w-[2rem] text-right text-muted-foreground">{game.config.rounds}</span>
               </div>
               <Slider
                 value={[game.config.rounds]}
@@ -49,8 +49,8 @@ export function GameConfig({ game }: GameConfigProps) {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-white font-medium">Memes Per Round (to shuffle)</span>
-                <span className="text-white/70 min-w-[2rem] text-right">{game.config.memesPerRound}</span>
+                <span className="font-medium">Memes Per Round</span>
+                <span className="min-w-[2rem] text-right text-muted-foreground">{game.config.memesPerRound}</span>
               </div>
               <Slider
                 value={[game.config.memesPerRound]}
@@ -64,8 +64,8 @@ export function GameConfig({ game }: GameConfigProps) {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-white font-medium">Creation Time (seconds)</span>
-                <span className="text-white/70 min-w-[2rem] text-right">{game.config.creationTime}</span>
+                <span className="font-medium">Creation Time</span>
+                <span className="min-w-[2rem] text-right text-muted-foreground">{game.config.creationTime}s</span>
               </div>
               <Slider
                 value={[game.config.creationTime]}
@@ -79,8 +79,8 @@ export function GameConfig({ game }: GameConfigProps) {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-white font-medium">Vote Time (seconds)</span>
-                <span className="text-white/70 min-w-[2rem] text-right">{game.config.voteTime}</span>
+                <span className="font-medium">Vote Time</span>
+                <span className="min-w-[2rem] text-right text-muted-foreground">{game.config.voteTime}s</span>
               </div>
               <Slider
                 value={[game.config.voteTime]}
@@ -94,8 +94,8 @@ export function GameConfig({ game }: GameConfigProps) {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-white font-medium">Round Stats Time (seconds)</span>
-                <span className="text-white/70 min-w-[2rem] text-right">{game.config.roundStatsTime}</span>
+                <span className="font-medium">Round Stats Time</span>
+                <span className="min-w-[2rem] text-right text-muted-foreground">{game.config.roundStatsTime}s</span>
               </div>
               <Slider
                 value={[game.config.roundStatsTime]}
@@ -109,8 +109,8 @@ export function GameConfig({ game }: GameConfigProps) {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-white font-medium">Final Stats Time (seconds)</span>
-                <span className="text-white/70 min-w-[2rem] text-right">{game.config.finalStatsTime}</span>
+                <span className="font-medium">Final Stats Time</span>
+                <span className="min-w-[2rem] text-right text-muted-foreground">{game.config.finalStatsTime}s</span>
               </div>
               <Slider
                 value={[game.config.finalStatsTime]}

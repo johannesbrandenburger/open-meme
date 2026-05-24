@@ -44,11 +44,11 @@ export default function Game() {
   if (!game) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Card className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-lg border-white/20">
-          <CardContent className="">
-            <div className="flex items-center justify-center space-x-3">
-              <div className="animate-spin rounded-full h-6 w-6 border-2 border-white border-t-transparent"></div>
-              <span className="text-white">Loading game...</span>
+        <Card className="w-full max-w-md border-border/80 shadow-md">
+          <CardContent>
+            <div className="flex items-center justify-center gap-3 text-muted-foreground">
+              <Loader2 className="size-5 animate-spin text-primary" />
+              <span>Loading game...</span>
             </div>
           </CardContent>
         </Card>
@@ -59,15 +59,15 @@ export default function Game() {
   if (game == "GAME_NOT_FOUND") {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Card className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-lg border-white/20">
+        <Card className="w-full max-w-md border-border/80 shadow-md">
           <CardHeader className="text-center">
-            <CardTitle className="text-xl text-white">Game Not Found</CardTitle>
+            <CardTitle className="text-xl">Game Not Found</CardTitle>
           </CardHeader>
           <CardContent className="text-center space-y-4">
-            <p className="text-white/80">This game probably doesn't exist anymore</p>
+            <p className="text-muted-foreground">This game probably doesn't exist anymore.</p>
             <Button
               onClick={() => router.push("/")}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0"
+              className="font-semibold"
             >
               <Home className="w-4 h-4 mr-2" />
               Go Home
@@ -98,39 +98,41 @@ export default function Game() {
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
+    <div className="mx-auto max-w-5xl space-y-4 sm:space-y-6">
       {/* Game Header */}
-      <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-xl">
-        <CardContent className="">
+      <Card className="border-border/80 shadow-md">
+        <CardContent>
           <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
             <div className="flex items-center space-x-3">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => router.push("/")}
-                className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm p-2 h-8 w-8"
+                className="size-9 p-0"
               >
                 <Home className="w-4 h-4" />
               </Button>
-              <h1 className="text-xl sm:text-2xl font-bold text-white">OpenMeme</h1>
-              <Badge variant="secondary" className="bg-white/20 text-white border-white/30 text-xs sm:text-sm">
+              <h1 className="text-xl font-semibold sm:text-2xl">OpenMeme</h1>
+              <Badge variant="secondary" className="text-xs sm:text-sm">
                 {game.status.charAt(0).toUpperCase() + game.status.slice(1)}
               </Badge>
             </div>
 
             <div className="flex items-center justify-between sm:justify-end space-x-4">
               {game.status !== "waiting" && (
-                <div className="flex items-center space-x-2 text-white">
+                <div className="flex items-center space-x-2 text-muted-foreground">
                   <Clock className="w-4 h-4" />
                   <span className="font-medium text-sm sm:text-base">{game.timeLeft}s</span>
                 </div>
               )}
 
-              <Badge className="bg-gradient-to-r from-orange-500 to-red-500 text-white border-0 text-xs sm:text-sm">
+              <Badge className="border-amber-200 bg-amber-100 text-amber-900 text-xs sm:text-sm">
                 Round {game.currentRound} / {game.config.rounds}
               </Badge>
             </div>
@@ -140,7 +142,7 @@ export default function Game() {
             <div className="mt-3 sm:mt-4">
               <Progress
                 value={(game.timeLeft / game.totalTime) * 100}
-                className="h-2 bg-white/20"
+                className="h-2 bg-muted"
               />
             </div>
           )}
@@ -149,10 +151,10 @@ export default function Game() {
 
       {/* Game Content */}
       {game?.status === "waiting" && (
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-xl">
+        <Card className="border-border/80 shadow-md">
           <CardHeader className="text-center pb-4">
-            <CardTitle className="text-lg sm:text-xl text-white">Waiting Room</CardTitle>
-            <p className="text-white/80 text-sm sm:text-base">Waiting for players to join...</p>
+            <CardTitle className="text-lg sm:text-xl">Waiting Room</CardTitle>
+            <p className="text-sm text-muted-foreground sm:text-base">Invite players, tune the rules, then start.</p>
           </CardHeader>
           <CardContent className="space-y-4 sm:space-y-6">
             <div className="space-y-3">
@@ -160,7 +162,7 @@ export default function Game() {
                 <ActionButton
                   variant="default"
                   onAction={handleStartGame}
-                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 font-semibold h-12 py-3 shadow-lg"
+                  className="h-12 w-full font-semibold shadow-sm"
                   label={<> <Play /> <span>Start Game</span> </>}
                   loadingLabel={<> <Loader2 className="animate-spin" /> <span>Starting Game...</span> </>}
                   failedLabel={<> <TriangleAlert /> <span>Failed to start game</span> </>}
@@ -170,7 +172,7 @@ export default function Game() {
               <ActionButton
                 variant="outline"
                 onAction={copyGameUrl}
-                className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm py-3 h-12 sm:h-auto"
+                className="h-12 w-full"
                 label={<> <Share2 /> <span>Share Game Link</span> </>}
                 loadingLabel={<> <Loader2 className="animate-spin" /> <span>Copying...</span> </>}
                 failedLabel={<> <TriangleAlert /> <span>Failed to copy link</span> </>}
@@ -183,7 +185,7 @@ export default function Game() {
             )}
 
             <div className="space-y-3">
-              <div className="flex items-center space-x-2 text-white">
+              <div className="flex items-center space-x-2">
                 <Users className="w-4 h-4" />
                 <span className="font-medium text-sm sm:text-base">Players ({game.players.length})</span>
               </div>
@@ -191,17 +193,17 @@ export default function Game() {
                 {game.players.map((player) => (
                   <div
                     key={player.id}
-                    className="flex items-center justify-between p-3 bg-white/10 rounded-lg backdrop-blur-sm"
+                    className="flex items-center justify-between rounded-lg border border-border bg-muted/40 p-3"
                   >
-                    <span className="text-white font-medium text-sm sm:text-base truncate">{player.name}</span>
+                    <span className="truncate text-sm font-medium sm:text-base">{player.name}</span>
                     <div className="flex items-center space-x-2 flex-shrink-0">
                       {player.id === game.currentPlayer && (
-                        <Badge variant="outline" className="border-white/30 text-white text-xs">
+                        <Badge variant="outline" className="text-xs">
                           You
                         </Badge>
                       )}
                       {game.isHost && player.id === game.players[0]?.id && (
-                        <Crown className="w-4 h-4 text-yellow-400" />
+                        <Crown className="w-4 h-4 text-amber-500" />
                       )}
                     </div>
                   </div>
@@ -213,7 +215,7 @@ export default function Game() {
       )}
 
       {game?.status === "creating" && (
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-xl">
+        <Card className="border-border/80 shadow-md">
           <CardContent>
             <MemeCreationScreen game={game} />
           </CardContent>
@@ -221,10 +223,10 @@ export default function Game() {
       )}
 
       {game?.status === "voting" && (
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-xl">
+        <Card className="border-border/80 shadow-md">
           <CardHeader className="text-center pb-4">
-            <CardTitle className="text-lg sm:text-xl text-white">Vote for the Funniest</CardTitle>
-            <p className="text-white/80 text-sm sm:text-base">Choose your favorite meme!</p>
+            <CardTitle className="text-lg sm:text-xl">Vote for the Funniest</CardTitle>
+            <p className="text-sm text-muted-foreground sm:text-base">Choose your favorite meme.</p>
           </CardHeader>
           <CardContent>
             <VotingScreen game={game} />
@@ -233,10 +235,10 @@ export default function Game() {
       )}
 
       {game?.status === "round_stats" && (
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-xl">
+        <Card className="border-border/80 shadow-md">
           <CardHeader className="text-center pb-4">
-            <CardTitle className="text-lg sm:text-xl text-white">Round {game.currentRound} Results</CardTitle>
-            <p className="text-white/80 text-sm sm:text-base">See how everyone did!</p>
+            <CardTitle className="text-lg sm:text-xl">Round {game.currentRound} Results</CardTitle>
+            <p className="text-sm text-muted-foreground sm:text-base">See how everyone did.</p>
           </CardHeader>
           <CardContent>
             <RoundStats game={game} />
@@ -245,10 +247,10 @@ export default function Game() {
       )}
 
       {game?.status === "final_stats" && (
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-xl">
+        <Card className="border-border/80 shadow-md">
           <CardHeader className="text-center pb-4">
-            <CardTitle className="text-lg sm:text-xl text-white">🎉 Final Results</CardTitle>
-            <p className="text-white/80 text-sm sm:text-base">The meme champion has been crowned!</p>
+            <CardTitle className="text-lg sm:text-xl">Final Results</CardTitle>
+            <p className="text-sm text-muted-foreground sm:text-base">The champion has been crowned.</p>
           </CardHeader>
           <CardContent>
             <FinalStats game={game} />

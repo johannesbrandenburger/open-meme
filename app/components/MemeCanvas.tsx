@@ -181,7 +181,7 @@ export function MemeCanvas({
         height={canvasDimensions.height}
         ref={konvaCanvasRef}
         onClick={downloadCanvas}
-        className="max-w-full h-auto cursor-pointer transition-transform hover:scale-105 border border-white/20 rounded-lg shadow-2xl bg-white/5 backdrop-blur-sm"
+        className="h-auto max-w-full cursor-pointer rounded-lg border border-border bg-card shadow-md transition-transform hover:scale-[1.01]"
       >
         <Layer>
           <Image

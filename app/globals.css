@@ -1,50 +1,50 @@
 @import "tailwindcss";
 
 :root {
-  --background: oklch(1.0000 0 0);
-  --foreground: oklch(0.1408 0.0044 285.8229);
+  --background: oklch(0.9820 0.0060 92);
+  --foreground: oklch(0.1960 0.0120 255);
   --card: oklch(1.0000 0 0);
-  --card-foreground: oklch(0.1408 0.0044 285.8229);
+  --card-foreground: oklch(0.1960 0.0120 255);
   --popover: oklch(1.0000 0 0);
-  --popover-foreground: oklch(0.1408 0.0044 285.8229);
-  --primary: oklch(0.6056 0.2189 292.7172);
-  --primary-foreground: oklch(0.9842 0.0034 247.8575);
-  --secondary: oklch(0.9674 0.0013 286.3752);
-  --secondary-foreground: oklch(0.1408 0.0044 285.8229);
-  --muted: oklch(0.9674 0.0013 286.3752);
-  --muted-foreground: oklch(0.5517 0.0138 285.9385);
-  --accent: oklch(0.9674 0.0013 286.3752);
-  --accent-foreground: oklch(0.1408 0.0044 285.8229);
-  --destructive: oklch(0.6368 0.2078 25.3313);
+  --popover-foreground: oklch(0.1960 0.0120 255);
+  --primary: oklch(0.4780 0.1200 191);
+  --primary-foreground: oklch(0.9900 0.0030 95);
+  --secondary: oklch(0.9410 0.0180 82);
+  --secondary-foreground: oklch(0.2700 0.0180 255);
+  --muted: oklch(0.9500 0.0060 230);
+  --muted-foreground: oklch(0.4750 0.0160 255);
+  --accent: oklch(0.9300 0.0420 165);
+  --accent-foreground: oklch(0.2500 0.0360 190);
+  --destructive: oklch(0.5700 0.1700 28);
   --destructive-foreground: oklch(0.9842 0.0034 247.8575);
-  --border: oklch(0.9197 0.0040 286.3202);
-  --input: oklch(0.9197 0.0040 286.3202);
-  --ring: oklch(0.7090 0.1592 293.5412);
-  --chart-1: oklch(0.6056 0.2189 292.7172);
-  --chart-2: oklch(0.6559 0.2118 354.3084);
-  --chart-3: oklch(0.7729 0.1535 163.2231);
-  --chart-4: oklch(0.8369 0.1644 84.4286);
-  --chart-5: oklch(0.7137 0.1434 254.6240);
-  --sidebar: oklch(0.9674 0.0013 286.3752);
-  --sidebar-foreground: oklch(0.5517 0.0138 285.9385);
-  --sidebar-primary: oklch(0.6056 0.2189 292.7172);
+  --border: oklch(0.8840 0.0090 255);
+  --input: oklch(0.8840 0.0090 255);
+  --ring: oklch(0.6600 0.1050 191);
+  --chart-1: oklch(0.4780 0.1200 191);
+  --chart-2: oklch(0.6500 0.1200 75);
+  --chart-3: oklch(0.5400 0.1100 32);
+  --chart-4: oklch(0.5600 0.0900 255);
+  --chart-5: oklch(0.6200 0.1000 145);
+  --sidebar: oklch(0.9500 0.0060 230);
+  --sidebar-foreground: oklch(0.4750 0.0160 255);
+  --sidebar-primary: oklch(0.4780 0.1200 191);
   --sidebar-primary-foreground: oklch(0.9842 0.0034 247.8575);
   --sidebar-accent: oklch(1.0000 0 0);
   --sidebar-accent-foreground: oklch(0.1408 0.0044 285.8229);
   --sidebar-border: oklch(0.9197 0.0040 286.3202);
   --sidebar-ring: oklch(0.7090 0.1592 293.5412);
-  --font-sans: Poppins;
-  --font-serif: Lora;
-  --font-mono: JetBrains Mono;
-  --radius: 0.75rem;
-  --shadow-2xs: 0px 4px 16px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0px 4px 16px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0px 4px 16px 0px hsl(0 0% 0% / 0.10), 0px 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow: 0px 4px 16px 0px hsl(0 0% 0% / 0.10), 0px 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow-md: 0px 4px 16px 0px hsl(0 0% 0% / 0.10), 0px 2px 4px -1px hsl(0 0% 0% / 0.10);
-  --shadow-lg: 0px 4px 16px 0px hsl(0 0% 0% / 0.10), 0px 4px 6px -1px hsl(0 0% 0% / 0.10);
-  --shadow-xl: 0px 4px 16px 0px hsl(0 0% 0% / 0.10), 0px 8px 10px -1px hsl(0 0% 0% / 0.10);
-  --shadow-2xl: 0px 4px 16px 0px hsl(0 0% 0% / 0.25);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --radius: 0.5rem;
+  --shadow-2xs: 0px 1px 2px 0px hsl(220 24% 18% / 0.04);
+  --shadow-xs: 0px 1px 3px 0px hsl(220 24% 18% / 0.06);
+  --shadow-sm: 0px 2px 8px -2px hsl(220 24% 18% / 0.08);
+  --shadow: 0px 12px 30px -18px hsl(220 24% 18% / 0.22);
+  --shadow-md: 0px 18px 38px -22px hsl(220 24% 18% / 0.28);
+  --shadow-lg: 0px 24px 48px -28px hsl(220 24% 18% / 0.32);
+  --shadow-xl: 0px 32px 64px -36px hsl(220 24% 18% / 0.36);
+  --shadow-2xl: 0px 40px 80px -42px hsl(220 24% 18% / 0.42);
   --tracking-normal: 0rem;
   --spacing: 0.25rem;
 }
@@ -158,6 +158,18 @@
 
 body {
   letter-spacing: var(--tracking-normal);
+  background:
+    radial-gradient(circle at top left, oklch(0.9300 0.0420 165 / 0.48), transparent 32rem),
+    radial-gradient(circle at bottom right, oklch(0.9410 0.0180 82 / 0.9), transparent 30rem),
+    var(--background);
+  color: var(--foreground);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: oklch(0.4780 0.1200 191 / 0.22);
 }
 
 /* Custom animations and utilities */

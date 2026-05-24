@@ -15,9 +15,9 @@ export function RoundStats({ game }: RoundStatsProps) {
 
   if (!roundStats) {
     return (
-      <div className="text-center py-8">
-        <div className="flex items-center justify-center space-x-3 text-white">
-          <Loader2 className="w-5 h-5 animate-spin" />
+      <div className="py-8 text-center">
+        <div className="flex items-center justify-center gap-3 text-muted-foreground">
+          <Loader2 className="size-5 animate-spin text-primary" />
           <span>Loading round stats...</span>
         </div>
       </div>
@@ -28,68 +28,63 @@ export function RoundStats({ game }: RoundStatsProps) {
 
   const getRankIcon = (index: number) => {
     switch (index) {
-      case 0: return <Trophy className="w-5 h-5 text-yellow-400" />;
-      case 1: return <Medal className="w-5 h-5 text-gray-400" />;
+      case 0: return <Trophy className="w-5 h-5 text-amber-500" />;
+      case 1: return <Medal className="w-5 h-5 text-slate-400" />;
       case 2: return <Award className="w-5 h-5 text-amber-600" />;
-      default: return <Star className="w-5 h-5 text-white/60" />;
+      default: return <Star className="w-5 h-5 text-muted-foreground" />;
     }
   };
 
   const getRankBadgeColor = (index: number) => {
     switch (index) {
-      case 0: return "bg-gradient-to-r from-yellow-400 to-orange-500";
-      case 1: return "bg-gradient-to-r from-gray-400 to-gray-500";
-      case 2: return "bg-gradient-to-r from-amber-600 to-amber-700";
-      default: return "bg-white/20";
+      case 0: return "border-amber-200 bg-amber-100 text-amber-900";
+      case 1: return "border-slate-200 bg-slate-100 text-slate-700";
+      case 2: return "border-orange-200 bg-orange-100 text-orange-900";
+      default: return "border-border bg-muted text-muted-foreground";
     }
   };
 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-lg font-semibold text-white mb-2">Round Results</h3>
-        <p className="text-white/80">See how the memes ranked this round!</p>
+        <h3 className="mb-2 text-lg font-semibold">Round Results</h3>
+        <p className="text-muted-foreground">See how the memes ranked this round.</p>
       </div>
 
       <div className="space-y-4">
         {sortedMemes.map((meme, index) => (
-          <Card key={meme._id} className="bg-white/5 border-white/10 overflow-hidden">
+          <Card key={meme._id} className="overflow-hidden border-border bg-card shadow-sm">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   {getRankIcon(index)}
                   <div>
-                    <CardTitle className="text-white text-lg">
+                    <CardTitle className="text-lg">
                       {meme.nickname}
                     </CardTitle>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                  <Badge className={`${getRankBadgeColor(index)} text-white border-0 font-semibold`}>
+                  <Badge className={`${getRankBadgeColor(index)} font-semibold`}>
                     {meme.score} {meme.score === 1 ? 'point' : 'points'}
                   </Badge>
                   {index === 0 && (
-                    <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0">
+                    <Badge className="border-primary/20 bg-primary/10 text-primary">
                       Winner!
                     </Badge>
                   )}
                 </div>
               </div>
             </CardHeader>
-            
-            {/* <CardContent className="pt-0">
-              <div className="bg-white/5 rounded-lg p-4 border border-white/10"> */}
-                <MemeCanvas template={meme.template} texts={meme.texts} />
-              {/* </div>
-            </CardContent> */}
+            <MemeCanvas template={meme.template} texts={meme.texts} />
           </Card>
         ))}
       </div>
 
       {sortedMemes.length === 0 && (
         <div className="text-center py-8">
-          <p className="text-white/60">No memes to display for this round.</p>
+          <p className="text-muted-foreground">No memes to display for this round.</p>
         </div>
       )}
     </div>

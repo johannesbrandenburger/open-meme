@@ -11,12 +11,12 @@ export default function GameRoute() {
   
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Card className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-lg border-white/20">
-          <CardContent className="">
-            <div className="flex items-center justify-center space-x-3">
-              <Loader2 className="w-6 h-6 animate-spin text-white" />
-              <span className="text-white">Loading...</span>
+      <div className="flex min-h-screen items-center justify-center">
+        <Card className="w-full max-w-md border-border/80 shadow-md">
+          <CardContent>
+            <div className="flex items-center justify-center gap-3 text-muted-foreground">
+              <Loader2 className="size-5 animate-spin text-primary" />
+              <span>Loading game...</span>
             </div>
           </CardContent>
         </Card>

@@ -18,9 +18,9 @@ export function FinalStats({ game }: FinalStatsProps) {
 
   if (!finalStats) {
     return (
-      <div className="text-center py-8">
-        <div className="flex items-center justify-center space-x-3 text-white">
-          <Loader2 className="w-5 h-5 animate-spin" />
+      <div className="py-8 text-center">
+        <div className="flex items-center justify-center gap-3 text-muted-foreground">
+          <Loader2 className="size-5 animate-spin text-primary" />
           <span>Loading final results...</span>
         </div>
       </div>
@@ -32,76 +32,76 @@ export function FinalStats({ game }: FinalStatsProps) {
 
   const getPlayerRankIcon = (index: number) => {
     switch (index) {
-      case 0: return <Crown className="w-6 h-6 text-yellow-400" />;
-      case 1: return <Trophy className="w-6 h-6 text-gray-400" />;
+      case 0: return <Crown className="w-6 h-6 text-amber-500" />;
+      case 1: return <Trophy className="w-6 h-6 text-slate-400" />;
       case 2: return <Medal className="w-6 h-6 text-amber-600" />;
-      default: return <Star className="w-6 h-6 text-white/60" />;
+      default: return <Star className="w-6 h-6 text-muted-foreground" />;
     }
   };
 
   const getPlayerRankBadgeColor = (index: number) => {
     switch (index) {
-      case 0: return "bg-gradient-to-r from-yellow-400 to-orange-500";
-      case 1: return "bg-gradient-to-r from-gray-400 to-gray-500";
-      case 2: return "bg-gradient-to-r from-amber-600 to-amber-700";
-      default: return "bg-white/20";
+      case 0: return "border-amber-200 bg-amber-100 text-amber-900";
+      case 1: return "border-slate-200 bg-slate-100 text-slate-700";
+      case 2: return "border-orange-200 bg-orange-100 text-orange-900";
+      default: return "border-border bg-muted text-muted-foreground";
     }
   };
 
   return (
     <div className="space-y-8">
       {/* Winner Celebration */}
-      <Card className="bg-gradient-to-r from-yellow-400/20 to-orange-500/20 border-yellow-400/30">
+      <Card className="border-amber-200 bg-amber-50 shadow-sm">
         <CardContent className="pt-6 text-center">
           <div className="flex justify-center mb-4">
             <div className="animate-bounce">
-              <PartyPopper className="w-16 h-16 text-yellow-400" />
+              <PartyPopper className="w-16 h-16 text-amber-500" />
             </div>
           </div>
-          <h2 className="text-3xl font-bold text-yellow-400 mb-2">🎉 Game Over! 🎉</h2>
-          <div className="text-2xl font-semibold text-white mb-1">
+          <h2 className="mb-2 text-3xl font-semibold text-amber-900">Game Over</h2>
+          <div className="mb-1 text-2xl font-semibold">
             Winner: {winner.nickname}
           </div>
-          <p className="text-yellow-200">
+          <p className="text-amber-800">
             {winner.totalScore} {winner.totalScore === 1 ? 'point' : 'points'}
           </p>
           {winner.playerId === game.currentPlayer && (
-            <Badge className="mt-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 font-semibold px-4 py-2">
-              🏆 You Won! 🏆
+            <Badge className="mt-3 border-primary/20 bg-primary/10 px-4 py-2 font-semibold text-primary">
+              You Won
             </Badge>
           )}
         </CardContent>
       </Card>
 
       {/* Final Leaderboard */}
-      <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+      <Card className="border-border bg-card shadow-sm">
         <CardHeader>
-          <CardTitle className="text-xl text-white text-center">Final Leaderboard</CardTitle>
+          <CardTitle className="text-center text-xl">Final Leaderboard</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {sortedPlayers.map((player, index) => (
             <div 
               key={player.playerId} 
-              className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10"
+              className="flex items-center justify-between rounded-lg border border-border bg-muted/30 p-4"
             >
               <div className="flex items-center space-x-4">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card shadow-xs">
                   {getPlayerRankIcon(index)}
                 </div>
                 <div>
-                  <div className="font-semibold text-white">
+                  <div className="font-semibold">
                     {player.nickname}
                     {player.playerId === game.currentPlayer && (
-                      <span className="text-blue-400 text-sm ml-2">(You)</span>
+                      <span className="ml-2 text-sm text-primary">(You)</span>
                     )}
                   </div>
-                  <div className="text-white/60 text-sm">
+                  <div className="text-sm text-muted-foreground">
                     Rank #{index + 1}
                   </div>
                 </div>
               </div>
               
-              <Badge className={`${getPlayerRankBadgeColor(index)} text-white border-0 font-semibold`}>
+              <Badge className={`${getPlayerRankBadgeColor(index)} font-semibold`}>
                 {player.totalScore} {player.totalScore === 1 ? 'point' : 'points'}
               </Badge>
             </div>
@@ -110,27 +110,27 @@ export function FinalStats({ game }: FinalStatsProps) {
       </Card>
 
       {/* All Memes Gallery */}
-      <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+      <Card className="border-border bg-card shadow-sm">
         <CardHeader>
-          <CardTitle className="text-xl text-white text-center">Meme Gallery</CardTitle>
-          <p className="text-white/80 text-center">All the hilarious memes from this game!</p>
+          <CardTitle className="text-center text-xl">Meme Gallery</CardTitle>
+          <p className="text-center text-muted-foreground">All the memes from this game.</p>
         </CardHeader>
         <CardContent className="space-y-4">
           {finalStats.memes
             .sort((a, b) => b.score - a.score)
             .map((meme, index) => (
-            <Card key={meme._id} className="bg-white/5 border-white/10">
+            <Card key={meme._id} className="border-border bg-muted/20 shadow-none">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <span className="text-white font-medium">{meme.nickname}</span>
+                    <span className="font-medium">{meme.nickname}</span>
                     {meme.playerId === game.currentPlayer && (
-                      <Badge variant="outline" className="border-blue-400 text-blue-400 text-xs">
+                      <Badge variant="outline" className="border-primary/30 text-primary text-xs">
                         Your Meme
                       </Badge>
                     )}
                   </div>
-                  <Badge className="bg-white/20 text-white border-white/30">
+                  <Badge variant="secondary">
                     {meme.score} {meme.score === 1 ? 'point' : 'points'}
                   </Badge>
                 </div>
@@ -147,7 +147,7 @@ export function FinalStats({ game }: FinalStatsProps) {
       <div className="text-center">
         <Button 
           onClick={() => router.push("/")}
-          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-0 font-semibold px-8 py-3"
+          className="px-8 py-3 font-semibold"
         >
           <Home className="w-4 h-4 mr-2" />
           Play Again
