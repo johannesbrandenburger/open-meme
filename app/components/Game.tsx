@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { QRCodeSVG } from "qrcode.react";
 import { toast } from "sonner";
 import { api } from "@/convex/_generated/api";
 import { useConvexAuth, useMutation, useQuery } from "convex/react";
@@ -15,7 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Clock, Users, Play, Home, Crown, Timer, Share2, Copy, Loader2, TriangleAlert, Check } from "lucide-react";
+import { Clock, Users, Play, Home, Crown, Share2, Loader2, TriangleAlert, Check, QrCode, Hash } from "lucide-react";
 import { GameConfig } from "./GameConfig";
 import { ActionButton } from "@/components/ui/action-button";
 
@@ -27,6 +28,7 @@ export default function Game() {
   const startGame = useMutation(api.games.startGame);
   const joinGame = useMutation(api.games.joinGame);
   const hasRedirectedMissingGame = useRef(false);
+  const [gameUrl, setGameUrl] = useState("");
 
   useEffect(() => {
     if (!gameId) {
@@ -39,6 +41,10 @@ export default function Game() {
       });
     }
   }, [gameId, joinGame, router]);
+
+  useEffect(() => {
+    setGameUrl(window.location.href);
+  }, []);
 
   useEffect(() => {
     if (game !== "GAME_NOT_FOUND" || hasRedirectedMissingGame.current) return;
@@ -70,7 +76,7 @@ export default function Game() {
   };
 
   const copyGameUrl = async () => {
-    const url = window.location.href;
+    const url = gameUrl || window.location.href;
 
     // Try modern clipboard API first
     if (navigator.clipboard && window.isSecureContext) {
@@ -145,26 +151,54 @@ export default function Game() {
           </CardHeader>
           <CardContent className="space-y-4 sm:space-y-6">
             <div className="space-y-3">
-              {game.isHost && (
-                <ActionButton
-                  variant="default"
-                  onAction={handleStartGame}
-                  className="h-12 w-full font-semibold shadow-sm"
-                  label={<> <Play /> <span>Start Game</span> </>}
-                  loadingLabel={<> <Loader2 className="animate-spin" /> <span>Starting Game...</span> </>}
-                  failedLabel={<> <TriangleAlert /> <span>Failed to start game</span> </>}
-                  succeededLabel={<> <Check /> <span>Game started</span> </>}
-                />
-              )}
-              <ActionButton
-                variant="outline"
-                onAction={copyGameUrl}
-                className="h-12 w-full"
-                label={<> <Share2 /> <span>Share Game Link</span> </>}
-                loadingLabel={<> <Loader2 className="animate-spin" /> <span>Copying...</span> </>}
-                failedLabel={<> <TriangleAlert /> <span>Failed to copy link</span> </>}
-                succeededLabel={<> <Check /> <span>Game URL copied to clipboard</span> </>}
-              />
+              <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-6">
+                <div className="w-full space-y-3">
+                  {game.isHost && (
+                    <ActionButton
+                      variant="default"
+                      onAction={handleStartGame}
+                      className="h-12 w-full font-semibold shadow-sm"
+                      label={<> <Play /> <span>Start Game</span> </>}
+                      loadingLabel={<> <Loader2 className="animate-spin" /> <span>Starting Game...</span> </>}
+                      failedLabel={<> <TriangleAlert /> <span>Failed to start game</span> </>}
+                      succeededLabel={<> <Check /> <span>Game started</span> </>}
+                    />
+                  )}
+                  <ActionButton
+                    variant="outline"
+                    onAction={copyGameUrl}
+                    className="h-12 w-full"
+                    label={<> <Share2 /> <span>Share Game Link</span> </>}
+                    loadingLabel={<> <Loader2 className="animate-spin" /> <span>Copying...</span> </>}
+                    failedLabel={<> <TriangleAlert /> <span>Failed to copy link</span> </>}
+                    succeededLabel={<> <Check /> <span>Game URL copied to clipboard</span> </>}
+                  />
+                </div>
+
+                <div className="flex size-[12.5rem] items-center justify-center rounded-lg border border-border bg-card p-3">
+                  {gameUrl ? (
+                    <QRCodeSVG
+                      value={gameUrl}
+                      size={176}
+                      bgColor="var(--card)"
+                      fgColor="var(--primary)"
+                      marginSize={1}
+                      className="size-full rounded-md"
+                      title="QR code for joining this game"
+                    />
+                  ) : (
+                    <QrCode className="size-16 text-muted-foreground" />
+                  )}
+                </div>
+
+                {game.joinNumber && (
+                  <div className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-muted/40 px-4 py-3">
+                    <Hash className="size-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">Game number</span>
+                    <span className="text-2xl font-semibold tabular-nums">{game.joinNumber}</span>
+                  </div>
+                )}
+              </div>
             </div>
 
             {game.isHost && (

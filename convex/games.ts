@@ -1,10 +1,10 @@
 import { v } from "convex/values";
-import { mutation, query, internalMutation } from "./_generated/server";
-import { api, internal } from "./_generated/api";
-import { DataModel, Id } from "./_generated/dataModel";
+import { mutation } from "./_generated/server";
+import { internal } from "./_generated/api";
+import { DataModel, Doc } from "./_generated/dataModel";
 import templatesJson from "./templates.json";
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { GenericMutationCtx, GenericQueryCtx } from "convex/server";
+import { GenericMutationCtx } from "convex/server";
 
 
 // constants
@@ -14,6 +14,49 @@ const VOTE_TIME = 20; // Time for voting in seconds (one meme)
 const ROUND_STATS_TIME = 10; // Time for round stats in seconds
 const FINAL_STATS_TIME = 10; // Time for final stats in seconds
 const MEMES_PER_ROUND = 5; // Number of memes per round the user can choose from
+
+async function getNextJoinNumber(ctx: GenericMutationCtx<DataModel>) {
+  const waitingGames = await ctx.db
+    .query("games")
+    .withIndex("by_status", (q) => q.eq("status", "waiting"))
+    .collect();
+  const usedNumbers = new Set(waitingGames.map((game) => game.joinNumber).filter((number) => number !== undefined));
+
+  let joinNumber = 1;
+  while (usedNumbers.has(joinNumber)) {
+    joinNumber += 1;
+  }
+
+  return joinNumber;
+}
+
+async function joinWaitingGame(ctx: GenericMutationCtx<DataModel>, game: Doc<"games">) {
+  const userId = await getAuthUserId(ctx);
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
+  if (game.status !== "waiting") {
+    throw new Error("Cannot join - game has already started");
+  }
+
+  const nextPlayers = game.players.includes(userId) ? game.players : [...game.players, userId];
+  const patch: Partial<Doc<"games">> = {};
+
+  if (nextPlayers !== game.players) {
+    patch.players = nextPlayers;
+  }
+
+  if (game.joinNumber === undefined) {
+    patch.joinNumber = await getNextJoinNumber(ctx);
+  }
+
+  if (Object.keys(patch).length > 0) {
+    await ctx.db.patch(game._id, patch);
+  }
+
+  return { success: true };
+}
 
 export const createGame = mutation({
   args: {},
@@ -32,6 +75,7 @@ export const createGame = mutation({
     // Create a new game
     const gameId = await ctx.db.insert("games", {
       hostId: userId,
+      joinNumber: await getNextJoinNumber(ctx),
       status: "waiting",
       timeLeft: 0,
       currentRound: 0,
@@ -60,33 +104,41 @@ export const joinGame = mutation({
   handler: async (ctx, args) => {
     const { gameId } = args;
 
-    // Get the authenticated user
-    const userId = await getAuthUserId(ctx);
-    if (!userId) {
-      throw new Error("User not authenticated");
-    }
-
     // Check if the game exists or has already started
     const game = await ctx.db.get(gameId);
     if (!game) {
       return null; // Game not found
     }
 
-    // Check if the player is already in the game
-    if (game.players.includes(userId)) {
-      return { success: true };
-    }
-
-    if (game.status !== "waiting") {
-      throw new Error("Cannot join - game has already started");
-    }
-
-    // Add player to the game
-    await ctx.db.patch(game._id, {
-      players: [...game.players, userId],
-    });
+    return await joinWaitingGame(ctx, game);
   }
 })
+
+export const joinGameByNumber = mutation({
+  args: {
+    joinNumber: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const game = await ctx.db
+      .query("games")
+      .withIndex("by_status_join_number", (q) => q
+        .eq("status", "waiting")
+        .eq("joinNumber", args.joinNumber)
+      )
+      .unique();
+
+    if (!game) {
+      return null;
+    }
+
+    const result = await joinWaitingGame(ctx, game);
+    if (result === null) {
+      return null;
+    }
+
+    return game._id;
+  }
+});
 
 export const updateGame = mutation({
   args: {
@@ -180,6 +232,7 @@ export const startGame = mutation({
 
     // Update game status to started
     await ctx.db.patch(game._id, {
+      joinNumber: undefined,
       status: "creating",
       timeLeft: CREATION_TIME,
       currentRound: 1,
@@ -197,4 +250,3 @@ export const startGame = mutation({
   }
 
 });
-

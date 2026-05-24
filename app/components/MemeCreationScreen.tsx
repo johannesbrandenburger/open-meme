@@ -106,8 +106,8 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
           }
           succeededLabel={
             <>
-              <CheckCircle className="w-4 h-4" />
-              Template Changed!
+              <Shuffle className="w-4 h-4" />
+              Try Different Template
             </>
           }
         />

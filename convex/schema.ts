@@ -25,6 +25,7 @@ const templateType = v.object({
 const applicationTables = {
   games: defineTable({
     hostId: v.id("users"),
+    joinNumber: v.optional(v.number()),
     status: v.union(
       v.literal("waiting"),
       v.literal("creating"),
@@ -54,6 +55,7 @@ const applicationTables = {
     }),
 
   }).index("by_status", ["status"])
+    .index("by_status_join_number", ["status", "joinNumber"])
   ,
 
   memes: defineTable({
