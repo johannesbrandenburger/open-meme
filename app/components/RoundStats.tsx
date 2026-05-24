@@ -2,9 +2,9 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { MemeCanvas } from "./MemeCanvas";
 import { FunctionReturnType } from "convex/server";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Trophy, Star, Medal, Award, Loader2 } from "lucide-react";
+import { Trophy, Star, Medal, Award, Loader2, Download } from "lucide-react";
 
 interface RoundStatsProps {
   game: Exclude<NonNullable<FunctionReturnType<typeof api.gamestate.getGameStateForPlayer>>, "GAME_NOT_FOUND">;
@@ -46,12 +46,14 @@ export function RoundStats({ game }: RoundStatsProps) {
 
   return (
     <div className="space-y-6">
-      <div className="text-center">
-        <h3 className="mb-2 text-lg font-semibold">Round Results</h3>
-        <p className="text-muted-foreground">See how the memes ranked this round.</p>
-      </div>
-
       <div className="space-y-4">
+        {sortedMemes.length > 0 && (
+          <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground sm:text-sm">
+            <Download className="size-3.5" />
+            <span>Click any meme to download it.</span>
+          </p>
+        )}
+
         {sortedMemes.map((meme, index) => (
           <Card key={meme._id} className="overflow-hidden border-border bg-card shadow-sm">
             <CardHeader className="pb-3">

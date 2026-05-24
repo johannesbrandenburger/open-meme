@@ -139,9 +139,17 @@ const calculateBaseFontSize = (
 };
 
 const bytesToBlobPart = (bytes: Uint8Array): ArrayBuffer => {
-  const copy = new Uint8Array(bytes.byteLength);
+  const buffer = new ArrayBuffer(bytes.byteLength);
+  const copy = new Uint8Array(buffer);
   copy.set(bytes);
-  return copy.buffer;
+  return buffer;
+};
+
+const bytesToClampedArray = (bytes: Uint8ClampedArray): Uint8ClampedArray => {
+  const buffer = new ArrayBuffer(bytes.byteLength);
+  const copy = new Uint8ClampedArray(buffer);
+  copy.set(bytes);
+  return copy;
 };
 
 export function MemeCanvas({
@@ -278,7 +286,11 @@ export function MemeCanvas({
     const patchCtx = patchCanvas.getContext("2d");
     if (!patchCtx) return;
 
-    const imageData = new ImageData(frame.patch, frame.dims.width, frame.dims.height);
+    const imageData = new ImageData(
+      bytesToClampedArray(frame.patch),
+      frame.dims.width,
+      frame.dims.height
+    );
     patchCtx.putImageData(imageData, 0, 0);
     ctx.drawImage(patchCanvas, frame.dims.left, frame.dims.top);
   };

@@ -20,6 +20,15 @@ import { Clock, Users, Play, Home, Crown, Share2, Loader2, TriangleAlert, Check,
 import { GameConfig } from "./GameConfig";
 import { ActionButton } from "@/components/ui/action-button";
 
+const gameStatusLabels = {
+  waiting: "Waiting room",
+  creating: "Creating memes",
+  voting: "Voting time",
+  round_stats: "Round results",
+  final_stats: "Final results",
+  ended: "Game ended",
+} as const;
+
 export default function Game() {
   const params = useParams();
   const router = useRouter();
@@ -113,7 +122,7 @@ export default function Game() {
               </Button>
               <h1 className="text-xl font-semibold sm:text-2xl">OpenMeme</h1>
               <Badge variant="secondary" className="text-xs sm:text-sm">
-                {game.status.charAt(0).toUpperCase() + game.status.slice(1)}
+                {gameStatusLabels[game.status]}
               </Badge>
             </div>
 
@@ -147,7 +156,6 @@ export default function Game() {
         <Card className="border-border/80 shadow-md">
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-lg sm:text-xl">Waiting Room</CardTitle>
-            <p className="text-sm text-muted-foreground sm:text-base">Invite players, tune the rules, then start.</p>
           </CardHeader>
           <CardContent className="space-y-4 sm:space-y-6">
             <div className="space-y-3">
@@ -247,7 +255,6 @@ export default function Game() {
         <Card className="border-border/80 shadow-md">
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-lg sm:text-xl">Vote for the Funniest</CardTitle>
-            <p className="text-sm text-muted-foreground sm:text-base">Choose your favorite meme.</p>
           </CardHeader>
           <CardContent>
             <VotingScreen game={game} />
@@ -259,7 +266,6 @@ export default function Game() {
         <Card className="border-border/80 shadow-md">
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-lg sm:text-xl">Round {game.currentRound} Results</CardTitle>
-            <p className="text-sm text-muted-foreground sm:text-base">See how everyone did.</p>
           </CardHeader>
           <CardContent>
             <RoundStats game={game} />
@@ -271,7 +277,6 @@ export default function Game() {
         <Card className="border-border/80 shadow-md">
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-lg sm:text-xl">Final Results</CardTitle>
-            <p className="text-sm text-muted-foreground sm:text-base">The champion has been crowned.</p>
           </CardHeader>
           <CardContent>
             <FinalStats game={game} />

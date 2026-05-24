@@ -36,11 +36,16 @@ async function joinWaitingGame(ctx: GenericMutationCtx<DataModel>, game: Doc<"ga
     throw new Error("User not authenticated");
   }
 
+  const isExistingPlayer = game.players.includes(userId);
+  if (isExistingPlayer) {
+    return { success: true };
+  }
+
   if (game.status !== "waiting") {
     throw new Error("Cannot join - game has already started");
   }
 
-  const nextPlayers = game.players.includes(userId) ? game.players : [...game.players, userId];
+  const nextPlayers = [...game.players, userId];
   const patch: Partial<Doc<"games">> = {};
 
   if (nextPlayers !== game.players) {
@@ -234,7 +239,7 @@ export const startGame = mutation({
     await ctx.db.patch(game._id, {
       joinNumber: undefined,
       status: "creating",
-      timeLeft: CREATION_TIME,
+      timeLeft: game.config.creationTime,
       currentRound: 1,
     });
 

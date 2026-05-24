@@ -5,7 +5,7 @@ import { FunctionReturnType } from "convex/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Trophy, Crown, Medal, Star, PartyPopper, Loader2, Home } from "lucide-react";
+import { Trophy, Crown, Medal, Star, PartyPopper, Loader2, Home, Download } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface FinalStatsProps {
@@ -113,7 +113,10 @@ export function FinalStats({ game }: FinalStatsProps) {
       <Card className="border-border bg-card shadow-sm">
         <CardHeader>
           <CardTitle className="text-center text-xl">Meme Gallery</CardTitle>
-          <p className="text-center text-muted-foreground">All the memes from this game.</p>
+          <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground sm:text-sm">
+            <Download className="size-3.5" />
+            <span>Click any meme to download it.</span>
+          </p>
         </CardHeader>
         <CardContent className="space-y-4">
           {finalStats.memes
