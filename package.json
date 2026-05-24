@@ -23,6 +23,8 @@
     "clsx": "^2.1.1",
     "convex": "^1.25.4",
     "convex-helpers": "^0.1.100",
+    "gifenc": "^1.0.3",
+    "gifuct-js": "^2.1.2",
     "konva": "^9.3.22",
     "lucide-react": "^0.532.0",
     "next": "^16.2.6",

@@ -1,5 +1,56 @@
 [
   {
+    "name": "Three-Headed Dragon",
+    "imgUrl": "templates/3hd.jpg",
+    "source": "https://knowyourmeme.com/memes/three-headed-dragon",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.65,
+        "angle": 0,
+        "scale_x": 0.27,
+        "scale_y": 0.13,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.365,
+        "anchor_y": 0.55,
+        "angle": 0,
+        "scale_x": 0.27,
+        "scale_y": 0.13,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.73,
+        "anchor_y": 0.6,
+        "angle": 0,
+        "scale_x": 0.27,
+        "scale_y": 0.13,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Pepperoni",
+      "Mushroom",
+      "Pineapple"
+    ]
+  },
+  {
     "name": "Ancient Aliens Guy",
     "imgUrl": "templates/aag.jpg",
     "source": "http://knowyourmeme.com/memes/ancient-aliens",
@@ -967,8 +1018,45 @@
     ]
   },
   {
+    "name": "Bongo Cat",
+    "imgUrl": "templates/bongo.gif",
+    "source": "https://knowyourmeme.com/memes/bongo-cat",
+    "text": [
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0,
+        "angle": 0,
+        "scale_x": 0.48,
+        "scale_y": 0.5,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      },
+      {
+        "style": "default",
+        "color": "black",
+        "font": "thick",
+        "anchor_x": 0,
+        "anchor_y": 0.5,
+        "angle": 0,
+        "scale_x": 0.48,
+        "scale_y": 0.5,
+        "align": "center",
+        "start": 0,
+        "stop": 1
+      }
+    ],
+    "example": [
+      "Any sound when you're trying to sleep",
+      "Max volume alarm when you have to wake up"
+    ]
+  },
+  {
     "name": "Why Not Both?",
-    "imgUrl": "templates/both.jpg",
+    "imgUrl": "templates/both.gif",
     "source": "http://knowyourmeme.com/memes/why-not-both-why-dont-we-have-both",
     "text": [
       {
@@ -989,7 +1077,7 @@
         "color": "white",
         "font": "thick",
         "anchor_x": 0,
-        "anchor_y": 0.8,
+        "anchor_y": 0.75,
         "angle": 0,
         "scale_x": 1,
         "scale_y": 0.2,
@@ -1005,7 +1093,7 @@
   },
   {
     "name": "What's in the box!?",
-    "imgUrl": "templates/box.png",
+    "imgUrl": "templates/box.gif",
     "source": "https://screenrant.com/hilarious-se7en-memes/",
     "text": [
       {
@@ -1079,7 +1167,7 @@
   },
   {
     "name": "X, X Everywhere",
-    "imgUrl": "templates/buzz.jpg",
+    "imgUrl": "templates/buzz.gif",
     "source": "https://imgflip.com/memetemplate/X-Everywhere",
     "text": [
       {
@@ -1116,7 +1204,7 @@
   },
   {
     "name": "Office Space Milton",
-    "imgUrl": "templates/cake.jpg",
+    "imgUrl": "templates/cake.gif",
     "source": "https://www.youtube.com/watch?v=mDOKGa92NRo",
     "text": [
       {
@@ -1572,6 +1660,43 @@
     ]
   },
   {
+    "name": "Soccer Celebration In A Bar",
+    "imgUrl": "templates/crowd.gif",
+    "source": "https://knowyourmeme.com/memes/soccer-celebration-in-a-bar",
+    "text": [
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.14,
+        "anchor_y": 0.01,
+        "angle": 8,
+        "scale_x": 0.38,
+        "scale_y": 0.3,
+        "align": "center",
+        "start": 0,
+        "stop": 0.54
+      },
+      {
+        "style": "upper",
+        "color": "white",
+        "font": "thick",
+        "anchor_x": 0.05,
+        "anchor_y": 0.01,
+        "angle": 8,
+        "scale_x": 0.38,
+        "scale_y": 0.3,
+        "align": "center",
+        "start": 0.61,
+        "stop": 0.75
+      }
+    ],
+    "example": [
+      "Push to CI",
+      "It turns green"
+    ]
+  },
+  {
     "name": "Crying on Floor",
     "imgUrl": "templates/cryingfloor.jpg",
     "source": "http://knowyourmeme.com/photos/1125083-hold-the-door",
@@ -1786,7 +1911,7 @@
   },
   {
     "name": "See? Nobody Cares",
-    "imgUrl": "templates/dodgson.jpg",
+    "imgUrl": "templates/dodgson.gif",
     "source": "http://knowyourmeme.com/memes/see-nobody-cares",
     "text": [
       {
@@ -2520,7 +2645,7 @@
   },
   {
     "name": "This is Fine",
-    "imgUrl": "templates/fine.png",
+    "imgUrl": "templates/fine.gif",
     "source": "http://gunshowcomic.com/648",
     "text": [
       {
@@ -2682,7 +2807,7 @@
   },
   {
     "name": "Futurama Fry",
-    "imgUrl": "templates/fry.png",
+    "imgUrl": "templates/fry.gif",
     "source": "http://knowyourmeme.com/memes/futurama-fry-not-sure-if",
     "text": [
       {
@@ -3284,7 +3409,7 @@
   },
   {
     "name": "It's Happening",
-    "imgUrl": "templates/happening.jpg",
+    "imgUrl": "templates/happening.gif",
     "source": "http://knowyourmeme.com/memes/doom-paul-its-happening",
     "text": [
       {
@@ -4134,7 +4259,7 @@
   },
   {
     "name": "Do It Live!",
-    "imgUrl": "templates/live.jpg",
+    "imgUrl": "templates/live.gif",
     "source": "http://knowyourmeme.com/memes/bill-oreilly-rant",
     "text": [
       {
@@ -4324,7 +4449,7 @@
   },
   {
     "name": "Member Berries",
-    "imgUrl": "templates/mb.jpg",
+    "imgUrl": "templates/mb.gif",
     "source": "http://knowyourmeme.com/memes/member-berries",
     "text": [
       {
@@ -4523,7 +4648,7 @@
   },
   {
     "name": "Shut Up and Take My Money!",
-    "imgUrl": "templates/money.jpg",
+    "imgUrl": "templates/money.gif",
     "source": "http://knowyourmeme.com/memes/shut-up-and-take-my-money",
     "text": [
       {
@@ -5074,7 +5199,7 @@
   },
   {
     "name": "Oprah You Get a Car",
-    "imgUrl": "templates/oprah.jpg",
+    "imgUrl": "templates/oprah.gif",
     "source": "http://knowyourmeme.com/memes/oprah-you-get-a-car",
     "text": [
       {
@@ -5162,7 +5287,7 @@
   },
   {
     "name": "Push it somewhere else Patrick",
-    "imgUrl": "templates/patrick.jpg",
+    "imgUrl": "templates/patrick.gif",
     "source": "http://knowyourmeme.com/memes/push-it-somewhere-else-patrick",
     "text": [
       {
@@ -5704,7 +5829,7 @@
   },
   {
     "name": "Roll Safe",
-    "imgUrl": "templates/rollsafe.jpg",
+    "imgUrl": "templates/rollsafe.gif",
     "source": "http://knowyourmeme.com/memes/roll-safe",
     "text": [
       {
@@ -7393,7 +7518,7 @@
   },
   {
     "name": "What Are Ya Gonna Do?",
-    "imgUrl": "templates/waygd.jpg",
+    "imgUrl": "templates/waygd.gif",
     "source": "https://www.youtube.com/watch?v=76URh0S7YIw",
     "text": [
       {

@@ -55,6 +55,10 @@ import { parse } from 'yaml'
 
   console.log("Available meme templates:", templates);
 
+  const publicTemplatesDir = path.join("public", "templates");
+  fs.rmSync(publicTemplatesDir, { recursive: true, force: true });
+  fs.mkdirSync(publicTemplatesDir, { recursive: true });
+
   let allMemes: {
     name: string;
     imgUrl: string;
@@ -81,7 +85,7 @@ import { parse } from 'yaml'
     const configPath = path.join(templatePath, "config.yml");
     
     // Check for supported image formats
-    const supportedFormats = ['jpg', 'png'];
+    const supportedFormats = ['gif', 'jpg', 'png'];
     let imgPath = '';
     let imgFormat = '';
     
@@ -103,9 +107,10 @@ import { parse } from 'yaml'
     const configContent = fs.readFileSync(configPath, "utf-8");
     const config = parse(configContent);
 
-    // TEMP: skip memes with >500kb image size
+    // TEMP: skip large still images. Animated GIFs are intentionally allowed
+    // through so templates with motion can be copied and rendered.
     const imgStats = fs.statSync(imgPath);
-    if (imgStats.size > 700 * 1024) {
+    if (imgFormat !== "gif" && imgStats.size > 700 * 1024) {
       console.warn(`Skipping ${template}: image size > 500kb (${imgStats.size} bytes)`);
       continue;
     }
@@ -119,10 +124,6 @@ import { parse } from 'yaml'
     });
 
     // copy the default image to public/templates/<template>.<format>
-    const publicTemplatesDir = path.join("public", "templates");
-    if (!fs.existsSync(publicTemplatesDir)) {
-      fs.mkdirSync(publicTemplatesDir, { recursive: true });
-    }
     const destImgPath = path.join(publicTemplatesDir, `${template}.${imgFormat}`);
     fs.copyFileSync(imgPath, destImgPath);
 
