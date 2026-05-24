@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { api } from "@/convex/_generated/api";
@@ -26,6 +26,7 @@ export default function Game() {
   const game = useQuery(api.gamestate.getGameStateForPlayer, { gameId });
   const startGame = useMutation(api.games.startGame);
   const joinGame = useMutation(api.games.joinGame);
+  const hasRedirectedMissingGame = useRef(false);
 
   useEffect(() => {
     if (!gameId) {
@@ -39,9 +40,17 @@ export default function Game() {
     }
   }, [gameId, joinGame, router]);
 
-  if (!gameId) return <div>Error: Game ID is required</div>;
+  useEffect(() => {
+    if (game !== "GAME_NOT_FOUND" || hasRedirectedMissingGame.current) return;
 
-  if (!game) {
+    hasRedirectedMissingGame.current = true;
+    toast.error("That game doesn't exist anymore.");
+    router.replace("/");
+  }, [game, router]);
+
+  if (!gameId) return null;
+
+  if (!game || game === "GAME_NOT_FOUND") {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Card className="w-full max-w-md border-border/80 shadow-md">
@@ -50,28 +59,6 @@ export default function Game() {
               <Loader2 className="size-5 animate-spin text-primary" />
               <span>Loading game...</span>
             </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  if (game == "GAME_NOT_FOUND") {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Card className="w-full max-w-md border-border/80 shadow-md">
-          <CardHeader className="text-center">
-            <CardTitle className="text-xl">Game Not Found</CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <p className="text-muted-foreground">This game probably doesn't exist anymore.</p>
-            <Button
-              onClick={() => router.push("/")}
-              className="font-semibold"
-            >
-              <Home className="w-4 h-4 mr-2" />
-              Go Home
-            </Button>
           </CardContent>
         </Card>
       </div>
