@@ -33,17 +33,26 @@ export const tickOneGame = async (ctx: GenericMutationCtx<DataModel>, gameId: Id
       // Move to voting phase
       const submittedMemes = memesOfCurrentRound.filter(meme => meme.isSubmitted);
       const votingMemes = submittedMemes.sort(() => 0.5 - Math.random()).map(meme => meme._id);
-      await ctx.db.patch(game._id, {
-        status: "voting",
-        timeLeft: game.config.voteTime,
-        votingMemeNo: 1,
-        votingMemes: votingMemes,
-      });
+      if (votingMemes.length > 0) {
+        await ctx.db.patch(game._id, {
+          status: "voting",
+          timeLeft: game.config.voteTime,
+          votingMemeNo: 1,
+          votingMemes: votingMemes,
+        });
+      } else {
+        await ctx.db.patch(game._id, {
+          status: "round_stats",
+          timeLeft: game.config.roundStatsTime,
+          votingMemeNo: 0,
+          votingMemes: [],
+        });
+      }
     }
 
     else if (game.status === "voting") {
 
-      if (game.votingMemeNo < game.players.length) {
+      if (game.votingMemeNo < game.votingMemes.length) {
         // Move to next meme voting phase
         await ctx.db.patch(game._id, {
           timeLeft: game.config.voteTime,
