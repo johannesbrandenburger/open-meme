@@ -1,6 +1,5 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
-import { internal } from "./_generated/api";
 import { getAuthUserId } from "@convex-dev/auth/server";
 
 export const userVote = query({
@@ -55,6 +54,26 @@ export const submitVote = mutation({
     if (!game.players.includes(userId)) {
       throw new Error("You are not a player in this game");
     }
+    if (game.status !== "voting") {
+      throw new Error("Game is not accepting votes");
+    }
+    if (round !== game.currentRound) {
+      throw new Error("Vote is not for the current round");
+    }
+    if (memeId !== game.votingMemes[game.votingMemeNo - 1]) {
+      throw new Error("Vote is not for the current meme");
+    }
+
+    const meme = await ctx.db.get(memeId);
+    if (!meme) {
+      throw new Error("Meme not found");
+    }
+    if (meme.gameId !== gameId || meme.round !== game.currentRound) {
+      throw new Error("Meme is not part of the current vote");
+    }
+    if (meme.playerId === userId) {
+      throw new Error("You cannot vote on your own meme");
+    }
 
     // Check if the user has already voted in this round
     const existingVote = await ctx.db.query("votes")
@@ -89,7 +108,8 @@ export const submitVote = mutation({
       )
       .collect();
 
-    if (votes.length === game.players.length - 1) { // -1 because the owner doesn't vote
+    const expectedVotes = game.players.filter((playerId) => playerId !== meme.playerId).length;
+    if (votes.length === expectedVotes) {
 
       if (game.votingMemeNo < game.votingMemes.length) {
         // Move to next meme voting phase

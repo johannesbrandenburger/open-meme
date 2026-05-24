@@ -1,8 +1,33 @@
 import { v } from "convex/values";
-import { query, mutation, action } from "./_generated/server";
-import templatesJson from "./templates.json";
-import { internal } from "./_generated/api";
+import { query, mutation } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
+import { shuffled } from "./random";
+import { GenericMutationCtx } from "convex/server";
+import { DataModel, Id } from "./_generated/dataModel";
+
+async function requireEditableCurrentMeme(ctx: GenericMutationCtx<DataModel>, memeId: Id<"memes">) {
+  const meme = await ctx.db.get(memeId);
+  if (!meme) {
+    throw new Error("Meme not found");
+  }
+
+  const game = await ctx.db.get(meme.gameId);
+  if (!game) {
+    throw new Error("Game not found");
+  }
+
+  if (game.status !== "creating") {
+    throw new Error("Meme can only be edited during creation");
+  }
+  if (meme.round !== game.currentRound) {
+    throw new Error("Meme is not for the current round");
+  }
+  if (meme.isSubmitted) {
+    throw new Error("Submitted memes can no longer be edited");
+  }
+
+  return { game, meme };
+}
 
 export const getMeme = query({
   args: {
@@ -61,10 +86,7 @@ export const nextShuffle = mutation({
     const userId = await getAuthUserId(ctx);
     if (!userId) throw new Error("User not authenticated");
     
-    const meme = await ctx.db.get(memeId);
-    if (!meme) {
-      throw new Error("Meme not found");
-    }
+    const { meme } = await requireEditableCurrentMeme(ctx, memeId);
     if (meme.playerId !== userId) {
       throw new Error("You can only shuffle your own memes");
     }
@@ -88,10 +110,7 @@ export const submitMeme = mutation({
     const userId = await getAuthUserId(ctx);
     if (!userId) throw new Error("User not authenticated");
 
-    const meme = await ctx.db.get(memeId);
-    if (!meme) {
-      throw new Error("Meme not found");
-    }
+    const { game, meme } = await requireEditableCurrentMeme(ctx, memeId);
     if (meme.playerId !== userId) {
       throw new Error("You can only submit your own memes");
     }
@@ -104,10 +123,6 @@ export const submitMeme = mutation({
 
 
     // if now every player has submitted their meme, we can start the voting
-    const game = await ctx.db.get(meme.gameId);
-    if (!game) {
-      throw new Error("Game not found");
-    }
     const memesOfCurrentRound = await ctx.db.query("memes")
       .withIndex("by_game_round", (q) => q
         .eq("gameId", game._id)
@@ -116,7 +131,7 @@ export const submitMeme = mutation({
     const allSubmitted = memesOfCurrentRound.every(m => m.isSubmitted);
     if (allSubmitted) {
       const submittedMemes = memesOfCurrentRound.filter(meme => meme.isSubmitted);
-      const votingMemes = submittedMemes.sort(() => 0.5 - Math.random()).map(meme => meme._id);
+      const votingMemes = shuffled(submittedMemes).map(meme => meme._id);
       await ctx.db.patch(game._id, {
         status: "voting",
         timeLeft: game.config.voteTime,
@@ -138,10 +153,7 @@ export const updateMeme = mutation({
     const userId = await getAuthUserId(ctx);
     if (!userId) throw new Error("User not authenticated");
 
-    const meme = await ctx.db.get(memeId);
-    if (!meme) {
-      throw new Error("Meme not found");
-    }
+    const { meme } = await requireEditableCurrentMeme(ctx, memeId);
     if (meme.playerId !== userId) {
       throw new Error("You can only update your own memes");
     }

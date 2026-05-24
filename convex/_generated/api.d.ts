@@ -21,6 +21,7 @@ import type * as gamestate from "../gamestate.js";
 import type * as gameticker from "../gameticker.js";
 import type * as http from "../http.js";
 import type * as memes from "../memes.js";
+import type * as random from "../random.js";
 import type * as voting from "../voting.js";
 
 /**
@@ -40,6 +41,7 @@ declare const fullApi: ApiFromModules<{
   gameticker: typeof gameticker;
   http: typeof http;
   memes: typeof memes;
+  random: typeof random;
   voting: typeof voting;
 }>;
 export declare const api: FilterApi<

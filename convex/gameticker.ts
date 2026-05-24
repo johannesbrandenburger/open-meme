@@ -3,6 +3,7 @@ import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { DataModel, Id } from "./_generated/dataModel";
 import { internalMutation } from "./_generated/server";
+import { shuffled } from "./random";
 
 export const tickWrapper = internalMutation({
   args: {
@@ -32,7 +33,7 @@ export const tickOneGame = async (ctx: GenericMutationCtx<DataModel>, gameId: Id
     if (game.status === "creating") {
       // Move to voting phase
       const submittedMemes = memesOfCurrentRound.filter(meme => meme.isSubmitted);
-      const votingMemes = submittedMemes.sort(() => 0.5 - Math.random()).map(meme => meme._id);
+      const votingMemes = shuffled(submittedMemes).map(meme => meme._id);
       if (votingMemes.length > 0) {
         await ctx.db.patch(game._id, {
           status: "voting",

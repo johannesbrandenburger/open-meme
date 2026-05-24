@@ -5,6 +5,7 @@ import { DataModel, Doc } from "./_generated/dataModel";
 import templatesJson from "./templates.json";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { GenericMutationCtx } from "convex/server";
+import { shuffled } from "./random";
 
 
 // constants
@@ -218,7 +219,7 @@ export const startGame = mutation({
       game.players.map(async (playerId) => {
         await Promise.all(
           Array.from({ length: game.config.rounds }).map(async (_, index) => {
-            const templates = templatesJson.sort(() => 0.5 - Math.random()).slice(0, game.config.memesPerRound);
+            const templates = shuffled(templatesJson).slice(0, game.config.memesPerRound);
             const meme = {
               gameId: game._id,
               playerId: playerId,
