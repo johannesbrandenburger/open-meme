@@ -75,7 +75,11 @@ export function MemeCreationScreen({ game }: MemeCreationScreenProps) {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      <MemeCanvas template={meme.templates[meme.templateIndex]} texts={meme.texts} />
+      <MemeCanvas
+        template={meme.templates[meme.templateIndex]}
+        texts={meme.texts}
+        showPlaceholder
+      />
 
       <div className="text-center">
         <ActionButton

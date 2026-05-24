@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, Fragment } from "react";
-import { Stage, Layer, Text, Image } from "react-konva";
+import { Stage, Layer, Text, Image, Rect } from "react-konva";
 import useImage from "use-image";
 import type { Stage as KonvaStageType } from "konva/lib/Stage";
 
@@ -26,6 +26,7 @@ interface MemeCanvasProps {
   texts: string[];
   className?: string;
   showPlaceholder?: boolean;
+  showTextBoxOverlay?: boolean;
 }
 
 // Helper: calculate font size once for a reference size
@@ -87,6 +88,7 @@ export function MemeCanvas({
   texts,
   className,
   showPlaceholder = false,
+  showTextBoxOverlay = false,
 }: MemeCanvasProps) {
   const [templateImage] = useImage("/" + template.imgUrl);
   const konvaCanvasRef = useRef<KonvaStageType>(null);
@@ -152,7 +154,7 @@ export function MemeCanvas({
         texts[i] || `Text ${i + 1}`,
         textWidth,
         textHeight,
-        200
+        50
       );
     });
 
@@ -203,6 +205,19 @@ export function MemeCanvas({
 
             return (
               <Fragment key={i}>
+                {showTextBoxOverlay && (
+                  <Rect
+                    x={t.anchor_x * canvasDimensions.width}
+                    y={t.anchor_y * canvasDimensions.height}
+                    width={t.scale_x * canvasDimensions.width}
+                    height={t.scale_y * canvasDimensions.height}
+                    fill="rgba(59, 130, 246, 0.12)"
+                    stroke="rgba(59, 130, 246, 0.85)"
+                    strokeWidth={Math.max(1, 2 * scaleFactor)}
+                    dash={[6 * scaleFactor, 4 * scaleFactor]}
+                    listening={false}
+                  />
+                )}
                 <Text
                   text={texts[i]}
                   fontSize={fontSize}
@@ -224,6 +239,7 @@ export function MemeCanvas({
                     text={`Text ${i + 1}`}
                     fontSize={fontSize}
                     fill={t.color}
+                    opacity={0.55}
                     x={t.anchor_x * canvasDimensions.width}
                     y={t.anchor_y * canvasDimensions.height}
                     width={t.scale_x * canvasDimensions.width}
